@@ -1,0 +1,56 @@
+{
+  "informationData": {
+    "ufSetor": "TO",
+    "citySetor": "Palmas",
+    "areaSetor": "tudo",
+    "codeSetor": "Palmas",
+    "obsSetor": "palmas...",
+    "info": {
+      "PT1": {
+        "202000": {
+          "value": "12345",
+          "source": "id1",
+          "userId": "userId",
+          "dateUpdate": "20210131"
+        },
+        "202100": {
+          "value": "12345",
+          "source": "id1",
+          "userId": "userId",
+          "dateUpdate": "20220131"
+
+        }
+      },
+      "CO008": {
+        "202000": {
+          "value": "sim",
+          "source": "id2",
+          "userId": "userId",
+          "dateUpdate": "20210131"
+        }
+      }
+    },
+    "source": {
+      "id1": {
+        "code": "ibge123",
+        "name": "IBGE",
+        "obs": "ibge..."
+      },
+      "id2": {
+        "code": "ibge123",
+        "name": "IBGE",
+        "obs": "ibge..."
+      }
+    }
+  },
+  "informationName": {
+    "code": "PT1",
+    "codeIdClone": ["CO008"],
+    "codeIdLink": ["X000"],
+    "category": "universalização",
+    "categoryParent": null,
+    "name": "População Total do município",
+    "description": "Número total de habitantes no município incluindo zona urbana e rural.",
+    "unit": "Habitantes"
+  }
+}

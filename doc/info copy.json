@@ -1,0 +1,37 @@
+{
+  "ufSetor": "Palmas",
+  "citySetor": "Palmas",
+  "areaSetor": "Palmas",
+  "codeSetor": "Palmas",
+  "obsSetor": "palmas...",
+  "info": {
+    "PT1": {
+      "202000": {
+        "code": "PT1",
+        "category": "universalização",
+        "categoryParent": null,
+        "name": "População Total do município",
+        "description": "Número total de habitantes no município incluindo zona urbana e rural.",
+        "unit": "Habitantes",
+        "source": {
+          "code": "ibge123",
+          "name": "IBGE",
+          "obs": "ibge..."
+        }
+      },
+      "202100": {
+        "code": "PT1",
+        "category": "universalização",
+        "categoryParent": null,
+        "name": "População Total do município",
+        "description": "Número total de habitantes no município incluindo zona urbana e rural.",
+        "unit": "Habitantes",
+        "source": {
+          "code": "ibge123",
+          "name": "IBGE",
+          "obs": "ibge..."
+        }
+      }
+    }
+  }
+}
