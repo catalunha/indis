@@ -15,19 +15,20 @@ class InfoIndOwnerListDS extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista com ${infoIndOwnerList.length} proprietários'),
+        title: Text('Lista com ${infoIndOwnerList.length} informações'),
       ),
       body: ListView.builder(
         itemCount: infoIndOwnerList.length,
         itemBuilder: (context, index) {
-          final module = infoIndOwnerList[index];
+          final infoIndOwner = infoIndOwnerList[index];
           return Card(
             child: ListTile(
-              selected: module.arquived ?? false,
-              title: Text('${module.code}'),
-              subtitle: Text('${module.name}\n${module.description}'),
+              selected: infoIndOwner.arquived ?? false,
+              title: Text('${infoIndOwner.code}'),
+              subtitle:
+                  Text('${infoIndOwner.name}\n${infoIndOwner.description}'),
               onTap: () {
-                onEditInfoIndOwnerCurrent(module.id);
+                onEditInfoIndOwnerCurrent(infoIndOwner.id);
               },
             ),
           );

@@ -5,7 +5,7 @@
     "areaSetor": "tudo",
     "codeSetor": "Palmas",
     "obsSetor": "palmas...",
-    "info": {
+    "codeMap": {
       "PT1": {
         "202000": {
           "value": "12345",
@@ -30,7 +30,7 @@
         }
       }
     },
-    "source": {
+    "sourceMap": {
       "uid1": {
         "code": "ibge123",
         "name": "IBGE",

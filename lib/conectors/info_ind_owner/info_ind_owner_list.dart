@@ -21,7 +21,7 @@ class ViewModel extends BaseModel<AppState> {
         infoIndOwnerList: state.infoIndOwnerState.infoIndOwnerList,
         onEditInfoIndOwnerCurrent: (String id) {
           dispatch(SetInfoIndOwnerCurrentSyncInfoIndOwnerAction(id));
-          dispatch(NavigateAction.pushNamed(Routes.ownerEdit));
+          dispatch(NavigateAction.pushNamed(Routes.infoIndOwnerEdit));
         },
       );
 }

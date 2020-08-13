@@ -28,19 +28,40 @@ class HomePageDS extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.work,
+          //   ),
+          //   title: Text('Usuários'),
+          //   onTap: () => Navigator.pushNamed(context, Routes.userList),
+          // ),
           ListTile(
             leading: Icon(
-              Icons.work,
+              Icons.format_textdirection_r_to_l,
             ),
-            title: Text('Usuários'),
-            onTap: () => Navigator.pushNamed(context, Routes.userList),
+            title: Text('Proprietário de info/ind'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoIndOwnerList),
           ),
           ListTile(
             leading: Icon(
-              Icons.work,
+              Icons.line_style,
             ),
-            title: Text('Proprietário de info/ind'),
-            onTap: () => Navigator.pushNamed(context, Routes.ownerList),
+            title: Text('Categoria de info'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoCategoryList),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.view_carousel,
+            ),
+            title: Text('Informação'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoCodeList),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.location_on,
+            ),
+            title: Text('Áreas'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoDataList),
           ),
         ],
       ),

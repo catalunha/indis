@@ -1,16 +1,16 @@
 import 'package:indis/models/firestore_model.dart';
+import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 
 class InfoCodeModel extends FirestoreModel {
   static final String collection = 'infocode';
 
-  String category;
-  String categoryParent;
   String code;
   String name;
   String description;
   String unit;
   bool isNumber;
+  InfoCategoryModel infoCategoryRef;
   InfoIndOwnerModel infoIndOwnerRef;
   Map<String, InfoCodeModel> cloneInfoCodeRefMap;
   Map<String, InfoCodeModel> linkInfoCodeRefMap;
@@ -22,8 +22,7 @@ class InfoCodeModel extends FirestoreModel {
     this.code,
     this.cloneInfoCodeRefMap,
     this.linkInfoCodeRefMap,
-    this.category,
-    this.categoryParent,
+    this.infoCategoryRef,
     this.name,
     this.description,
     this.unit,
@@ -34,15 +33,17 @@ class InfoCodeModel extends FirestoreModel {
   @override
   InfoCodeModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
-      if (map.containsKey('category')) category = map['category'];
-      if (map.containsKey('categoryParent'))
-        categoryParent = map['categoryParent'];
       if (map.containsKey('code')) code = map['code'];
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
       if (map.containsKey('unit')) unit = map['unit'];
       if (map.containsKey('isNumber')) isNumber = map['isNumber'];
       if (map.containsKey('arquived')) arquived = map['arquived'];
+      infoCategoryRef =
+          map.containsKey('infoCategoryRef') && map['infoCategoryRef'] != null
+              ? InfoCategoryModel(map['infoCategoryRef']['id'])
+                  .fromMap(map['infoCategoryRef'])
+              : null;
       infoIndOwnerRef =
           map.containsKey('infoIndOwnerRef') && map['infoIndOwnerRef'] != null
               ? InfoIndOwnerModel(map['infoIndOwnerRef']['id'])
@@ -67,6 +68,39 @@ class InfoCodeModel extends FirestoreModel {
   @override
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
+    if (code != null) data['code'] = this.code;
+    if (name != null) data['name'] = this.name;
+    if (description != null) data['description'] = this.description;
+    if (unit != null) data['unit'] = this.unit;
+    if (isNumber != null) data['isNumber'] = this.isNumber;
+    if (this.infoCategoryRef != null) {
+      data['infoCategoryRef'] = this.infoCategoryRef.toMapRef();
+    }
+    if (this.infoIndOwnerRef != null) {
+      data['infoIndOwnerRef'] = this.infoIndOwnerRef.toMapRef();
+    }
+    if (cloneInfoCodeRefMap != null) {
+      Map<String, dynamic> dataFromField = Map<String, dynamic>();
+      this.cloneInfoCodeRefMap.forEach((k, v) {
+        dataFromField[k] = v.toMapRef();
+      });
+      data['cloneInfoCodeRefMap'] = dataFromField;
+    }
+    if (linkInfoCodeRefMap != null) {
+      Map<String, dynamic> dataFromField = Map<String, dynamic>();
+      this.linkInfoCodeRefMap.forEach((k, v) {
+        dataFromField[k] = v.toMapRef();
+      });
+      data['linkInfoCodeRefMap'] = dataFromField;
+    }
+    return data;
+  }
+
+  Map<String, dynamic> toMapRef() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (code != null) data['code'] = this.code;
+    if (name != null) data['name'] = this.name;
+    data.addAll({'id': this.id});
     return data;
   }
 }

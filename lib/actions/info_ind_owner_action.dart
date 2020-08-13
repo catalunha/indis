@@ -12,13 +12,13 @@ class SetInfoIndOwnerCurrentSyncInfoIndOwnerAction
 
   @override
   AppState reduce() {
-    InfoIndOwnerModel moduleModel = id == null
+    InfoIndOwnerModel infoIndOwnerModel = id == null
         ? InfoIndOwnerModel(null)
         : state.infoIndOwnerState.infoIndOwnerList
             .firstWhere((element) => element.id == id);
     return state.copyWith(
       infoIndOwnerState: state.infoIndOwnerState.copyWith(
-        infoIndOwnerCurrent: moduleModel,
+        infoIndOwnerCurrent: infoIndOwnerModel,
       ),
     );
   }

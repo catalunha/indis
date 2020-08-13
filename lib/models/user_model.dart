@@ -36,7 +36,7 @@ class UserModel extends FirestoreModel {
 
   Map<String, dynamic> toMapRef() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (name != null) data['nome'] = this.name;
+    if (name != null) data['name'] = this.name;
     data.addAll({'id': this.id});
     return data;
   }
