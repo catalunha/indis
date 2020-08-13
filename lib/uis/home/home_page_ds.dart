@@ -35,6 +35,13 @@ class HomePageDS extends StatelessWidget {
             title: Text('Usuários'),
             onTap: () => Navigator.pushNamed(context, Routes.userList),
           ),
+          ListTile(
+            leading: Icon(
+              Icons.work,
+            ),
+            title: Text('Proprietário de info/ind'),
+            onTap: () => Navigator.pushNamed(context, Routes.ownerList),
+          ),
         ],
       ),
     );

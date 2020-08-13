@@ -1,11 +1,9 @@
 import 'package:indis/models/firestore_model.dart';
 
-class InformationNameModel extends FirestoreModel {
-  static final String collection = 'informationname';
-//Categoria	CÓDIGO	NOME	DEFINIÇÃO	UNIDADE	FONTE
-//Universalização	PT1	População Total do município	Número total de habitantes no município incluindo zona urbana e rural.	Habitantes	IBGE
+class InformationCodeModel extends FirestoreModel {
+  static final String collection = 'informationcode';
 
-  String informationAuthorRef;
+  String informationOwnerRef;
   String code;
   List<String> codeIdClone;
   List<String> codeIdLink;
@@ -16,12 +14,12 @@ class InformationNameModel extends FirestoreModel {
   bool isNumber;
   String unit;
 
-  InformationNameModel(
+  InformationCodeModel(
     String id,
   ) : super(id);
 
   @override
-  InformationNameModel fromMap(Map<String, dynamic> map) {
+  InformationCodeModel fromMap(Map<String, dynamic> map) {
     return this;
   }
 

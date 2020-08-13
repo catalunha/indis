@@ -25,10 +25,12 @@ class InformationDataModel extends FirestoreModel {
   }
 }
 
-//Categoria	CÓDIGO	NOME	DEFINIÇÃO	UNIDADE	FONTE
-//Universalização	PT1	População Total do município	Número total de habitantes no município incluindo zona urbana e rural.	Habitantes	IBGE
+class InformationCode {
+  String id;
+  InformationData informationData;
+}
 
-class Information {
+class InformationData {
   String code;
   String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,

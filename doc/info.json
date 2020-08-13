@@ -9,13 +9,13 @@
       "PT1": {
         "202000": {
           "value": "12345",
-          "source": "id1",
+          "source": "uid1",
           "userId": "userId",
           "dateUpdate": "20210131"
         },
         "202100": {
           "value": "12345",
-          "source": "id1",
+          "source": "uid1",
           "userId": "userId",
           "dateUpdate": "20220131"
 
@@ -24,19 +24,19 @@
       "CO008": {
         "202000": {
           "value": "sim",
-          "source": "id2",
+          "source": "uid2",
           "userId": "userId",
           "dateUpdate": "20210131"
         }
       }
     },
     "source": {
-      "id1": {
+      "uid1": {
         "code": "ibge123",
         "name": "IBGE",
         "obs": "ibge..."
       },
-      "id2": {
+      "uid2": {
         "code": "ibge123",
         "name": "IBGE",
         "obs": "ibge..."
