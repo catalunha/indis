@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InformationOwnerEditDS extends StatefulWidget {
+class InfoIndOwnerEditDS extends StatefulWidget {
   final String code;
   final String description;
   final String name;
@@ -9,7 +9,7 @@ class InformationOwnerEditDS extends StatefulWidget {
   final Function(String, String, String) onCreate;
   final Function(String, String, String, bool) onUpdate;
 
-  const InformationOwnerEditDS({
+  const InfoIndOwnerEditDS({
     Key key,
     this.code,
     this.description,
@@ -20,10 +20,10 @@ class InformationOwnerEditDS extends StatefulWidget {
     this.name,
   }) : super(key: key);
   @override
-  _InformationOwnerEditDSState createState() => _InformationOwnerEditDSState();
+  _InfoIndOwnerEditDSState createState() => _InfoIndOwnerEditDSState();
 }
 
-class _InformationOwnerEditDSState extends State<InformationOwnerEditDS> {
+class _InfoIndOwnerEditDSState extends State<InfoIndOwnerEditDS> {
   final formKey = GlobalKey<FormState>();
   String _code;
   String _description;

@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:indis/conectors/information_owner/information_owner_edit.dart';
-import 'package:indis/conectors/information_owner/information_owner_list.dart';
+import 'package:indis/conectors/info_ind_owner/info_ind_owner_edit.dart';
+import 'package:indis/conectors/info_ind_owner/info_ind_owner_list.dart';
 
 import 'package:indis/conectors/user/user_list.dart';
 import 'package:indis/conectors/user/user_logged_edit.dart';
@@ -22,8 +22,8 @@ class Routes {
         ),
     userList: (BuildContext context) => UserList(),
     userEdit: (BuildContext context) => UserLoggedEdit(),
-    ownerList: (BuildContext context) => InformationOwnerList(),
-    ownerEdit: (BuildContext context) => InformationOwnerEdit(),
+    ownerList: (BuildContext context) => InfoIndOwnerList(),
+    ownerEdit: (BuildContext context) => InfoIndOwnerEdit(),
   };
 }
 

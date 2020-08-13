@@ -1,14 +1,14 @@
 import 'package:indis/models/firestore_model.dart';
 
-class InformationOwnerModel extends FirestoreModel {
-  static final String collection = 'informationowner';
+class InfoIndOwnerModel extends FirestoreModel {
+  static final String collection = 'infoindowner';
 
   String code;
   String name;
   String description;
   bool arquived;
 
-  InformationOwnerModel(
+  InfoIndOwnerModel(
     String id, {
     this.code,
     this.name,
@@ -17,7 +17,7 @@ class InformationOwnerModel extends FirestoreModel {
   }) : super(id);
 
   @override
-  InformationOwnerModel fromMap(Map<String, dynamic> map) {
+  InfoIndOwnerModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('code')) code = map['code'];
       if (map.containsKey('name')) name = map['name'];

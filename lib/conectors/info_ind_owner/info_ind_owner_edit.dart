@@ -1,8 +1,8 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:indis/actions/information_owner_action.dart';
+import 'package:indis/actions/info_ind_owner_action.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/information_owner/information_owner_edit_ds.dart';
+import 'package:indis/uis/info_ind_owner/info_ind_owner_edit_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   String code;
@@ -31,16 +31,14 @@ class ViewModel extends BaseModel<AppState> {
   @override
   ViewModel fromStore() => ViewModel.build(
         isCreateOrUpdate:
-            state.informationOwnerState.informationOwnerCurrent.id == null,
-        code: state.informationOwnerState.informationOwnerCurrent.code,
-        description:
-            state.informationOwnerState.informationOwnerCurrent.description,
-        name: state.informationOwnerState.informationOwnerCurrent.name,
+            state.infoIndOwnerState.infoIndOwnerCurrent.id == null,
+        code: state.infoIndOwnerState.infoIndOwnerCurrent.code,
+        description: state.infoIndOwnerState.infoIndOwnerCurrent.description,
+        name: state.infoIndOwnerState.infoIndOwnerCurrent.name,
         arquived:
-            state.informationOwnerState.informationOwnerCurrent?.arquived ??
-                false,
+            state.infoIndOwnerState.infoIndOwnerCurrent?.arquived ?? false,
         onCreate: (String code, String description, String name) {
-          dispatch(CreateDocInformationOwnerCurrentAsyncInformationOwnerAction(
+          dispatch(CreateDocInfoIndOwnerCurrentAsyncInfoIndOwnerAction(
             code: code,
             description: description,
             name: name,
@@ -49,7 +47,7 @@ class ViewModel extends BaseModel<AppState> {
         },
         onUpdate:
             (String code, String description, String name, bool arquived) {
-          dispatch(UpdateDocInformationOwnerCurrentAsyncInformationOwnerAction(
+          dispatch(UpdateDocInfoIndOwnerCurrentAsyncInfoIndOwnerAction(
             code: code,
             description: description,
             name: name,
@@ -60,13 +58,13 @@ class ViewModel extends BaseModel<AppState> {
       );
 }
 
-class InformationOwnerEdit extends StatelessWidget {
+class InfoIndOwnerEdit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
       debug: this,
       model: ViewModel(),
-      builder: (context, viewModel) => InformationOwnerEditDS(
+      builder: (context, viewModel) => InfoIndOwnerEditDS(
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
         code: viewModel.code,
         description: viewModel.description,

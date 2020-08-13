@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:indis/models/information_owner_model.dart';
+import 'package:indis/models/info_ind_owner_model.dart';
 
-class InformationOwnerListDS extends StatelessWidget {
-  final List<InformationOwnerModel> informationOwnerList;
-  final Function(String) onEditInformationOwnerCurrent;
+class InfoIndOwnerListDS extends StatelessWidget {
+  final List<InfoIndOwnerModel> infoIndOwnerList;
+  final Function(String) onEditInfoIndOwnerCurrent;
 
-  const InformationOwnerListDS({
+  const InfoIndOwnerListDS({
     Key key,
-    this.informationOwnerList,
-    this.onEditInformationOwnerCurrent,
+    this.infoIndOwnerList,
+    this.onEditInfoIndOwnerCurrent,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista com ${informationOwnerList.length} proprietários'),
+        title: Text('Lista com ${infoIndOwnerList.length} proprietários'),
       ),
       body: ListView.builder(
-        itemCount: informationOwnerList.length,
+        itemCount: infoIndOwnerList.length,
         itemBuilder: (context, index) {
-          final module = informationOwnerList[index];
+          final module = infoIndOwnerList[index];
           return Card(
             child: ListTile(
               selected: module.arquived ?? false,
               title: Text('${module.code}'),
               subtitle: Text('${module.name}\n${module.description}'),
               onTap: () {
-                onEditInformationOwnerCurrent(module.id);
+                onEditInfoIndOwnerCurrent(module.id);
               },
             ),
           );
@@ -36,7 +36,7 @@ class InformationOwnerListDS extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          onEditInformationOwnerCurrent(null);
+          onEditInfoIndOwnerCurrent(null);
         },
       ),
     );
