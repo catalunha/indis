@@ -1,5 +1,4 @@
 import 'package:indis/models/firestore_model.dart';
-import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 
 class InfoCodeModel extends FirestoreModel {
@@ -10,7 +9,6 @@ class InfoCodeModel extends FirestoreModel {
   String description;
   String unit;
   bool isNumber;
-  InfoCategoryModel infoCategoryRef;
   InfoIndOwnerModel infoIndOwnerRef;
   Map<String, InfoCodeModel> cloneInfoCodeRefMap;
   Map<String, InfoCodeModel> linkInfoCodeRefMap;
@@ -22,7 +20,6 @@ class InfoCodeModel extends FirestoreModel {
     this.code,
     this.cloneInfoCodeRefMap,
     this.linkInfoCodeRefMap,
-    this.infoCategoryRef,
     this.name,
     this.description,
     this.unit,
@@ -39,11 +36,6 @@ class InfoCodeModel extends FirestoreModel {
       if (map.containsKey('unit')) unit = map['unit'];
       if (map.containsKey('isNumber')) isNumber = map['isNumber'];
       if (map.containsKey('arquived')) arquived = map['arquived'];
-      infoCategoryRef =
-          map.containsKey('infoCategoryRef') && map['infoCategoryRef'] != null
-              ? InfoCategoryModel(map['infoCategoryRef']['id'])
-                  .fromMap(map['infoCategoryRef'])
-              : null;
       infoIndOwnerRef =
           map.containsKey('infoIndOwnerRef') && map['infoIndOwnerRef'] != null
               ? InfoIndOwnerModel(map['infoIndOwnerRef']['id'])
@@ -73,9 +65,6 @@ class InfoCodeModel extends FirestoreModel {
     if (description != null) data['description'] = this.description;
     if (unit != null) data['unit'] = this.unit;
     if (isNumber != null) data['isNumber'] = this.isNumber;
-    if (this.infoCategoryRef != null) {
-      data['infoCategoryRef'] = this.infoCategoryRef.toMapRef();
-    }
     if (this.infoIndOwnerRef != null) {
       data['infoIndOwnerRef'] = this.infoIndOwnerRef.toMapRef();
     }

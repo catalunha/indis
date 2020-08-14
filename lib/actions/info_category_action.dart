@@ -1,6 +1,8 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/info_category_model.dart';
+import 'package:indis/models/info_code_model.dart';
+import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
 
 // +++ Actions Sync
@@ -49,12 +51,10 @@ class GetDocsInfoCategoryListAsyncInfoCategoryAction
 
 class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
     extends ReduxAction<AppState> {
-  final String code;
   final String name;
   final String description;
 
   CreateDocInfoCategoryCurrentAsyncInfoCategoryAction({
-    this.code,
     this.name,
     this.description,
   });
@@ -66,9 +66,12 @@ class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
     infoCategoryModel.name = name;
+    infoCategoryModel.description = description;
+    infoCategoryModel.infoIndOrganizerRef =
+        state.infoIndOrganizerState.infoIndOrganizerCurrent;
     var docRef = await firestore
         .collection(InfoCategoryModel.collection)
-        .where('code', isEqualTo: code)
+        .where('name', isEqualTo: name)
         .getDocuments();
     bool doc = docRef.documents.length != 0;
     if (doc)
@@ -93,25 +96,25 @@ class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
 
 class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
     extends ReduxAction<AppState> {
-  final String code;
   final String name;
   final String description;
-  final bool arquived;
 
   UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction({
-    this.code,
     this.name,
     this.description,
-    this.arquived,
   });
   @override
   Future<AppState> reduce() async {
-    print('SetDocInfoCategoryCurrentAsyncInfoCategoryAction...');
+    print('UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction...');
     Firestore firestore = Firestore.instance;
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
     infoCategoryModel.name = name;
+    infoCategoryModel.description = description;
+    print(
+        '===> ${state.infoCategoryState.infoCategoryCurrent.infoCodeRefMap.toString()}');
+    print('===> ${infoCategoryModel.infoCodeRefMap.toString()}');
     await firestore
         .collection(InfoCategoryModel.collection)
         .document(infoCategoryModel.id)
@@ -125,4 +128,48 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
 
   @override
   void after() => dispatch(GetDocsInfoCategoryListAsyncInfoCategoryAction());
+}
+
+class SetInfoCodeInInfoCategorySyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  final InfoCodeModel infoCodeRef;
+  final bool addOrRemove;
+  SetInfoCodeInInfoCategorySyncInfoCategoryAction({
+    this.infoCodeRef,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    InfoCategoryModel infoCategoryModel =
+        InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
+            .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+
+    if (infoCategoryModel.infoCodeRefMap == null)
+      infoCategoryModel.infoCodeRefMap = Map<String, InfoCodeModel>();
+    if (addOrRemove) {
+      if (!infoCategoryModel.infoCodeRefMap.containsKey(infoCodeRef.id)) {
+        infoCategoryModel.infoCodeRefMap.addAll({infoCodeRef.id: infoCodeRef});
+        print(
+            'infoCategoryModel.infoCodeRefMap1: ${infoCategoryModel.infoCodeRefMap}');
+        return state.copyWith(
+          infoCategoryState: state.infoCategoryState.copyWith(
+            infoCategoryCurrent: infoCategoryModel,
+          ),
+        );
+      } else {
+        print(
+            'infoCategoryModel.infoCodeRefMap2: ${infoCategoryModel.infoCodeRefMap}');
+        return null;
+      }
+    } else {
+      infoCategoryModel.infoCodeRefMap.remove(infoCodeRef.id);
+      print(
+          'infoCategoryModel.infoCodeRefMap3: ${infoCategoryModel.infoCodeRefMap}');
+      return state.copyWith(
+        infoCategoryState: state.infoCategoryState.copyWith(
+          infoCategoryCurrent: infoCategoryModel,
+        ),
+      );
+    }
+  }
 }

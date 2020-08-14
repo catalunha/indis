@@ -1,7 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:indis/actions/info_category_action.dart';
-import 'package:indis/actions/info_ind_owner_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/routes.dart';
 import 'package:indis/states/app_state.dart';
@@ -22,7 +21,7 @@ class ViewModel extends BaseModel<AppState> {
         infoCategoryList: state.infoCategoryState.infoCategoryList,
         onEditInfoCategoryCurrent: (String id) {
           dispatch(SetInfoCategoryCurrentSyncInfoCategoryAction(id));
-          // dispatch(NavigateAction.pushNamed(Routes.infoCategoryList));
+          dispatch(NavigateAction.pushNamed(Routes.infoCategoryEdit));
         },
       );
 }

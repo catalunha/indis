@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:indis/states/info_category_state.dart';
 import 'package:indis/states/info_code_state.dart';
 import 'package:indis/states/info_data_state.dart';
+import 'package:indis/states/info_ind_organizer_state.dart';
 import 'package:indis/states/info_ind_owner_state.dart';
 import 'package:indis/states/logged_state.dart';
 import 'package:indis/states/user_state.dart';
@@ -11,6 +12,7 @@ class AppState {
   final LoggedState loggedState;
   final UserState userState;
   final InfoIndOwnerState infoIndOwnerState;
+  final InfoIndOrganizerState infoIndOrganizerState;
   final InfoCategoryState infoCategoryState;
   final InfoCodeState infoCodeState;
   final InfoDataState infoDataState;
@@ -20,6 +22,7 @@ class AppState {
     this.loggedState,
     this.userState,
     this.infoIndOwnerState,
+    this.infoIndOrganizerState,
     this.infoCategoryState,
     this.infoCodeState,
     this.infoDataState,
@@ -30,6 +33,7 @@ class AppState {
         loggedState: LoggedState.initialState(),
         userState: UserState.initialState(),
         infoIndOwnerState: InfoIndOwnerState.initialState(),
+        infoIndOrganizerState: InfoIndOrganizerState.initialState(),
         infoCategoryState: InfoCategoryState.initialState(),
         infoCodeState: InfoCodeState.initialState(),
         infoDataState: InfoDataState.initialState(),
@@ -39,6 +43,7 @@ class AppState {
     LoggedState loggedState,
     UserState userState,
     InfoIndOwnerState infoIndOwnerState,
+    InfoIndOrganizerState infoIndOrganizerState,
     InfoCategoryState infoCategoryState,
     InfoCodeState infoCodeState,
     InfoDataState infoDataState,
@@ -48,6 +53,8 @@ class AppState {
         loggedState: loggedState ?? this.loggedState,
         userState: userState ?? this.userState,
         infoIndOwnerState: infoIndOwnerState ?? this.infoIndOwnerState,
+        infoIndOrganizerState:
+            infoIndOrganizerState ?? this.infoIndOrganizerState,
         infoCategoryState: infoCategoryState ?? this.infoCategoryState,
         infoCodeState: infoCodeState ?? this.infoCodeState,
         infoDataState: infoDataState ?? this.infoDataState,
@@ -57,6 +64,7 @@ class AppState {
       infoDataState.hashCode ^
       infoCodeState.hashCode ^
       infoCategoryState.hashCode ^
+      infoIndOrganizerState.hashCode ^
       infoIndOwnerState.hashCode ^
       loggedState.hashCode ^
       userState.hashCode ^
@@ -69,6 +77,7 @@ class AppState {
           infoDataState == other.infoDataState &&
           infoCodeState == other.infoCodeState &&
           infoCategoryState == other.infoCategoryState &&
+          infoIndOrganizerState == other.infoIndOrganizerState &&
           infoIndOwnerState == other.infoIndOwnerState &&
           userState == other.userState &&
           loggedState == other.loggedState &&
