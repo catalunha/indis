@@ -18,7 +18,6 @@
           "source": "uid1",
           "userId": "userId",
           "dateUpdate": "20220131"
-
         }
       },
       "CO008": {
@@ -45,12 +44,42 @@
   },
   "informationName": {
     "code": "PT1",
-    "codeIdClone": ["CO008"],
-    "codeIdLink": ["X000"],
+    "codeIdClone": [
+      "CO008"
+    ],
+    "codeIdLink": [
+      "X000"
+    ],
     "category": "universalização",
     "categoryParent": null,
     "name": "População Total do município",
     "description": "Número total de habitantes no município incluindo zona urbana e rural.",
     "unit": "Habitantes"
-  }
+  },
+  "dataTree": [
+    {
+      "id": 1,
+      "name": "a",
+      "idParente": null,
+      "infoCodeRefMap": {
+        "pt1": {
+          "id": "...",
+          "code": "PT1",
+          "name": "pt1"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "b",
+      "idParente": 1,
+      "infoCodeRefMap": {
+        "pt1": {
+          "id": "...",
+          "code": "PT1",
+          "name": "pt1"
+        }
+      }
+    }
+  ]
 }

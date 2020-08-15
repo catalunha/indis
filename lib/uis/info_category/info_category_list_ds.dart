@@ -24,7 +24,7 @@ class InfoCategoryListDS extends StatelessWidget {
           return Card(
             child: ListTile(
               title: Text('${infoCategory.name}'),
-              subtitle: Text('$infoCategory'),
+              // subtitle: Text('$infoCategory'),
               onTap: () {
                 onEditInfoCategoryCurrent(infoCategory.id);
               },
