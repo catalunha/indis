@@ -45,8 +45,8 @@ class InfoCategoryModel extends FirestoreModel {
     }
 
     Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
+    //1
     CategoryData _categoryData1 = CategoryData(uuid.Uuid().v4());
-    // _categoryData1.id = uuid.Uuid().v4();
     _categoryData1.name = 'a';
     _categoryData1.description = 'a...';
     _categoryData1.idParente = null;
@@ -55,8 +55,8 @@ class InfoCategoryModel extends FirestoreModel {
     _categoryData1.infoCodeRefMap[_uuidCode] = InfoCodeModel('pt1')
         .fromMap({'id': _uuidCode, 'code': 'PT1', 'name': 'PT1...'});
     _categoryDataMap[_categoryData1.id] = _categoryData1;
+    //2
     CategoryData _categoryData2 = CategoryData(uuid.Uuid().v4());
-    // _categoryData2.id = uuid.Uuid().v4();
     _categoryData2.name = 'b';
     _categoryData2.description = 'b...';
     _categoryData2.idParente = _categoryData1.id;
@@ -65,6 +65,16 @@ class InfoCategoryModel extends FirestoreModel {
     _categoryData2.infoCodeRefMap[_uuidCode] = InfoCodeModel('pu1')
         .fromMap({'id': _uuidCode, 'code': 'PU1', 'name': 'PU1...'});
     _categoryDataMap[_categoryData2.id] = _categoryData2;
+    //3
+    CategoryData _categoryData3 = CategoryData(uuid.Uuid().v4());
+    _categoryData3.name = 'c';
+    _categoryData3.description = 'c...';
+    _categoryData3.idParente = _categoryData1.id;
+    _categoryData3.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData3.infoCodeRefMap[_uuidCode] = InfoCodeModel('pu13')
+        .fromMap({'id': _uuidCode, 'code': 'PU13', 'name': 'PU13...'});
+    _categoryDataMap[_categoryData3.id] = _categoryData3;
 
     if (_categoryDataMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();

@@ -21,53 +21,18 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
         title: Text(
             'Árvore de categorias ${widget.categoryDataMap?.length ?? null}'),
       ),
-      body: SingleChildScrollView(child: buildTree1()),
+      body: SingleChildScrollView(child: buildTree()),
     );
   }
 
   List<TreeNode> recursiveNodes(
       List<TreeNode> _nodes, CategoryData categoryData) {
-    print('recursiveNodes:');
-    print('_nodes:>>>> ${_nodes.length}');
-    print('categoryData:>>>> ${categoryData.name}');
-
-    Iterable<CategoryData> _categoryDataParent;
-    if (categoryData != null) {
-      _categoryDataParent = widget.categoryDataMap.values
-          .where((element) => element.idParente == categoryData.id);
-    }
-    print('_categoryDataParent:>>>> ${_categoryDataParent.length}');
-    if (_categoryDataParent != null && _categoryDataParent.length > 0) {
-      for (var element in _categoryDataParent) {
-        print('!=null ${element.name}');
-        List<TreeNode> _itensTree = [];
-        categoryData.infoCodeRefMap.forEach((key, value) {
-          _itensTree.add(TreeNode(content: Text(value.name)));
-        });
-        _nodes.add(TreeNode(content: Text(categoryData.name), children: [
-          ...recursiveNodes(_nodes, element),
-          ..._itensTree,
-        ]));
-        return _nodes;
-      }
-    } else {
-      print('==null ${categoryData.name}');
-      List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
-        _itensTree.add(TreeNode(content: Text(value.name)));
-      });
-      _nodes.add(
-          TreeNode(content: Text(categoryData.name), children: _itensTree));
-      return _nodes;
-    }
-
-    //+++ metodo 1
-/*
+    print('recursiveNodes:>>>> ${categoryData.id}');
     CategoryData _categoryDataParent = widget.categoryDataMap.values.firstWhere(
         (element) => element.idParente == categoryData.id,
         orElse: () => null);
     if (_categoryDataParent != null) {
-      print('!=null ${_categoryDataParent.name}');
+      print('!=null achei ${_categoryDataParent.id}');
       List<TreeNode> _itensTree = [];
       categoryData.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
@@ -80,7 +45,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
         ])
       ];
     } else {
-      print('==null ${categoryData.name}');
+      print('==null');
       List<TreeNode> _itensTree = [];
       categoryData.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
@@ -89,8 +54,6 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
           TreeNode(content: Text(categoryData.name), children: _itensTree));
       return _nodes;
     }
-*/
-    //--- metodo 1
   }
 
   Widget buildTree() {
@@ -117,32 +80,9 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
   }
 
   Widget buildTree1() {
-    List<TreeNode> treenode = [];
-    treenode
-        .add(TreeNode(key: ValueKey('a'), content: Text("a"), children: []));
-    print('${treenode.length}');
-    for (var item in treenode) {
-      if (item.key == ValueKey('a')) {
-        item.children.add(
-            TreeNode(key: ValueKey('b'), content: Text("b"), children: []));
-      }
-    }
-    print('${treenode.}');
-
-    for (var item in treenode) {
-      if (item.key == ValueKey('b')) {
-        item.children.add(TreeNode(
-          key: ValueKey('c'),
-          content: Text("c"),
-        ));
-      }
-    }
-    print('${treenode.length}');
-
     return TreeView(
       treeController: _controller,
       nodes: [
-        ...treenode,
         TreeNode(
           content: Text("node 1"),
         ),
@@ -158,42 +98,42 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
                   content: Text("node 21b"),
                   children: [
                     TreeNode(content: Text('b')),
-                    // TreeNode(
-                    //   content: Text("node 21b"),
-                    //   children: [
-                    //     TreeNode(content: Text('b')),
-                    //     TreeNode(
-                    //       content: Text("node 21b"),
-                    //       children: [
-                    //         TreeNode(content: Text('b')),
-                    //         TreeNode(
-                    //           content: Text("node 21b"),
-                    //           children: [
-                    //             TreeNode(content: Text('b')),
-                    //             TreeNode(
-                    //               content: Text("node 21b"),
-                    //               children: [
-                    //                 TreeNode(content: Text('b')),
-                    //                 TreeNode(
-                    //                   content: Text("node 21b"),
-                    //                   children: [
-                    //                     TreeNode(content: Text('b')),
-                    //                     TreeNode(
-                    //                       content: Text("node 21b"),
-                    //                       children: [
-                    //                         TreeNode(content: Text('b'))
-                    //                       ],
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
+                    TreeNode(
+                      content: Text("node 21b"),
+                      children: [
+                        TreeNode(content: Text('b')),
+                        TreeNode(
+                          content: Text("node 21b"),
+                          children: [
+                            TreeNode(content: Text('b')),
+                            TreeNode(
+                              content: Text("node 21b"),
+                              children: [
+                                TreeNode(content: Text('b')),
+                                TreeNode(
+                                  content: Text("node 21b"),
+                                  children: [
+                                    TreeNode(content: Text('b')),
+                                    TreeNode(
+                                      content: Text("node 21b"),
+                                      children: [
+                                        TreeNode(content: Text('b')),
+                                        TreeNode(
+                                          content: Text("node 21b"),
+                                          children: [
+                                            TreeNode(content: Text('b'))
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],

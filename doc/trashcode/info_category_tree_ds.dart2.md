@@ -21,7 +21,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
         title: Text(
             'Árvore de categorias ${widget.categoryDataMap?.length ?? null}'),
       ),
-      body: SingleChildScrollView(child: buildTree1()),
+      body: SingleChildScrollView(child: buildTree()),
     );
   }
 
@@ -117,32 +117,9 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
   }
 
   Widget buildTree1() {
-    List<TreeNode> treenode = [];
-    treenode
-        .add(TreeNode(key: ValueKey('a'), content: Text("a"), children: []));
-    print('${treenode.length}');
-    for (var item in treenode) {
-      if (item.key == ValueKey('a')) {
-        item.children.add(
-            TreeNode(key: ValueKey('b'), content: Text("b"), children: []));
-      }
-    }
-    print('${treenode.}');
-
-    for (var item in treenode) {
-      if (item.key == ValueKey('b')) {
-        item.children.add(TreeNode(
-          key: ValueKey('c'),
-          content: Text("c"),
-        ));
-      }
-    }
-    print('${treenode.length}');
-
     return TreeView(
       treeController: _controller,
       nodes: [
-        ...treenode,
         TreeNode(
           content: Text("node 1"),
         ),
@@ -158,42 +135,42 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
                   content: Text("node 21b"),
                   children: [
                     TreeNode(content: Text('b')),
-                    // TreeNode(
-                    //   content: Text("node 21b"),
-                    //   children: [
-                    //     TreeNode(content: Text('b')),
-                    //     TreeNode(
-                    //       content: Text("node 21b"),
-                    //       children: [
-                    //         TreeNode(content: Text('b')),
-                    //         TreeNode(
-                    //           content: Text("node 21b"),
-                    //           children: [
-                    //             TreeNode(content: Text('b')),
-                    //             TreeNode(
-                    //               content: Text("node 21b"),
-                    //               children: [
-                    //                 TreeNode(content: Text('b')),
-                    //                 TreeNode(
-                    //                   content: Text("node 21b"),
-                    //                   children: [
-                    //                     TreeNode(content: Text('b')),
-                    //                     TreeNode(
-                    //                       content: Text("node 21b"),
-                    //                       children: [
-                    //                         TreeNode(content: Text('b'))
-                    //                       ],
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
+                    TreeNode(
+                      content: Text("node 21b"),
+                      children: [
+                        TreeNode(content: Text('b')),
+                        TreeNode(
+                          content: Text("node 21b"),
+                          children: [
+                            TreeNode(content: Text('b')),
+                            TreeNode(
+                              content: Text("node 21b"),
+                              children: [
+                                TreeNode(content: Text('b')),
+                                TreeNode(
+                                  content: Text("node 21b"),
+                                  children: [
+                                    TreeNode(content: Text('b')),
+                                    TreeNode(
+                                      content: Text("node 21b"),
+                                      children: [
+                                        TreeNode(content: Text('b')),
+                                        TreeNode(
+                                          content: Text("node 21b"),
+                                          children: [
+                                            TreeNode(content: Text('b'))
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],

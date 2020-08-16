@@ -33,7 +33,7 @@ class UserOrdering extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
-      debug: this,
+      //debug: this,
       model: ViewModel(),
       builder: (BuildContext context, ViewModel viewModel) => UserOrderingDS(
         userOrder: viewModel.userOrder,

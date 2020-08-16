@@ -30,7 +30,7 @@ class InfoDataList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
-      debug: this,
+      //debug: this,
       model: ViewModel(),
       onInit: (store) =>
           store.dispatch(GetDocsInfoDataListAsyncInfoDataAction()),
