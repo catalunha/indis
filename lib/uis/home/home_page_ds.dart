@@ -5,12 +5,10 @@ import 'package:indis/routes.dart';
 
 class HomePageDS extends StatelessWidget {
   final UserModel userModel;
-  final bool existOrganizerSelected;
 
   const HomePageDS({
     Key key,
     this.userModel,
-    this.existOrganizerSelected,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,16 +50,13 @@ class HomePageDS extends StatelessWidget {
             onTap: () =>
                 Navigator.pushNamed(context, Routes.infoIndOrganizerList),
           ),
-          existOrganizerSelected
-              ? ListTile(
-                  leading: Icon(
-                    Icons.line_style,
-                  ),
-                  title: Text('Categoria de info'),
-                  onTap: () =>
-                      Navigator.pushNamed(context, Routes.infoCategoryList),
-                )
-              : Container(),
+          ListTile(
+            leading: Icon(
+              Icons.line_style,
+            ),
+            title: Text('Categoria de info'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoCategoryList),
+          ),
           ListTile(
             leading: Icon(
               Icons.view_carousel,

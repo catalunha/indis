@@ -5,7 +5,7 @@ import 'package:indis/actions/info_code_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/info_code/info_code_select_ds.dart';
+import 'package:indis/uis/info_code/info_code_select_ds.dart.md';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoCodeModel> infoCodeList;

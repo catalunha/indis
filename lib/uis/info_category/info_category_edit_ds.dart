@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:indis/conectors/info_code/info_code_select.dart';
-import 'package:indis/models/info_code_model.dart';
 
 class InfoCategoryEditDS extends StatefulWidget {
   final String name;
@@ -8,8 +6,8 @@ class InfoCategoryEditDS extends StatefulWidget {
   final bool isCreateOrUpdate;
   final Function(String, String) onCreate;
   final Function(String, String) onUpdate;
-  final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
-  final Map<String, InfoCodeModel> infoCodeRefMap;
+  // final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
+  // final Map<String, InfoCodeModel> infoCodeRefMap;
 
   const InfoCategoryEditDS({
     Key key,
@@ -18,8 +16,8 @@ class InfoCategoryEditDS extends StatefulWidget {
     this.onCreate,
     this.onUpdate,
     this.name,
-    this.onSetInfoCodeInInfoCategory,
-    this.infoCodeRefMap,
+    // this.onSetInfoCodeInInfoCategory,
+    // this.infoCodeRefMap,
   }) : super(key: key);
   @override
   _InfoCategoryEditDSState createState() => _InfoCategoryEditDSState();
@@ -96,43 +94,43 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
               return null;
             },
           ),
-          ListTile(
-            title: Text(
-                'Há ${widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty ? widget.infoCodeRefMap.length : null} informações nesta categoria'),
-            trailing: Icon(Icons.search),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => InfoCodeSelect(),
-              );
-              // .then((value) => setState(() {}));
-            },
-          ),
-          widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty
-              ? Container(
-                  width: double.infinity,
-                  height: 100,
-                  child: ListView.builder(
-                    itemCount: widget.infoCodeRefMap.length,
-                    itemBuilder: (context, index) {
-                      InfoCodeModel infoCodeRef =
-                          widget.infoCodeRefMap.entries.toList()[index].value;
-                      return ListTile(
-                        title: Text('$infoCodeRef'),
-                        trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              widget.onSetInfoCodeInInfoCategory(
-                                infoCodeRef,
-                                false,
-                              );
-                              // setState(() {});
-                            }),
-                      );
-                    },
-                  ),
-                )
-              : Container(),
+          // ListTile(
+          //   title: Text(
+          //       'Há ${widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty ? widget.infoCodeRefMap.length : null} informações nesta categoria'),
+          //   trailing: Icon(Icons.search),
+          //   onTap: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (context) => InfoCodeSelect(),
+          //     );
+          //     // .then((value) => setState(() {}));
+          //   },
+          // ),
+          // widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty
+          //     ? Container(
+          //         width: double.infinity,
+          //         height: 100,
+          //         child: ListView.builder(
+          //           itemCount: widget.infoCodeRefMap.length,
+          //           itemBuilder: (context, index) {
+          //             InfoCodeModel infoCodeRef =
+          //                 widget.infoCodeRefMap.entries.toList()[index].value;
+          //             return ListTile(
+          //               title: Text('$infoCodeRef'),
+          //               trailing: IconButton(
+          //                   icon: Icon(Icons.delete),
+          //                   onPressed: () {
+          //                     widget.onSetInfoCodeInInfoCategory(
+          //                       infoCodeRef,
+          //                       false,
+          //                     );
+          //                     // setState(() {});
+          //                   }),
+          //             );
+          //           },
+          //         ),
+          //       )
+          //     : Container(),
         ],
       ),
     );

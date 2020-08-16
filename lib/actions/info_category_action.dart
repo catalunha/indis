@@ -60,15 +60,14 @@ class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
   });
   @override
   Future<AppState> reduce() async {
-    print('SetDocInfoCategoryCurrentAsyncInfoCategoryAction...');
+    print('CreateDocInfoCategoryCurrentAsyncInfoCategoryAction...');
     Firestore firestore = Firestore.instance;
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
     infoCategoryModel.name = name;
     infoCategoryModel.description = description;
-    infoCategoryModel.infoIndOrganizerRef =
-        state.infoIndOrganizerState.infoIndOrganizerCurrent;
+    infoCategoryModel.userRef = state.loggedState.userModelLogged;
     var docRef = await firestore
         .collection(InfoCategoryModel.collection)
         .where('name', isEqualTo: name)
@@ -112,9 +111,6 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
     infoCategoryModel.name = name;
     infoCategoryModel.description = description;
-    print(
-        '===> ${state.infoCategoryState.infoCategoryCurrent.infoCodeRefMap.toString()}');
-    print('===> ${infoCategoryModel.infoCodeRefMap.toString()}');
     await firestore
         .collection(InfoCategoryModel.collection)
         .document(infoCategoryModel.id)
@@ -130,46 +126,46 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
   void after() => dispatch(GetDocsInfoCategoryListAsyncInfoCategoryAction());
 }
 
-class SetInfoCodeInInfoCategorySyncInfoCategoryAction
-    extends ReduxAction<AppState> {
-  final InfoCodeModel infoCodeRef;
-  final bool addOrRemove;
-  SetInfoCodeInInfoCategorySyncInfoCategoryAction({
-    this.infoCodeRef,
-    this.addOrRemove,
-  });
-  @override
-  AppState reduce() {
-    InfoCategoryModel infoCategoryModel =
-        InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
-            .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+// class SetInfoCodeInInfoCategorySyncInfoCategoryAction
+//     extends ReduxAction<AppState> {
+//   final InfoCodeModel infoCodeRef;
+//   final bool addOrRemove;
+//   SetInfoCodeInInfoCategorySyncInfoCategoryAction({
+//     this.infoCodeRef,
+//     this.addOrRemove,
+//   });
+//   @override
+//   AppState reduce() {
+//     InfoCategoryModel infoCategoryModel =
+//         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
+//             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
 
-    if (infoCategoryModel.infoCodeRefMap == null)
-      infoCategoryModel.infoCodeRefMap = Map<String, InfoCodeModel>();
-    if (addOrRemove) {
-      if (!infoCategoryModel.infoCodeRefMap.containsKey(infoCodeRef.id)) {
-        infoCategoryModel.infoCodeRefMap.addAll({infoCodeRef.id: infoCodeRef});
-        print(
-            'infoCategoryModel.infoCodeRefMap1: ${infoCategoryModel.infoCodeRefMap}');
-        return state.copyWith(
-          infoCategoryState: state.infoCategoryState.copyWith(
-            infoCategoryCurrent: infoCategoryModel,
-          ),
-        );
-      } else {
-        print(
-            'infoCategoryModel.infoCodeRefMap2: ${infoCategoryModel.infoCodeRefMap}');
-        return null;
-      }
-    } else {
-      infoCategoryModel.infoCodeRefMap.remove(infoCodeRef.id);
-      print(
-          'infoCategoryModel.infoCodeRefMap3: ${infoCategoryModel.infoCodeRefMap}');
-      return state.copyWith(
-        infoCategoryState: state.infoCategoryState.copyWith(
-          infoCategoryCurrent: infoCategoryModel,
-        ),
-      );
-    }
-  }
-}
+//     if (infoCategoryModel.infoCodeRefMap == null)
+//       infoCategoryModel.infoCodeRefMap = Map<String, InfoCodeModel>();
+//     if (addOrRemove) {
+//       if (!infoCategoryModel.infoCodeRefMap.containsKey(infoCodeRef.id)) {
+//         infoCategoryModel.infoCodeRefMap.addAll({infoCodeRef.id: infoCodeRef});
+//         print(
+//             'infoCategoryModel.infoCodeRefMap1: ${infoCategoryModel.infoCodeRefMap}');
+//         return state.copyWith(
+//           infoCategoryState: state.infoCategoryState.copyWith(
+//             infoCategoryCurrent: infoCategoryModel,
+//           ),
+//         );
+//       } else {
+//         print(
+//             'infoCategoryModel.infoCodeRefMap2: ${infoCategoryModel.infoCodeRefMap}');
+//         return null;
+//       }
+//     } else {
+//       infoCategoryModel.infoCodeRefMap.remove(infoCodeRef.id);
+//       print(
+//           'infoCategoryModel.infoCodeRefMap3: ${infoCategoryModel.infoCodeRefMap}');
+//       return state.copyWith(
+//         infoCategoryState: state.infoCategoryState.copyWith(
+//           infoCategoryCurrent: infoCategoryModel,
+//         ),
+//       );
+//     }
+//   }
+// }
