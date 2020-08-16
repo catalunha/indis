@@ -42,14 +42,14 @@ class HomePageDS extends StatelessWidget {
             title: Text('Proprietário de info/ind'),
             onTap: () => Navigator.pushNamed(context, Routes.infoIndOwnerList),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.traffic,
-            ),
-            title: Text('Organizador de info/ind'),
-            onTap: () =>
-                Navigator.pushNamed(context, Routes.infoIndOrganizerList),
-          ),
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.traffic,
+          //   ),
+          //   title: Text('Organizador de info/ind'),
+          //   onTap: () =>
+          //       Navigator.pushNamed(context, Routes.infoIndOrganizerList),
+          // ),
           ListTile(
             leading: Icon(
               Icons.line_style,

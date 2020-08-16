@@ -9,10 +9,12 @@ import 'package:indis/uis/info_category/info_category_list_ds.dart';
 class ViewModel extends BaseModel<AppState> {
   List<InfoCategoryModel> infoCategoryList;
   Function(String) onEditInfoCategoryCurrent;
+  Function(String) onTreeInfoCategoryCurrent;
   ViewModel();
   ViewModel.build({
     @required this.infoCategoryList,
     @required this.onEditInfoCategoryCurrent,
+    @required this.onTreeInfoCategoryCurrent,
   }) : super(equals: [
           infoCategoryList,
         ]);
@@ -22,6 +24,10 @@ class ViewModel extends BaseModel<AppState> {
         onEditInfoCategoryCurrent: (String id) {
           dispatch(SetInfoCategoryCurrentSyncInfoCategoryAction(id));
           dispatch(NavigateAction.pushNamed(Routes.infoCategoryEdit));
+        },
+        onTreeInfoCategoryCurrent: (String id) {
+          dispatch(SetInfoCategoryCurrentSyncInfoCategoryAction(id));
+          dispatch(NavigateAction.pushNamed(Routes.infoCategoryTree));
         },
       );
 }
@@ -37,6 +43,7 @@ class InfoCategoryList extends StatelessWidget {
       builder: (context, viewModel) => InfoCategoryListDS(
         infoCategoryList: viewModel.infoCategoryList,
         onEditInfoCategoryCurrent: viewModel.onEditInfoCategoryCurrent,
+        onTreeInfoCategoryCurrent: viewModel.onTreeInfoCategoryCurrent,
       ),
     );
   }

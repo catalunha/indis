@@ -4,11 +4,13 @@ import 'package:indis/models/info_category_model.dart';
 class InfoCategoryListDS extends StatelessWidget {
   final List<InfoCategoryModel> infoCategoryList;
   final Function(String) onEditInfoCategoryCurrent;
+  final Function(String) onTreeInfoCategoryCurrent;
 
   const InfoCategoryListDS({
     Key key,
     this.infoCategoryList,
     this.onEditInfoCategoryCurrent,
+    this.onTreeInfoCategoryCurrent,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,12 @@ class InfoCategoryListDS extends StatelessWidget {
             child: ListTile(
               title: Text('${infoCategory.name}'),
               // subtitle: Text('$infoCategory'),
+              trailing: IconButton(
+                icon: Icon(Icons.folder),
+                onPressed: () {
+                  onTreeInfoCategoryCurrent(infoCategory.id);
+                },
+              ),
               onTap: () {
                 onEditInfoCategoryCurrent(infoCategory.id);
               },
