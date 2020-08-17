@@ -45,37 +45,110 @@ class InfoCategoryModel extends FirestoreModel {
     }
 
     Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
-    //1
-    CategoryData _categoryData1 = CategoryData(uuid.Uuid().v4());
-    _categoryData1.name = 'a';
-    _categoryData1.description = 'a...';
-    _categoryData1.idParente = null;
-    _categoryData1.infoCodeRefMap = Map<String, InfoCodeModel>();
-    String _uuidCode = uuid.Uuid().v4();
-    _categoryData1.infoCodeRefMap[_uuidCode] = InfoCodeModel('pt1')
-        .fromMap({'id': _uuidCode, 'code': 'PT1', 'name': 'PT1...'});
-    _categoryDataMap[_categoryData1.id] = _categoryData1;
-    //2
-    CategoryData _categoryData2 = CategoryData(uuid.Uuid().v4());
-    _categoryData2.name = 'b';
-    _categoryData2.description = 'b...';
-    _categoryData2.idParente = _categoryData1.id;
-    _categoryData2.infoCodeRefMap = Map<String, InfoCodeModel>();
-    _uuidCode = uuid.Uuid().v4();
-    _categoryData2.infoCodeRefMap[_uuidCode] = InfoCodeModel('pu1')
-        .fromMap({'id': _uuidCode, 'code': 'PU1', 'name': 'PU1...'});
-    _categoryDataMap[_categoryData2.id] = _categoryData2;
-    //3
-    CategoryData _categoryData3 = CategoryData(uuid.Uuid().v4());
-    _categoryData3.name = 'c';
-    _categoryData3.description = 'c...';
-    _categoryData3.idParente = _categoryData1.id;
-    _categoryData3.infoCodeRefMap = Map<String, InfoCodeModel>();
-    _uuidCode = uuid.Uuid().v4();
-    _categoryData3.infoCodeRefMap[_uuidCode] = InfoCodeModel('pu13')
-        .fromMap({'id': _uuidCode, 'code': 'PU13', 'name': 'PU13...'});
-    _categoryDataMap[_categoryData3.id] = _categoryData3;
 
+    //a=null
+    CategoryData _categoryData_a = CategoryData(uuid.Uuid().v4());
+    _categoryData_a.name = 'a';
+    _categoryData_a.description = 'a...';
+    _categoryData_a.idParente = null;
+    _categoryData_a.infoCodeRefMap = Map<String, InfoCodeModel>();
+    String _uuidCode = uuid.Uuid().v4();
+    _categoryData_a.infoCodeRefMap[_uuidCode] = InfoCodeModel('a1')
+        .fromMap({'id': _uuidCode, 'code': 'a1', 'name': 'a1...'});
+    _categoryDataMap[_categoryData_a.id] = _categoryData_a;
+    //b=a
+    CategoryData _categoryData_b = CategoryData(uuid.Uuid().v4());
+    _categoryData_b.name = 'b';
+    _categoryData_b.description = 'b...';
+    _categoryData_b.idParente = _categoryData_a.id;
+    _categoryData_b.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_b.infoCodeRefMap[_uuidCode] = InfoCodeModel('b1')
+        .fromMap({'id': _uuidCode, 'code': 'b1', 'name': 'b1...'});
+    _categoryDataMap[_categoryData_b.id] = _categoryData_b;
+    //c=a
+    CategoryData _categoryData_c = CategoryData(uuid.Uuid().v4());
+    _categoryData_c.name = 'c';
+    _categoryData_c.description = 'c...';
+    _categoryData_c.idParente = _categoryData_a.id;
+    _categoryData_c.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_c.infoCodeRefMap[_uuidCode] = InfoCodeModel('c1')
+        .fromMap({'id': _uuidCode, 'code': 'c1', 'name': 'c1...'});
+    _categoryDataMap[_categoryData_c.id] = _categoryData_c;
+    //d=c
+    CategoryData _categoryData_d = CategoryData(uuid.Uuid().v4());
+    _categoryData_d.name = 'd';
+    _categoryData_d.description = 'd...';
+    _categoryData_d.idParente = _categoryData_c.id;
+    _categoryData_d.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_d.infoCodeRefMap[_uuidCode] = InfoCodeModel('d1')
+        .fromMap({'id': _uuidCode, 'code': 'd1', 'name': 'd1...'});
+    _categoryDataMap[_categoryData_d.id] = _categoryData_d;
+    //e=null
+    CategoryData _categoryData_e = CategoryData(uuid.Uuid().v4());
+    _categoryData_e.name = 'e';
+    _categoryData_e.description = 'e...';
+    _categoryData_e.idParente = null;
+    _categoryData_e.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_e.infoCodeRefMap[_uuidCode] = InfoCodeModel('e1')
+        .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
+    _categoryDataMap[_categoryData_e.id] = _categoryData_e;
+
+/*
+    //a=null
+    CategoryData _categoryData_a = CategoryData(uuid.Uuid().v4());
+    _categoryData_a.name = 'a';
+    _categoryData_a.description = 'a...';
+    _categoryData_a.idParente = null;
+    _categoryData_a.infoCodeRefMap = Map<String, InfoCodeModel>();
+    String _uuidCode = uuid.Uuid().v4();
+    _categoryData_a.infoCodeRefMap[_uuidCode] = InfoCodeModel('a1')
+        .fromMap({'id': _uuidCode, 'code': 'a1', 'name': 'a1...'});
+    _categoryDataMap[_categoryData_a.id] = _categoryData_a;
+    //b=a
+    CategoryData _categoryData_b = CategoryData(uuid.Uuid().v4());
+    _categoryData_b.name = 'b';
+    _categoryData_b.description = 'b...';
+    _categoryData_b.idParente = _categoryData_a.id;
+    _categoryData_b.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_b.infoCodeRefMap[_uuidCode] = InfoCodeModel('b1')
+        .fromMap({'id': _uuidCode, 'code': 'b1', 'name': 'b1...'});
+    _categoryDataMap[_categoryData_b.id] = _categoryData_b;
+    //c=a
+    CategoryData _categoryData_c = CategoryData(uuid.Uuid().v4());
+    _categoryData_c.name = 'c';
+    _categoryData_c.description = 'c...';
+    _categoryData_c.idParente = _categoryData_b.id;
+    _categoryData_c.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_c.infoCodeRefMap[_uuidCode] = InfoCodeModel('c1')
+        .fromMap({'id': _uuidCode, 'code': 'c1', 'name': 'c1...'});
+    _categoryDataMap[_categoryData_c.id] = _categoryData_c;
+    //d=c
+    CategoryData _categoryData_d = CategoryData(uuid.Uuid().v4());
+    _categoryData_d.name = 'd';
+    _categoryData_d.description = 'd...';
+    _categoryData_d.idParente = _categoryData_c.id;
+    _categoryData_d.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_d.infoCodeRefMap[_uuidCode] = InfoCodeModel('d1')
+        .fromMap({'id': _uuidCode, 'code': 'd1', 'name': 'd1...'});
+    _categoryDataMap[_categoryData_d.id] = _categoryData_d;
+    //e=null
+    CategoryData _categoryData_e = CategoryData(uuid.Uuid().v4());
+    _categoryData_e.name = 'e';
+    _categoryData_e.description = 'e...';
+    _categoryData_e.idParente = _categoryData_d.id;
+    _categoryData_e.infoCodeRefMap = Map<String, InfoCodeModel>();
+    _uuidCode = uuid.Uuid().v4();
+    _categoryData_e.infoCodeRefMap[_uuidCode] = InfoCodeModel('e1')
+        .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
+    _categoryDataMap[_categoryData_e.id] = _categoryData_e;
+*/
     if (_categoryDataMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
       _categoryDataMap.forEach((k, v) {

@@ -21,10 +21,55 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
         title: Text(
             'Árvore de categorias ${widget.categoryDataMap?.length ?? null}'),
       ),
-      body: SingleChildScrollView(child: buildTree1()),
+      body: SingleChildScrollView(child: buildTree()),
     );
   }
 
+  TreeNode _treeNode(CategoryData categoryData) {
+    Iterable<CategoryData> categoryDataParent = widget.categoryDataMap.values
+        .where((element) => element.idParente == categoryData.id);
+    print('${categoryData.name} Parent:${categoryDataParent.length}');
+    if (categoryDataParent.isNotEmpty) {
+      TreeNode treeNode = TreeNode(
+          key: ValueKey(categoryData.id),
+          content: Text(categoryData.name),
+          children: []);
+      List<TreeNode> _itensTree = [];
+      categoryData.infoCodeRefMap.forEach((key, value) {
+        _itensTree.add(TreeNode(content: Text(value.name)));
+      });
+      for (var categoryDataParentItem in categoryDataParent) {
+        treeNode.children.add(_treeNode(categoryDataParentItem));
+      }
+      treeNode.children.addAll(_itensTree);
+      return treeNode;
+    } else {
+      List<TreeNode> _itensTree = [];
+      categoryData.infoCodeRefMap.forEach((key, value) {
+        _itensTree.add(TreeNode(content: Text(value.name)));
+      });
+      return TreeNode(
+          key: ValueKey(categoryData.id),
+          content: Text(categoryData.name),
+          children: _itensTree);
+    }
+  }
+
+  Widget buildTree() {
+    List<TreeNode> _nodes = [];
+    Iterable<CategoryData> categoryDataidParentNull = widget
+        .categoryDataMap.values
+        .where((element) => element.idParente == null);
+    for (var categoryDataKV in categoryDataidParentNull) {
+      _nodes.add(_treeNode(categoryDataKV));
+    }
+    return TreeView(
+      treeController: _controller,
+      nodes: _nodes,
+    );
+  }
+
+/*
   List<TreeNode> recursiveNodes(
       List<TreeNode> _nodes, CategoryData categoryData) {
     print('recursiveNodes:');
@@ -60,8 +105,8 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
           TreeNode(content: Text(categoryData.name), children: _itensTree));
       return _nodes;
     }
-
-    //+++ metodo 1
+*/
+  //+++ metodo 1
 /*
     CategoryData _categoryDataParent = widget.categoryDataMap.values.firstWhere(
         (element) => element.idParente == categoryData.id,
@@ -90,9 +135,10 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
       return _nodes;
     }
 */
-    //--- metodo 1
-  }
+  //--- metodo 1
+  //}
 
+/*
   Widget buildTree() {
     List<TreeNode> _nodes = [];
     List<String> keysMap = widget.categoryDataMap.keys.toList();
@@ -115,7 +161,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
       nodes: _nodes,
     );
   }
-
+*/
   Widget buildTree1() {
     List<TreeNode> treenode = [];
     treenode
@@ -127,7 +173,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
             TreeNode(key: ValueKey('b'), content: Text("b"), children: []));
       }
     }
-    print('${treenode.}');
+    // print('${treenode.}');
 
     for (var item in treenode) {
       if (item.key == ValueKey('b')) {
