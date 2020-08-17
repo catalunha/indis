@@ -8,8 +8,8 @@ import 'package:indis/states/types_states.dart';
 
 Store<AppState> _store = Store<AppState>(
   initialState: AppState.initialState(),
-  actionObservers: [Log<AppState>.printer()],
-  modelObserver: DefaultModelObserver(),
+  // actionObservers: [Log<AppState>.printer()],
+  // modelObserver: DefaultModelObserver(),
 );
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

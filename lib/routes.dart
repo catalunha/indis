@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:indis/conectors/info_category/info_category_data_edit.dart';
 import 'package:indis/conectors/info_category/info_category_edit.dart';
 import 'package:indis/conectors/info_category/info_category_list.dart';
 import 'package:indis/conectors/info_category/info_category_tree.dart';
@@ -29,6 +30,7 @@ class Routes {
   static final infoCategoryList = '/infoCategoryList';
   static final infoCategoryEdit = '/infoCategoryEdit';
   static final infoCategoryTree = '/infoCategoryTree';
+  static final infoCategoryDataEdit = '/infoCategoryDataEdit';
   static final infoCodeList = '/infoCodeList';
   static final infoCodeEdit = '/infoCodeEdit';
   static final infoDataList = '/infoDataList';
@@ -47,6 +49,7 @@ class Routes {
     infoCategoryList: (BuildContext context) => InfoCategoryList(),
     infoCategoryEdit: (BuildContext context) => InfoCategoryEdit(),
     infoCategoryTree: (BuildContext context) => InfoCategoryTree(),
+    infoCategoryDataEdit: (BuildContext context) => InfoCategoryDataEdit(),
     infoCodeList: (BuildContext context) => InfoCodeList(),
     infoCodeEdit: (BuildContext context) => InfoCodeEdit(),
     infoDataList: (BuildContext context) => InfoDataList(),

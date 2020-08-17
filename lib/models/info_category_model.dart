@@ -44,8 +44,8 @@ class InfoCategoryModel extends FirestoreModel {
       data['userRef'] = this.userRef.toMapRef();
     }
 
-    Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
-
+    // Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
+/*
     //a=null
     CategoryData _categoryData_a = CategoryData(uuid.Uuid().v4());
     _categoryData_a.name = 'a';
@@ -96,7 +96,7 @@ class InfoCategoryModel extends FirestoreModel {
     _categoryData_e.infoCodeRefMap[_uuidCode] = InfoCodeModel('e1')
         .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
     _categoryDataMap[_categoryData_e.id] = _categoryData_e;
-
+*/
 /*
     //a=null
     CategoryData _categoryData_a = CategoryData(uuid.Uuid().v4());
@@ -149,9 +149,9 @@ class InfoCategoryModel extends FirestoreModel {
         .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
     _categoryDataMap[_categoryData_e.id] = _categoryData_e;
 */
-    if (_categoryDataMap != null) {
+    if (categoryDataMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      _categoryDataMap.forEach((k, v) {
+      categoryDataMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
       data['categoryDataMap'] = dataFromField;
@@ -210,5 +210,9 @@ class CategoryData {
       data['infoCodeRefMap'] = dataFromField;
     }
     return data;
+  }
+
+  String toString() {
+    return id + ':' + toMap().toString();
   }
 }

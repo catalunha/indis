@@ -2,8 +2,8 @@ import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
-import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
+import 'package:uuid/uuid.dart' as uuid;
 
 // +++ Actions Sync
 class SetInfoCategoryCurrentSyncInfoCategoryAction
@@ -24,6 +24,73 @@ class SetInfoCategoryCurrentSyncInfoCategoryAction
       ),
     );
   }
+}
+
+class SetInfoCategoryDataCurrentSyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  final String id;
+  final bool isCreateOrUpdate;
+
+  SetInfoCategoryDataCurrentSyncInfoCategoryAction(
+      {this.id, this.isCreateOrUpdate});
+
+  @override
+  AppState reduce() {
+    CategoryData categoryData;
+    if (isCreateOrUpdate) {
+      categoryData = CategoryData(null);
+      categoryData.idParente = id;
+    } else {
+      categoryData =
+          state.infoCategoryState.infoCategoryCurrent.categoryDataMap[id];
+    }
+
+    return state.copyWith(
+      infoCategoryState: state.infoCategoryState.copyWith(
+        infoCategoryDataCurrent: categoryData,
+      ),
+    );
+  }
+}
+
+class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  final String name;
+  final String description;
+
+  CreateInfoCategoryDataCurrentSyncInfoCategoryAction({
+    this.name,
+    this.description,
+  });
+  @override
+  AppState reduce() {
+    print('CreateInfoCategoryDataCurrentSyncInfoCategoryAction...');
+    CategoryData categoryData;
+    categoryData = state.infoCategoryState.infoCategoryDataCurrent;
+    categoryData.id = uuid.Uuid().v4();
+    categoryData.name = name;
+    categoryData.description = description;
+    categoryData.infoCodeRefMap = Map<String, InfoCodeModel>();
+    print('${categoryData}');
+    InfoCategoryModel infoCategoryModel =
+        InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
+            .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+    print('${infoCategoryModel}');
+    infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
+    print('${infoCategoryModel}');
+    // return null;
+    return state.copyWith(
+      infoCategoryState: state.infoCategoryState.copyWith(
+        infoCategoryCurrent: infoCategoryModel,
+      ),
+    );
+  }
+
+  @override
+  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  @override
+  void after() =>
+      dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
 }
 
 // +++ Actions Async
@@ -109,8 +176,9 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-    infoCategoryModel.name = name;
-    infoCategoryModel.description = description;
+    infoCategoryModel.name = name ?? infoCategoryModel.name;
+    infoCategoryModel.description =
+        description ?? infoCategoryModel.description;
     await firestore
         .collection(InfoCategoryModel.collection)
         .document(infoCategoryModel.id)

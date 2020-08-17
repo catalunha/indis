@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:indis/models/info_category_model.dart';
+import 'package:indis/models/info_code_model.dart';
 
 class InfoCategoryTreeDS extends StatefulWidget {
   final Map<String, CategoryData> categoryDataMap;
+  final Function(String, bool) onEditInfoCategoryDataCurrent;
 
-  const InfoCategoryTreeDS({Key key, this.categoryDataMap}) : super(key: key);
+  const InfoCategoryTreeDS({
+    Key key,
+    this.categoryDataMap,
+    this.onEditInfoCategoryDataCurrent,
+  }) : super(key: key);
 
   @override
   _InfoCategoryTreeDSState createState() => _InfoCategoryTreeDSState();
@@ -25,7 +31,100 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
     );
   }
 
+  Widget categoryDataContent(CategoryData categoryData) {
+    return Row(
+      children: [
+        Text(categoryData.name),
+        IconButton(
+          tooltip: 'editar informação',
+          icon: Icon(
+            Icons.edit,
+            size: 15,
+          ),
+          onPressed: () {
+            widget.onEditInfoCategoryDataCurrent(categoryData.id, false);
+          },
+        ),
+        IconButton(
+          tooltip: 'Acrescentar categoria',
+          icon: Icon(
+            Icons.line_style,
+            size: 15,
+          ),
+          onPressed: () {
+            widget.onEditInfoCategoryDataCurrent(categoryData.id, true);
+          },
+        ),
+        IconButton(
+          tooltip: 'Acrescentar informação',
+          icon: Icon(
+            Icons.view_carousel,
+            size: 15,
+          ),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget infoCodeContent(InfoCodeModel infoCodeModel) {
+    return Row(
+      children: [
+        Text(infoCodeModel.name),
+        IconButton(
+          tooltip: 'editar informação',
+          icon: Icon(
+            Icons.edit,
+            size: 15,
+          ),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
   TreeNode _treeNode(CategoryData categoryData) {
+    Iterable<CategoryData> categoryDataParent = widget.categoryDataMap.values
+        .where((element) => element.idParente == categoryData.id);
+    if (categoryDataParent.isNotEmpty) {
+      TreeNode treeNode =
+          TreeNode(content: categoryDataContent(categoryData), children: []);
+      List<TreeNode> _itensTree = [];
+      categoryData.infoCodeRefMap.forEach((key, value) {
+        _itensTree.add(TreeNode(content: infoCodeContent(value)));
+      });
+      for (var categoryDataParentItem in categoryDataParent) {
+        treeNode.children.add(_treeNode(categoryDataParentItem));
+      }
+      treeNode.children.addAll(_itensTree);
+      return treeNode;
+    } else {
+      List<TreeNode> _itensTree = [];
+      categoryData.infoCodeRefMap.forEach((key, value) {
+        _itensTree.add(TreeNode(content: infoCodeContent(value)));
+      });
+      return TreeNode(
+          content: categoryDataContent(categoryData), children: _itensTree);
+    }
+  }
+
+  Widget buildTree() {
+    List<TreeNode> _nodes = [];
+    Iterable<CategoryData> categoryDataidParentNull = widget
+        .categoryDataMap.values
+        .where((element) => element.idParente == null);
+    for (var categoryDataKV in categoryDataidParentNull) {
+      _nodes.add(_treeNode(categoryDataKV));
+    }
+    return TreeView(
+      treeController: _controller,
+      nodes: _nodes,
+    );
+  }
+
+/*
+codigo correto do treeView
+ TreeNode _treeNode(CategoryData categoryData) {
     Iterable<CategoryData> categoryDataParent = widget.categoryDataMap.values
         .where((element) => element.idParente == categoryData.id);
     print('${categoryData.name} Parent:${categoryDataParent.length}');
@@ -68,6 +167,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
       nodes: _nodes,
     );
   }
+*/
 
 /*
   List<TreeNode> recursiveNodes(
@@ -162,6 +262,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
     );
   }
 */
+/*
   Widget buildTree1() {
     List<TreeNode> treenode = [];
     treenode
@@ -305,4 +406,5 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
       ],
     );
   }
+  */
 }
