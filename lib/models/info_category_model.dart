@@ -1,7 +1,7 @@
 import 'package:indis/models/firestore_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/user_model.dart';
-import 'package:uuid/uuid.dart' as uuid;
+// import 'package:uuid/uuid.dart' as uuid;
 
 class InfoCategoryModel extends FirestoreModel {
   static final String collection = 'infocategory';
@@ -44,7 +44,75 @@ class InfoCategoryModel extends FirestoreModel {
       data['userRef'] = this.userRef.toMapRef();
     }
 
-    // Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
+    if (categoryDataMap != null) {
+      Map<String, dynamic> dataFromField = Map<String, dynamic>();
+      categoryDataMap.forEach((k, v) {
+        dataFromField[k] = v.toMap();
+      });
+      data['categoryDataMap'] = dataFromField;
+    }
+    return data;
+  }
+
+  Map<String, dynamic> toMapRef() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (name != null) data['name'] = this.name;
+    data.addAll({'id': this.id});
+    return data;
+  }
+}
+
+class CategoryData {
+  String id;
+  String name;
+  String description;
+  String idParente;
+  Map<String, InfoCodeModel> infoCodeRefMap;
+
+  CategoryData(
+    this.id, {
+    this.name,
+    this.description,
+    this.idParente,
+    this.infoCodeRefMap,
+  });
+
+  CategoryData fromMap(Map<String, dynamic> map) {
+    if (map != null) {
+      if (map.containsKey('name')) this.name = map['name'];
+      if (map.containsKey('description')) this.description = map['description'];
+      if (map.containsKey('idParente')) this.idParente = map['idParente'];
+      if (map["infoCodeRefMap"] is Map) {
+        this.infoCodeRefMap = Map<String, InfoCodeModel>();
+        map["infoCodeRefMap"].forEach((k, v) {
+          this.infoCodeRefMap[k] = InfoCodeModel(k).fromMap(v);
+        });
+      }
+    }
+    return this;
+  }
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (this.name != null) data['name'] = this.name;
+    if (this.description != null) data['description'] = this.description;
+    if (this.idParente != null) data['idParente'] = this.idParente;
+    if (this.infoCodeRefMap != null) {
+      Map<String, dynamic> dataFromField = Map<String, dynamic>();
+      this.infoCodeRefMap.forEach((k, v) {
+        dataFromField[k] = v.toMapRef();
+      });
+      data['infoCodeRefMap'] = dataFromField;
+    }
+    return data;
+  }
+
+  String toString() {
+    return id + ':' + toMap().toString();
+  }
+}
+
+// Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
 /*
     //a=null
     CategoryData _categoryData_a = CategoryData(uuid.Uuid().v4());
@@ -149,70 +217,3 @@ class InfoCategoryModel extends FirestoreModel {
         .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
     _categoryDataMap[_categoryData_e.id] = _categoryData_e;
 */
-    if (categoryDataMap != null) {
-      Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      categoryDataMap.forEach((k, v) {
-        dataFromField[k] = v.toMap();
-      });
-      data['categoryDataMap'] = dataFromField;
-    }
-    return data;
-  }
-
-  Map<String, dynamic> toMapRef() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (name != null) data['name'] = this.name;
-    data.addAll({'id': this.id});
-    return data;
-  }
-}
-
-class CategoryData {
-  String id;
-  String name;
-  String description;
-  String idParente;
-  Map<String, InfoCodeModel> infoCodeRefMap;
-
-  CategoryData(
-    this.id, {
-    this.name,
-    this.description,
-    this.idParente,
-    this.infoCodeRefMap,
-  });
-
-  CategoryData fromMap(Map<String, dynamic> map) {
-    if (map != null) {
-      if (map.containsKey('name')) this.name = map['name'];
-      if (map.containsKey('description')) this.description = map['description'];
-      if (map.containsKey('idParente')) this.idParente = map['idParente'];
-      if (map["infoCodeRefMap"] is Map) {
-        this.infoCodeRefMap = Map<String, InfoCodeModel>();
-        map["infoCodeRefMap"].forEach((k, v) {
-          this.infoCodeRefMap[k] = InfoCodeModel(k).fromMap(v);
-        });
-      }
-    }
-    return this;
-  }
-
-  Map<String, dynamic> toMap() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.name != null) data['name'] = this.name;
-    if (this.description != null) data['description'] = this.description;
-    if (this.idParente != null) data['idParente'] = this.idParente;
-    if (this.infoCodeRefMap != null) {
-      Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.infoCodeRefMap.forEach((k, v) {
-        dataFromField[k] = v.toMapRef();
-      });
-      data['infoCodeRefMap'] = dataFromField;
-    }
-    return data;
-  }
-
-  String toString() {
-    return id + ':' + toMap().toString();
-  }
-}

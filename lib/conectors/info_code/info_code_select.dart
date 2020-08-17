@@ -5,46 +5,43 @@ import 'package:indis/actions/info_code_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/info_code/info_code_select_ds.dart.md';
+import 'package:indis/uis/info_code/info_code_select_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoCodeModel> infoCodeList;
-  InfoCategoryModel infoCategoryCurrent;
+  CategoryData categoryDataCurrent;
   Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
   ViewModel();
   ViewModel.build({
     @required this.infoCodeList,
-    @required this.infoCategoryCurrent,
+    @required this.categoryDataCurrent,
     @required this.onSetInfoCodeInInfoCategory,
   }) : super(equals: [
-          infoCategoryCurrent,
           infoCodeList,
+          categoryDataCurrent,
         ]);
   _infoCodeList() {
     List<InfoCodeModel> infoCodeList = [];
     infoCodeList.addAll(state.infoCodeState.infoCodeList);
-    // for (var group in state.infoCategoryState.infoCategoryList) {
-    //     if (group.infoCodeRefMap.id == state.infoCategoryState.groupCurrent.moduleRef.id) {
-    //       if (group.workerRefMap != null && group.workerRefMap.isNotEmpty) {
-    //         for (var workerRef in group.workerRefMap.entries) {
-    //           workerListClean.removeWhere((element) {
-    //             return element.id == workerRef.value.id;
-    //           });
-    //         }
-    //       }
-    //     }
-
-    // }
+    for (var categoryData in state
+        .infoCategoryState.infoCategoryCurrent.categoryDataMap.entries) {
+      if (categoryData.value.infoCodeRefMap != null &&
+          categoryData.value.infoCodeRefMap.isNotEmpty) {
+        for (var infoCodeRef in categoryData.value.infoCodeRefMap.entries) {
+          infoCodeList.removeWhere((element) => element.id == infoCodeRef.key);
+        }
+      }
+    }
     return infoCodeList;
   }
 
   @override
   ViewModel fromStore() => ViewModel.build(
         infoCodeList: _infoCodeList(),
-        infoCategoryCurrent: state.infoCategoryState.infoCategoryCurrent,
+        categoryDataCurrent: state.infoCategoryState.infoCategoryDataCurrent,
         onSetInfoCodeInInfoCategory:
             (InfoCodeModel infoCodeRef, bool addOrRemove) {
-          dispatch(SetInfoCodeInInfoCategorySyncInfoCategoryAction(
+          dispatch(SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
             infoCodeRef: infoCodeRef,
             addOrRemove: addOrRemove,
           ));
@@ -62,7 +59,7 @@ class InfoCodeSelect extends StatelessWidget {
           store.dispatch(GetDocsInfoCodeListAsyncInfoCodeAction()),
       builder: (context, viewModel) => InfoCodeSelectDS(
         infoCodeList: viewModel.infoCodeList,
-        infoCategoryCurrent: viewModel.infoCategoryCurrent,
+        categoryDataCurrent: viewModel.categoryDataCurrent,
         onSetInfoCodeInInfoCategory: viewModel.onSetInfoCodeInInfoCategory,
       ),
     );

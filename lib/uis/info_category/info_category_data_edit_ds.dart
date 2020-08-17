@@ -5,7 +5,7 @@ class InfoCategoryDataEditDS extends StatefulWidget {
   final String description;
   final bool isCreateOrUpdate;
   final Function(String, String) onCreate;
-  final Function(String, String) onUpdate;
+  final Function(String, String, bool) onUpdate;
   // final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
   // final Map<String, InfoCodeModel> infoCodeRefMap;
 
@@ -27,12 +27,14 @@ class _InfoCategoryDataEditDSState extends State<InfoCategoryDataEditDS> {
   final formKey = GlobalKey<FormState>();
   String _name;
   String _description;
+  bool _remover = false;
+
   void validateData() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       widget.isCreateOrUpdate
           ? widget.onCreate(_name, _description)
-          : widget.onUpdate(_name, _description);
+          : widget.onUpdate(_name, _description, _remover);
     } else {
       setState(() {});
     }
@@ -93,43 +95,17 @@ class _InfoCategoryDataEditDSState extends State<InfoCategoryDataEditDS> {
               return null;
             },
           ),
-          // ListTile(
-          //   title: Text(
-          //       'Há ${widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty ? widget.infoCodeRefMap.length : null} informações nesta categoria'),
-          //   trailing: Icon(Icons.search),
-          //   onTap: () {
-          //     showDialog(
-          //       context: context,
-          //       builder: (context) => InfoCodeSelect(),
-          //     );
-          //     // .then((value) => setState(() {}));
-          //   },
-          // ),
-          // widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty
-          //     ? Container(
-          //         width: double.infinity,
-          //         height: 100,
-          //         child: ListView.builder(
-          //           itemCount: widget.infoCodeRefMap.length,
-          //           itemBuilder: (context, index) {
-          //             InfoCodeModel infoCodeRef =
-          //                 widget.infoCodeRefMap.entries.toList()[index].value;
-          //             return ListTile(
-          //               title: Text('$infoCodeRef'),
-          //               trailing: IconButton(
-          //                   icon: Icon(Icons.delete),
-          //                   onPressed: () {
-          //                     widget.onSetInfoCodeInInfoCategory(
-          //                       infoCodeRef,
-          //                       false,
-          //                     );
-          //                     // setState(() {});
-          //                   }),
-          //             );
-          //           },
-          //         ),
-          //       )
-          //     : Container(),
+          widget.isCreateOrUpdate
+              ? Container()
+              : SwitchListTile(
+                  value: _remover,
+                  title: Text('Remover este item e todos abaixo'),
+                  onChanged: (value) {
+                    setState(() {
+                      _remover = value;
+                    });
+                  },
+                ),
         ],
       ),
     );

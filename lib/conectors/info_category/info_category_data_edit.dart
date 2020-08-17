@@ -9,7 +9,7 @@ class ViewModel extends BaseModel<AppState> {
   String description;
   bool isCreateOrUpdate;
   Function(String, String) onCreate;
-  Function(String, String) onUpdate;
+  Function(String, String, bool) onUpdate;
   // Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
 
   ViewModel();
@@ -39,10 +39,11 @@ class ViewModel extends BaseModel<AppState> {
           ));
           dispatch(NavigateAction.pop());
         },
-        onUpdate: (String name, String description) {
+        onUpdate: (String name, String description, bool remover) {
           dispatch(UpdateInfoCategoryDataCurrentSyncInfoCategoryAction(
             name: name,
             description: description,
+            remover: remover,
           ));
           dispatch(NavigateAction.pop());
         },

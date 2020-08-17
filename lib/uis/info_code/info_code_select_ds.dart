@@ -1,17 +1,17 @@
-<!-- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 
 class InfoCodeSelectDS extends StatefulWidget {
   final List<InfoCodeModel> infoCodeList;
-  final InfoCategoryModel infoCategoryCurrent;
+  final CategoryData categoryDataCurrent;
   final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
 
   const InfoCodeSelectDS({
     Key key,
-    this.infoCategoryCurrent,
     this.onSetInfoCodeInInfoCategory,
     this.infoCodeList,
+    this.categoryDataCurrent,
   }) : super(key: key);
   @override
   _InfoCodeSelectDSState createState() => _InfoCodeSelectDSState();
@@ -30,8 +30,8 @@ class _InfoCodeSelectDSState extends State<InfoCodeSelectDS> {
             final infoCode = widget.infoCodeList[index];
 
             return ListTile(
-              selected: widget.infoCategoryCurrent.infoCodeRefMap != null
-                  ? widget.infoCategoryCurrent.infoCodeRefMap
+              selected: widget.categoryDataCurrent.infoCodeRefMap != null
+                  ? widget.categoryDataCurrent.infoCodeRefMap
                       .containsKey(infoCode.id)
                   : false,
               title: Text('${infoCode.code}'),
@@ -39,8 +39,8 @@ class _InfoCodeSelectDSState extends State<InfoCodeSelectDS> {
               onTap: () {
                 widget.onSetInfoCodeInInfoCategory(
                     infoCode,
-                    !(widget.infoCategoryCurrent.infoCodeRefMap != null
-                        ? widget.infoCategoryCurrent.infoCodeRefMap
+                    !(widget.categoryDataCurrent.infoCodeRefMap != null
+                        ? widget.categoryDataCurrent.infoCodeRefMap
                             .containsKey(infoCode.id)
                         : false));
                 setState(() {});
@@ -51,4 +51,4 @@ class _InfoCodeSelectDSState extends State<InfoCodeSelectDS> {
       ),
     );
   }
-} -->
+}

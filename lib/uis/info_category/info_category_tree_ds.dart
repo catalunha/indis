@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
+import 'package:indis/conectors/info_code/info_code_select.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 
 class InfoCategoryTreeDS extends StatefulWidget {
   final Map<String, CategoryData> categoryDataMap;
   final Function(String, bool) onEditInfoCategoryDataCurrent;
+  final Function(String, bool) onSetInfoCategoryDataCurrent;
+  final Function(InfoCodeModel)
+      onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction;
 
   const InfoCategoryTreeDS({
     Key key,
     this.categoryDataMap,
     this.onEditInfoCategoryDataCurrent,
+    this.onSetInfoCategoryDataCurrent,
+    this.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction,
   }) : super(key: key);
 
   @override
@@ -27,7 +33,12 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
         title: Text(
             'Árvore de categorias ${widget.categoryDataMap?.length ?? null}'),
       ),
-      body: SingleChildScrollView(child: buildTree()),
+      body: Container(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: buildTree(),
+        ),
+      ),
     );
   }
 
@@ -61,13 +72,20 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
             Icons.view_carousel,
             size: 15,
           ),
-          onPressed: () {},
+          onPressed: () {
+            widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
+            showDialog(
+              context: context,
+              builder: (context) => InfoCodeSelect(),
+            );
+          },
         ),
       ],
     );
   }
 
-  Widget infoCodeContent(InfoCodeModel infoCodeModel) {
+  Widget infoCodeContent(
+      InfoCodeModel infoCodeModel, CategoryData categoryData) {
     return Row(
       children: [
         Text(infoCodeModel.name),
@@ -78,6 +96,19 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
             size: 15,
           ),
           onPressed: () {},
+        ),
+        IconButton(
+          tooltip: 'remover informação',
+          icon: Icon(
+            Icons.delete,
+            size: 15,
+          ),
+          onPressed: () {
+            widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
+
+            widget.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
+                infoCodeModel);
+          },
         ),
       ],
     );
@@ -91,7 +122,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
           TreeNode(content: categoryDataContent(categoryData), children: []);
       List<TreeNode> _itensTree = [];
       categoryData.infoCodeRefMap.forEach((key, value) {
-        _itensTree.add(TreeNode(content: infoCodeContent(value)));
+        _itensTree.add(TreeNode(content: infoCodeContent(value, categoryData)));
       });
       for (var categoryDataParentItem in categoryDataParent) {
         treeNode.children.add(_treeNode(categoryDataParentItem));
@@ -101,7 +132,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
     } else {
       List<TreeNode> _itensTree = [];
       categoryData.infoCodeRefMap.forEach((key, value) {
-        _itensTree.add(TreeNode(content: infoCodeContent(value)));
+        _itensTree.add(TreeNode(content: infoCodeContent(value, categoryData)));
       });
       return TreeNode(
           content: categoryDataContent(categoryData), children: _itensTree);

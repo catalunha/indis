@@ -93,18 +93,66 @@ class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final String name;
   final String description;
+  final bool remover;
 
   UpdateInfoCategoryDataCurrentSyncInfoCategoryAction({
     this.name,
     this.description,
+    this.remover,
   });
   @override
   AppState reduce() {
     print('UpdateInfoCategoryDataCurrentSyncInfoCategoryAction...');
     CategoryData categoryData;
     categoryData = state.infoCategoryState.infoCategoryDataCurrent;
-    categoryData.name = name;
-    categoryData.description = description;
+
+    InfoCategoryModel infoCategoryModel =
+        InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
+            .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+    if (remover) {
+      infoCategoryModel.categoryDataMap
+          .removeWhere((k, v) => v.idParente == categoryData.id);
+      infoCategoryModel.categoryDataMap.remove(categoryData.id);
+    } else {
+      categoryData.name = name;
+      categoryData.description = description;
+      infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
+    }
+    return state.copyWith(
+      infoCategoryState: state.infoCategoryState.copyWith(
+        infoCategoryCurrent: infoCategoryModel,
+      ),
+    );
+  }
+
+  @override
+  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  @override
+  void after() =>
+      dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
+}
+
+class SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  final InfoCodeModel infoCodeRef;
+  final bool addOrRemove;
+  SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction({
+    this.infoCodeRef,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    CategoryData categoryData;
+    categoryData = state.infoCategoryState.infoCategoryDataCurrent;
+    if (categoryData.infoCodeRefMap == null)
+      categoryData.infoCodeRefMap = Map<String, InfoCodeModel>();
+    if (addOrRemove) {
+      if (!categoryData.infoCodeRefMap.containsKey(infoCodeRef.id)) {
+        categoryData.infoCodeRefMap[infoCodeRef.id] = infoCodeRef;
+      }
+    } else {
+      categoryData.infoCodeRefMap.remove(infoCodeRef.id);
+    }
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
@@ -116,8 +164,6 @@ class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
     );
   }
 
-  @override
-  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
   @override
   void after() =>
       dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
@@ -223,47 +269,3 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
   @override
   void after() => dispatch(GetDocsInfoCategoryListAsyncInfoCategoryAction());
 }
-
-// class SetInfoCodeInInfoCategorySyncInfoCategoryAction
-//     extends ReduxAction<AppState> {
-//   final InfoCodeModel infoCodeRef;
-//   final bool addOrRemove;
-//   SetInfoCodeInInfoCategorySyncInfoCategoryAction({
-//     this.infoCodeRef,
-//     this.addOrRemove,
-//   });
-//   @override
-//   AppState reduce() {
-//     InfoCategoryModel infoCategoryModel =
-//         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
-//             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-
-//     if (infoCategoryModel.infoCodeRefMap == null)
-//       infoCategoryModel.infoCodeRefMap = Map<String, InfoCodeModel>();
-//     if (addOrRemove) {
-//       if (!infoCategoryModel.infoCodeRefMap.containsKey(infoCodeRef.id)) {
-//         infoCategoryModel.infoCodeRefMap.addAll({infoCodeRef.id: infoCodeRef});
-//         print(
-//             'infoCategoryModel.infoCodeRefMap1: ${infoCategoryModel.infoCodeRefMap}');
-//         return state.copyWith(
-//           infoCategoryState: state.infoCategoryState.copyWith(
-//             infoCategoryCurrent: infoCategoryModel,
-//           ),
-//         );
-//       } else {
-//         print(
-//             'infoCategoryModel.infoCodeRefMap2: ${infoCategoryModel.infoCodeRefMap}');
-//         return null;
-//       }
-//     } else {
-//       infoCategoryModel.infoCodeRefMap.remove(infoCodeRef.id);
-//       print(
-//           'infoCategoryModel.infoCodeRefMap3: ${infoCategoryModel.infoCodeRefMap}');
-//       return state.copyWith(
-//         infoCategoryState: state.infoCategoryState.copyWith(
-//           infoCategoryCurrent: infoCategoryModel,
-//         ),
-//       );
-//     }
-//   }
-// }
