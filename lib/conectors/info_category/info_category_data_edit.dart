@@ -40,7 +40,7 @@ class ViewModel extends BaseModel<AppState> {
           dispatch(NavigateAction.pop());
         },
         onUpdate: (String name, String description) {
-          dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction(
+          dispatch(UpdateInfoCategoryDataCurrentSyncInfoCategoryAction(
             name: name,
             description: description,
           ));

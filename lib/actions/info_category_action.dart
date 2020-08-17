@@ -71,14 +71,44 @@ class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
     categoryData.name = name;
     categoryData.description = description;
     categoryData.infoCodeRefMap = Map<String, InfoCodeModel>();
-    print('${categoryData}');
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-    print('${infoCategoryModel}');
     infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
-    print('${infoCategoryModel}');
-    // return null;
+    return state.copyWith(
+      infoCategoryState: state.infoCategoryState.copyWith(
+        infoCategoryCurrent: infoCategoryModel,
+      ),
+    );
+  }
+
+  @override
+  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  @override
+  void after() =>
+      dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
+}
+
+class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  final String name;
+  final String description;
+
+  UpdateInfoCategoryDataCurrentSyncInfoCategoryAction({
+    this.name,
+    this.description,
+  });
+  @override
+  AppState reduce() {
+    print('UpdateInfoCategoryDataCurrentSyncInfoCategoryAction...');
+    CategoryData categoryData;
+    categoryData = state.infoCategoryState.infoCategoryDataCurrent;
+    categoryData.name = name;
+    categoryData.description = description;
+    InfoCategoryModel infoCategoryModel =
+        InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
+            .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+    infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
         infoCategoryCurrent: infoCategoryModel,
