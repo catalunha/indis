@@ -100,7 +100,17 @@ class InfoCodeModel extends FirestoreModel {
     for (var clone in cloneList) {
       _return = _return +
           '\n${clone.infoIndOwnerRef.name} - ${clone.code} - ${clone.name}   || ${clone.id.substring(0, 5)}';
-      // - ${clone.infoIndOwnerRef.name}
+    }
+    return _return;
+  }
+
+  String toStringInfoCodeLinkMap() {
+    String _return = '';
+    List<InfoCodeModel> linkList = linkMap?.values?.toList() ?? [];
+    linkList.sort((a, b) => a.name.compareTo(b.name));
+    for (var link in linkList) {
+      _return = _return +
+          '\n${link.infoIndOwnerRef.name} - ${link.code} - ${link.name}   || ${link.id.substring(0, 5)}';
     }
     return _return;
   }

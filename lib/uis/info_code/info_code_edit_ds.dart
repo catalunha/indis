@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indis/conectors/info_code/info_code_select_to_infocodeclone.dart';
+import 'package:indis/conectors/info_code/info_code_select_to_infocodelink.dart';
 import 'package:indis/conectors/info_ind_owner/info_ind_owner_select.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
@@ -171,6 +172,43 @@ class _InfoCodeEditDSState extends State<InfoCodeEditDS> {
                           widget.cloneMap.entries.toList()[index].value;
                       return ListTile(
                         title: Text('${clone.code} - ${clone.name}'),
+                        // trailing: IconButton(
+                        //     icon: Icon(Icons.delete),
+                        //     onPressed: () {
+                        //       widget.onSetWorkerTheGroupSyncGroupAction(
+                        //         clone,
+                        //         false,
+                        //       );
+                        //       // setState(() {});
+                        //     }),
+                      );
+                    },
+                  ),
+                )
+              : Container(),
+          ListTile(
+            title: Text(
+                'Há ${(widget.linkMap != null && widget.linkMap.isNotEmpty) ? widget.linkMap.length : null} links desta informação.'),
+            leading: Icon(Icons.search),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => InfoCodeSelectToInfoCodeLink(),
+              );
+              // .then((value) => setState(() {}));
+            },
+          ),
+          widget.linkMap != null && widget.linkMap.isNotEmpty
+              ? Container(
+                  width: double.infinity,
+                  height: 100,
+                  child: ListView.builder(
+                    itemCount: widget.linkMap.length,
+                    itemBuilder: (context, index) {
+                      InfoCodeModel link =
+                          widget.linkMap.entries.toList()[index].value;
+                      return ListTile(
+                        title: Text('${link.code} - ${link.name}'),
                         // trailing: IconButton(
                         //     icon: Icon(Icons.delete),
                         //     onPressed: () {

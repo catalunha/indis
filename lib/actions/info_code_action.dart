@@ -79,6 +79,44 @@ class SetInfoCodeInInfoCodeCloneMapSyncGroupAction
   }
 }
 
+class SetInfoCodeInInfoCodeLinkMapSyncGroupAction
+    extends ReduxAction<AppState> {
+  final InfoCodeModel infoCodeModel;
+  final bool addOrRemove;
+  SetInfoCodeInInfoCodeLinkMapSyncGroupAction({
+    this.infoCodeModel,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    InfoCodeModel _infoCodeModel =
+        InfoCodeModel(state.infoCodeState.infoCodeCurrent.id)
+            .fromMap(state.infoCodeState.infoCodeCurrent.toMap());
+
+    if (_infoCodeModel.linkMap == null)
+      _infoCodeModel.linkMap = Map<String, InfoCodeModel>();
+    if (addOrRemove) {
+      if (!_infoCodeModel.linkMap.containsKey(infoCodeModel.id)) {
+        _infoCodeModel.linkMap.addAll({infoCodeModel.id: infoCodeModel});
+        return state.copyWith(
+          infoCodeState: state.infoCodeState.copyWith(
+            infoCodeCurrent: _infoCodeModel,
+          ),
+        );
+      } else {
+        return null;
+      }
+    } else {
+      _infoCodeModel.linkMap.remove(infoCodeModel.id);
+      return state.copyWith(
+        infoCodeState: state.infoCodeState.copyWith(
+          infoCodeCurrent: _infoCodeModel,
+        ),
+      );
+    }
+  }
+}
+
 // +++ Actions Async
 class GetDocsInfoCodeListAsyncInfoCodeAction extends ReduxAction<AppState> {
   @override
