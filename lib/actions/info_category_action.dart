@@ -26,12 +26,12 @@ class SetInfoCategoryCurrentSyncInfoCategoryAction
   }
 }
 
-class SetInfoCategoryDataCurrentSyncInfoCategoryAction
+class SetInfoCategoryItemCurrentSyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final String id;
   final bool isCreateOrUpdate;
 
-  SetInfoCategoryDataCurrentSyncInfoCategoryAction(
+  SetInfoCategoryItemCurrentSyncInfoCategoryAction(
       {this.id, this.isCreateOrUpdate});
 
   @override
@@ -52,12 +52,12 @@ class SetInfoCategoryDataCurrentSyncInfoCategoryAction
   }
 }
 
-class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
+class CreateInfoCategoryItemCurrentSyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final String name;
   final String description;
 
-  CreateInfoCategoryDataCurrentSyncInfoCategoryAction({
+  CreateInfoCategoryItemCurrentSyncInfoCategoryAction({
     this.name,
     this.description,
   });
@@ -93,13 +93,13 @@ class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
       dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
 }
 
-class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
+class UpdateInfoCategoryItemCurrentSyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final String name;
   final String description;
   final bool remover;
 
-  UpdateInfoCategoryDataCurrentSyncInfoCategoryAction({
+  UpdateInfoCategoryItemCurrentSyncInfoCategoryAction({
     this.name,
     this.description,
     this.remover,
@@ -136,11 +136,11 @@ class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
       dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
 }
 
-class SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction
+class SetInfoCodeInInfoCategoryItemSyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final InfoCodeModel infoCodeRef;
   final bool addOrRemove;
-  SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction({
+  SetInfoCodeInInfoCategoryItemSyncInfoCategoryAction({
     this.infoCodeRef,
     this.addOrRemove,
   });

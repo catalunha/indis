@@ -33,14 +33,14 @@ class ViewModel extends BaseModel<AppState> {
         description:
             state.infoCategoryState.infoCategoryItemCurrent.description,
         onCreate: (String name, String description) {
-          dispatch(CreateInfoCategoryDataCurrentSyncInfoCategoryAction(
+          dispatch(CreateInfoCategoryItemCurrentSyncInfoCategoryAction(
             name: name,
             description: description,
           ));
           dispatch(NavigateAction.pop());
         },
         onUpdate: (String name, String description, bool remover) {
-          dispatch(UpdateInfoCategoryDataCurrentSyncInfoCategoryAction(
+          dispatch(UpdateInfoCategoryItemCurrentSyncInfoCategoryAction(
             name: name,
             description: description,
             remover: remover,

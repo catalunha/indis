@@ -25,17 +25,17 @@ class ViewModel extends BaseModel<AppState> {
         itemMap: state.infoCategoryState.infoCategoryCurrent?.itemMap ??
             Map<String, InfoCategoryItem>(),
         onEditInfoCategoryDataCurrent: (String id, bool isCreateOrUpdate) {
-          dispatch(SetInfoCategoryDataCurrentSyncInfoCategoryAction(
+          dispatch(SetInfoCategoryItemCurrentSyncInfoCategoryAction(
               id: id, isCreateOrUpdate: isCreateOrUpdate));
           dispatch(NavigateAction.pushNamed(Routes.infoCategoryDataEdit));
         },
         onSetInfoCategoryDataCurrent: (String id, bool isCreateOrUpdate) {
-          dispatch(SetInfoCategoryDataCurrentSyncInfoCategoryAction(
+          dispatch(SetInfoCategoryItemCurrentSyncInfoCategoryAction(
               id: id, isCreateOrUpdate: isCreateOrUpdate));
         },
         onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction:
             (InfoCodeModel infoCodeRef) {
-          dispatch(SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
+          dispatch(SetInfoCodeInInfoCategoryItemSyncInfoCategoryAction(
             infoCodeRef: infoCodeRef,
             addOrRemove: false,
           ));

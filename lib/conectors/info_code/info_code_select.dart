@@ -41,7 +41,7 @@ class ViewModel extends BaseModel<AppState> {
         categoryDataCurrent: state.infoCategoryState.infoCategoryItemCurrent,
         onSetInfoCodeInInfoCategory:
             (InfoCodeModel infoCodeRef, bool addOrRemove) {
-          dispatch(SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
+          dispatch(SetInfoCodeInInfoCategoryItemSyncInfoCategoryAction(
             infoCodeRef: infoCodeRef,
             addOrRemove: addOrRemove,
           ));
