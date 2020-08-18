@@ -28,10 +28,10 @@ class ViewModel extends BaseModel<AppState> {
   @override
   ViewModel fromStore() => ViewModel.build(
         isCreateOrUpdate:
-            state.infoCategoryState.infoCategoryDataCurrent.id == null,
-        name: state.infoCategoryState.infoCategoryDataCurrent.name,
+            state.infoCategoryState.infoCategoryItemCurrent.id == null,
+        name: state.infoCategoryState.infoCategoryItemCurrent.name,
         description:
-            state.infoCategoryState.infoCategoryDataCurrent.description,
+            state.infoCategoryState.infoCategoryItemCurrent.description,
         onCreate: (String name, String description) {
           dispatch(CreateInfoCategoryDataCurrentSyncInfoCategoryAction(
             name: name,

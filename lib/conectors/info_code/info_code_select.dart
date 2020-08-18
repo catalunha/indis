@@ -9,7 +9,7 @@ import 'package:indis/uis/info_code/info_code_select_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoCodeModel> infoCodeList;
-  CategoryData categoryDataCurrent;
+  InfoCategoryItem categoryDataCurrent;
   Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
   ViewModel();
   ViewModel.build({
@@ -23,8 +23,8 @@ class ViewModel extends BaseModel<AppState> {
   _infoCodeList() {
     List<InfoCodeModel> infoCodeList = [];
     infoCodeList.addAll(state.infoCodeState.infoCodeList);
-    for (var categoryData in state
-        .infoCategoryState.infoCategoryCurrent.categoryDataMap.entries) {
+    for (var categoryData
+        in state.infoCategoryState.infoCategoryCurrent.itemMap.entries) {
       if (categoryData.value.infoCodeRefMap != null &&
           categoryData.value.infoCodeRefMap.isNotEmpty) {
         for (var infoCodeRef in categoryData.value.infoCodeRefMap.entries) {
@@ -38,7 +38,7 @@ class ViewModel extends BaseModel<AppState> {
   @override
   ViewModel fromStore() => ViewModel.build(
         infoCodeList: _infoCodeList(),
-        categoryDataCurrent: state.infoCategoryState.infoCategoryDataCurrent,
+        categoryDataCurrent: state.infoCategoryState.infoCategoryItemCurrent,
         onSetInfoCodeInInfoCategory:
             (InfoCodeModel infoCodeRef, bool addOrRemove) {
           dispatch(SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(

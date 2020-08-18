@@ -8,23 +8,22 @@ import 'package:indis/states/app_state.dart';
 import 'package:indis/uis/info_category/info_category_tree_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
-  Map<String, CategoryData> categoryDataMap;
+  Map<String, InfoCategoryItem> itemMap;
   Function(String, bool) onEditInfoCategoryDataCurrent;
   Function(String, bool) onSetInfoCategoryDataCurrent;
   Function(InfoCodeModel) onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction;
 
   ViewModel();
   ViewModel.build({
-    @required this.categoryDataMap,
+    @required this.itemMap,
     @required this.onEditInfoCategoryDataCurrent,
     @required this.onSetInfoCategoryDataCurrent,
     @required this.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction,
-  }) : super(equals: [categoryDataMap]);
+  }) : super(equals: [itemMap]);
   @override
   ViewModel fromStore() => ViewModel.build(
-        categoryDataMap:
-            state.infoCategoryState.infoCategoryCurrent?.categoryDataMap ??
-                Map<String, CategoryData>(),
+        itemMap: state.infoCategoryState.infoCategoryCurrent?.itemMap ??
+            Map<String, InfoCategoryItem>(),
         onEditInfoCategoryDataCurrent: (String id, bool isCreateOrUpdate) {
           dispatch(SetInfoCategoryDataCurrentSyncInfoCategoryAction(
               id: id, isCreateOrUpdate: isCreateOrUpdate));
@@ -50,7 +49,7 @@ class InfoCategoryDataTree extends StatelessWidget {
     return StoreConnector<AppState, ViewModel>(
       model: ViewModel(),
       builder: (context, viewModel) => InfoCategoryDataTreeDS(
-        categoryDataMap: viewModel.categoryDataMap,
+        itemMap: viewModel.itemMap,
         onEditInfoCategoryDataCurrent: viewModel.onEditInfoCategoryDataCurrent,
         onSetInfoCategoryDataCurrent: viewModel.onSetInfoCategoryDataCurrent,
         onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction:

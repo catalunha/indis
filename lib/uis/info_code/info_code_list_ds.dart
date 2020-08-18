@@ -27,7 +27,7 @@ class InfoCodeListDS extends StatelessWidget {
               selected: infoCode.arquived ?? false,
               title: Text('${infoCode.code}'),
               subtitle: Text(
-                  '${infoCode.name}\n${infoCode.description}\n${infoCode.unit}'),
+                  '${infoCode.name}\n${infoCode.description}\n${infoCode.unit}\n${infoCode.infoIndOwnerRef.name}'),
               onTap: () {
                 onEditInfoCodeCurrent(infoCode.id);
               },

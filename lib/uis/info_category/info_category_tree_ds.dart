@@ -5,7 +5,7 @@ import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 
 class InfoCategoryDataTreeDS extends StatefulWidget {
-  final Map<String, CategoryData> categoryDataMap;
+  final Map<String, InfoCategoryItem> itemMap;
   final Function(String, bool) onEditInfoCategoryDataCurrent;
   final Function(String, bool) onSetInfoCategoryDataCurrent;
   final Function(InfoCodeModel)
@@ -13,7 +13,7 @@ class InfoCategoryDataTreeDS extends StatefulWidget {
 
   const InfoCategoryDataTreeDS({
     Key key,
-    this.categoryDataMap,
+    this.itemMap,
     this.onEditInfoCategoryDataCurrent,
     this.onSetInfoCategoryDataCurrent,
     this.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction,
@@ -30,7 +30,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Árvore de categorias'),
+        title: Text('Árvore de categorias das informações'),
       ),
       body: Container(
         width: double.infinity,
@@ -48,7 +48,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
     );
   }
 
-  Widget categoryDataContent(CategoryData categoryData) {
+  Widget categoryDataContent(InfoCategoryItem categoryData) {
     return Row(
       children: [
         Text(categoryData.name),
@@ -94,7 +94,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
   }
 
   Widget infoCodeContent(
-      InfoCodeModel infoCodeModel, CategoryData categoryData) {
+      InfoCodeModel infoCodeModel, InfoCategoryItem categoryData) {
     return Row(
       children: [
         Text(infoCodeModel.name),
@@ -138,8 +138,8 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
     );
   }
 
-  TreeNode _treeNode(CategoryData categoryData) {
-    Iterable<CategoryData> categoryDataParent = widget.categoryDataMap.values
+  TreeNode _treeNode(InfoCategoryItem categoryData) {
+    Iterable<InfoCategoryItem> categoryDataParent = widget.itemMap.values
         .where((element) => element.idParente == categoryData.id);
     if (categoryDataParent.isNotEmpty) {
       TreeNode treeNode =
@@ -165,9 +165,8 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
 
   Widget buildTree() {
     List<TreeNode> _nodes = [];
-    Iterable<CategoryData> categoryDataidParentNull = widget
-        .categoryDataMap.values
-        .where((element) => element.idParente == null);
+    Iterable<InfoCategoryItem> categoryDataidParentNull =
+        widget.itemMap.values.where((element) => element.idParente == null);
     for (var categoryDataKV in categoryDataidParentNull) {
       _nodes.add(_treeNode(categoryDataKV));
     }
@@ -180,7 +179,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
 /*
 codigo correto do treeView
  TreeNode _treeNode(CategoryData categoryData) {
-    Iterable<CategoryData> categoryDataParent = widget.categoryDataMap.values
+    Iterable<CategoryData> categoryDataParent = widget.itemMap.values
         .where((element) => element.idParente == categoryData.id);
     print('${categoryData.name} Parent:${categoryDataParent.length}');
     if (categoryDataParent.isNotEmpty) {
@@ -212,7 +211,7 @@ codigo correto do treeView
   Widget buildTree() {
     List<TreeNode> _nodes = [];
     Iterable<CategoryData> categoryDataidParentNull = widget
-        .categoryDataMap.values
+        .itemMap.values
         .where((element) => element.idParente == null);
     for (var categoryDataKV in categoryDataidParentNull) {
       _nodes.add(_treeNode(categoryDataKV));
@@ -233,7 +232,7 @@ codigo correto do treeView
 
     Iterable<CategoryData> _categoryDataParent;
     if (categoryData != null) {
-      _categoryDataParent = widget.categoryDataMap.values
+      _categoryDataParent = widget.itemMap.values
           .where((element) => element.idParente == categoryData.id);
     }
     print('_categoryDataParent:>>>> ${_categoryDataParent.length}');
@@ -263,7 +262,7 @@ codigo correto do treeView
 */
   //+++ metodo 1
 /*
-    CategoryData _categoryDataParent = widget.categoryDataMap.values.firstWhere(
+    CategoryData _categoryDataParent = widget.itemMap.values.firstWhere(
         (element) => element.idParente == categoryData.id,
         orElse: () => null);
     if (_categoryDataParent != null) {
@@ -275,7 +274,7 @@ codigo correto do treeView
       return [
         TreeNode(content: Text(categoryData.name), children: [
           ...recursiveNodes(
-              _nodes, widget.categoryDataMap[_categoryDataParent.id]),
+              _nodes, widget.itemMap[_categoryDataParent.id]),
           ..._itensTree,
         ])
       ];
@@ -296,13 +295,13 @@ codigo correto do treeView
 /*
   Widget buildTree() {
     List<TreeNode> _nodes = [];
-    List<String> keysMap = widget.categoryDataMap.keys.toList();
+    List<String> keysMap = widget.itemMap.keys.toList();
 
-    _nodes = recursiveNodes(_nodes, widget.categoryDataMap[keysMap.first]);
+    _nodes = recursiveNodes(_nodes, widget.itemMap[keysMap.first]);
     // }
-    // widget.categoryDataMap.forEach((key, value) {
+    // widget.itemMap.forEach((key, value) {
     //   List<TreeNode> _itensTree = [];
-    //   CategoryData categoryData = widget.categoryDataMap.values
+    //   CategoryData categoryData = widget.itemMap.values
     //       .firstWhere((element) => element.idParente == key);
     //   //   value.infoCodeRefMap.forEach((key, value) {
     //   //     _itensTree.add(TreeNode(content: Text(value.name)));

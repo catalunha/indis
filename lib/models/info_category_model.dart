@@ -9,12 +9,12 @@ class InfoCategoryModel extends FirestoreModel {
   UserModel userRef;
   String name;
   String description;
-  Map<String, CategoryData> categoryDataMap;
+  Map<String, InfoCategoryItem> itemMap;
   InfoCategoryModel(
     String id, {
     this.userRef,
     this.name,
-    this.categoryDataMap,
+    this.itemMap,
   }) : super(id);
 
   @override
@@ -25,10 +25,10 @@ class InfoCategoryModel extends FirestoreModel {
       userRef = map.containsKey('userRef') && map['userRef'] != null
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
-      if (map["categoryDataMap"] is Map) {
-        categoryDataMap = Map<String, CategoryData>();
-        map["categoryDataMap"].forEach((k, v) {
-          categoryDataMap[k] = CategoryData(k).fromMap(v);
+      if (map["itemMap"] is Map) {
+        itemMap = Map<String, InfoCategoryItem>();
+        map["itemMap"].forEach((k, v) {
+          itemMap[k] = InfoCategoryItem(k).fromMap(v);
         });
       }
     }
@@ -44,12 +44,12 @@ class InfoCategoryModel extends FirestoreModel {
       data['userRef'] = this.userRef.toMapRef();
     }
 
-    if (categoryDataMap != null) {
+    if (itemMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      categoryDataMap.forEach((k, v) {
+      itemMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['categoryDataMap'] = dataFromField;
+      data['itemMap'] = dataFromField;
     }
     return data;
   }
@@ -62,14 +62,14 @@ class InfoCategoryModel extends FirestoreModel {
   }
 }
 
-class CategoryData {
+class InfoCategoryItem {
   String id;
   String name;
   String description;
   String idParente;
   Map<String, InfoCodeModel> infoCodeRefMap;
 
-  CategoryData(
+  InfoCategoryItem(
     this.id, {
     this.name,
     this.description,
@@ -77,7 +77,7 @@ class CategoryData {
     this.infoCodeRefMap,
   });
 
-  CategoryData fromMap(Map<String, dynamic> map) {
+  InfoCategoryItem fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('name')) this.name = map['name'];
       if (map.containsKey('description')) this.description = map['description'];
@@ -112,7 +112,7 @@ class CategoryData {
   }
 }
 
-// Map<String, dynamic> _categoryDataMap = Map<String, dynamic>();
+// Map<String, dynamic> _itemMap = Map<String, dynamic>();
 /*
     //a=null
     CategoryData _categoryData_a = CategoryData(uuid.Uuid().v4());
@@ -123,7 +123,7 @@ class CategoryData {
     String _uuidCode = uuid.Uuid().v4();
     _categoryData_a.infoCodeRefMap[_uuidCode] = InfoCodeModel('a1')
         .fromMap({'id': _uuidCode, 'code': 'a1', 'name': 'a1...'});
-    _categoryDataMap[_categoryData_a.id] = _categoryData_a;
+    _itemMap[_categoryData_a.id] = _categoryData_a;
     //b=a
     CategoryData _categoryData_b = CategoryData(uuid.Uuid().v4());
     _categoryData_b.name = 'b';
@@ -133,7 +133,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_b.infoCodeRefMap[_uuidCode] = InfoCodeModel('b1')
         .fromMap({'id': _uuidCode, 'code': 'b1', 'name': 'b1...'});
-    _categoryDataMap[_categoryData_b.id] = _categoryData_b;
+    _itemMap[_categoryData_b.id] = _categoryData_b;
     //c=a
     CategoryData _categoryData_c = CategoryData(uuid.Uuid().v4());
     _categoryData_c.name = 'c';
@@ -143,7 +143,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_c.infoCodeRefMap[_uuidCode] = InfoCodeModel('c1')
         .fromMap({'id': _uuidCode, 'code': 'c1', 'name': 'c1...'});
-    _categoryDataMap[_categoryData_c.id] = _categoryData_c;
+    _itemMap[_categoryData_c.id] = _categoryData_c;
     //d=c
     CategoryData _categoryData_d = CategoryData(uuid.Uuid().v4());
     _categoryData_d.name = 'd';
@@ -153,7 +153,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_d.infoCodeRefMap[_uuidCode] = InfoCodeModel('d1')
         .fromMap({'id': _uuidCode, 'code': 'd1', 'name': 'd1...'});
-    _categoryDataMap[_categoryData_d.id] = _categoryData_d;
+    _itemMap[_categoryData_d.id] = _categoryData_d;
     //e=null
     CategoryData _categoryData_e = CategoryData(uuid.Uuid().v4());
     _categoryData_e.name = 'e';
@@ -163,7 +163,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_e.infoCodeRefMap[_uuidCode] = InfoCodeModel('e1')
         .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
-    _categoryDataMap[_categoryData_e.id] = _categoryData_e;
+    _itemMap[_categoryData_e.id] = _categoryData_e;
 */
 /*
     //a=null
@@ -175,7 +175,7 @@ class CategoryData {
     String _uuidCode = uuid.Uuid().v4();
     _categoryData_a.infoCodeRefMap[_uuidCode] = InfoCodeModel('a1')
         .fromMap({'id': _uuidCode, 'code': 'a1', 'name': 'a1...'});
-    _categoryDataMap[_categoryData_a.id] = _categoryData_a;
+    _itemMap[_categoryData_a.id] = _categoryData_a;
     //b=a
     CategoryData _categoryData_b = CategoryData(uuid.Uuid().v4());
     _categoryData_b.name = 'b';
@@ -185,7 +185,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_b.infoCodeRefMap[_uuidCode] = InfoCodeModel('b1')
         .fromMap({'id': _uuidCode, 'code': 'b1', 'name': 'b1...'});
-    _categoryDataMap[_categoryData_b.id] = _categoryData_b;
+    _itemMap[_categoryData_b.id] = _categoryData_b;
     //c=a
     CategoryData _categoryData_c = CategoryData(uuid.Uuid().v4());
     _categoryData_c.name = 'c';
@@ -195,7 +195,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_c.infoCodeRefMap[_uuidCode] = InfoCodeModel('c1')
         .fromMap({'id': _uuidCode, 'code': 'c1', 'name': 'c1...'});
-    _categoryDataMap[_categoryData_c.id] = _categoryData_c;
+    _itemMap[_categoryData_c.id] = _categoryData_c;
     //d=c
     CategoryData _categoryData_d = CategoryData(uuid.Uuid().v4());
     _categoryData_d.name = 'd';
@@ -205,7 +205,7 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_d.infoCodeRefMap[_uuidCode] = InfoCodeModel('d1')
         .fromMap({'id': _uuidCode, 'code': 'd1', 'name': 'd1...'});
-    _categoryDataMap[_categoryData_d.id] = _categoryData_d;
+    _itemMap[_categoryData_d.id] = _categoryData_d;
     //e=null
     CategoryData _categoryData_e = CategoryData(uuid.Uuid().v4());
     _categoryData_e.name = 'e';
@@ -215,5 +215,5 @@ class CategoryData {
     _uuidCode = uuid.Uuid().v4();
     _categoryData_e.infoCodeRefMap[_uuidCode] = InfoCodeModel('e1')
         .fromMap({'id': _uuidCode, 'code': 'e1', 'name': 'e1...'});
-    _categoryDataMap[_categoryData_e.id] = _categoryData_e;
+    _itemMap[_categoryData_e.id] = _categoryData_e;
 */

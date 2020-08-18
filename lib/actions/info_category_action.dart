@@ -36,18 +36,17 @@ class SetInfoCategoryDataCurrentSyncInfoCategoryAction
 
   @override
   AppState reduce() {
-    CategoryData categoryData;
+    InfoCategoryItem categoryData;
     if (isCreateOrUpdate) {
-      categoryData = CategoryData(null);
+      categoryData = InfoCategoryItem(null);
       categoryData.idParente = id;
     } else {
-      categoryData =
-          state.infoCategoryState.infoCategoryCurrent.categoryDataMap[id];
+      categoryData = state.infoCategoryState.infoCategoryCurrent.itemMap[id];
     }
 
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
-        infoCategoryDataCurrent: categoryData,
+        infoCategoryItemCurrent: categoryData,
       ),
     );
   }
@@ -65,8 +64,8 @@ class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
   @override
   AppState reduce() {
     print('CreateInfoCategoryDataCurrentSyncInfoCategoryAction...');
-    CategoryData categoryData;
-    categoryData = state.infoCategoryState.infoCategoryDataCurrent;
+    InfoCategoryItem categoryData;
+    categoryData = state.infoCategoryState.infoCategoryItemCurrent;
     categoryData.id = uuid.Uuid().v4();
     categoryData.name = name;
     categoryData.description = description;
@@ -74,11 +73,11 @@ class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-    if (infoCategoryModel.categoryDataMap == null) {
-      infoCategoryModel.categoryDataMap = Map<String, CategoryData>();
+    if (infoCategoryModel.itemMap == null) {
+      infoCategoryModel.itemMap = Map<String, InfoCategoryItem>();
     }
 
-    infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
+    infoCategoryModel.itemMap[categoryData.id] = categoryData;
 
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
@@ -108,20 +107,20 @@ class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
   @override
   AppState reduce() {
     print('UpdateInfoCategoryDataCurrentSyncInfoCategoryAction...');
-    CategoryData categoryData;
-    categoryData = state.infoCategoryState.infoCategoryDataCurrent;
+    InfoCategoryItem categoryData;
+    categoryData = state.infoCategoryState.infoCategoryItemCurrent;
 
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
     if (remover) {
-      infoCategoryModel.categoryDataMap
+      infoCategoryModel.itemMap
           .removeWhere((k, v) => v.idParente == categoryData.id);
-      infoCategoryModel.categoryDataMap.remove(categoryData.id);
+      infoCategoryModel.itemMap.remove(categoryData.id);
     } else {
       categoryData.name = name;
       categoryData.description = description;
-      infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
+      infoCategoryModel.itemMap[categoryData.id] = categoryData;
     }
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
@@ -147,8 +146,8 @@ class SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction
   });
   @override
   AppState reduce() {
-    CategoryData categoryData;
-    categoryData = state.infoCategoryState.infoCategoryDataCurrent;
+    InfoCategoryItem categoryData;
+    categoryData = state.infoCategoryState.infoCategoryItemCurrent;
     if (categoryData.infoCodeRefMap == null)
       categoryData.infoCodeRefMap = Map<String, InfoCodeModel>();
     if (addOrRemove) {
@@ -161,7 +160,7 @@ class SetInfoCodeInInfoCategoryDataSyncInfoCategoryAction
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-    infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
+    infoCategoryModel.itemMap[categoryData.id] = categoryData;
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
         infoCategoryCurrent: infoCategoryModel,

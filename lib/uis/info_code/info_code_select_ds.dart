@@ -4,7 +4,7 @@ import 'package:indis/models/info_code_model.dart';
 
 class InfoCodeSelectDS extends StatefulWidget {
   final List<InfoCodeModel> infoCodeList;
-  final CategoryData categoryDataCurrent;
+  final InfoCategoryItem categoryDataCurrent;
   final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
 
   const InfoCodeSelectDS({
