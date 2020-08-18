@@ -30,14 +30,20 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            'Árvore de categorias ${widget.categoryDataMap?.length ?? null}'),
+        title: Text('Árvore de categorias'),
       ),
       body: Container(
         width: double.infinity,
         child: SingleChildScrollView(
           child: buildTree(),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        tooltip: 'Acrescentar categoria',
+        onPressed: () {
+          widget.onEditInfoCategoryDataCurrent(null, true);
+        },
       ),
     );
   }
@@ -46,8 +52,11 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
     return Row(
       children: [
         Text(categoryData.name),
+        SizedBox(
+          height: 5,
+        ),
         IconButton(
-          tooltip: 'editar informação',
+          tooltip: 'Editar esta categoria',
           icon: Icon(
             Icons.edit,
             size: 15,
@@ -57,9 +66,9 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
           },
         ),
         IconButton(
-          tooltip: 'Acrescentar categoria',
+          tooltip: 'Acrescentar subcategoria',
           icon: Icon(
-            Icons.line_style,
+            Icons.add,
             size: 15,
           ),
           onPressed: () {
@@ -69,7 +78,7 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
         IconButton(
           tooltip: 'Acrescentar informação',
           icon: Icon(
-            Icons.view_carousel,
+            Icons.add_comment,
             size: 15,
           ),
           onPressed: () {
@@ -90,26 +99,41 @@ class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
       children: [
         Text(infoCodeModel.name),
         IconButton(
-          tooltip: 'editar informação',
+          tooltip: 'Editar informação',
           icon: Icon(
-            Icons.edit,
+            Icons.assignment,
             size: 15,
           ),
           onPressed: () {},
         ),
-        IconButton(
-          tooltip: 'remover informação',
-          icon: Icon(
-            Icons.delete,
-            size: 15,
+        InkWell(
+          child: Tooltip(
+            message: 'Remover esta informação',
+            child: Icon(
+              Icons.delete,
+              size: 15,
+            ),
           ),
-          onPressed: () {
+          onDoubleTap: () {
             widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
-
             widget.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
                 infoCodeModel);
           },
-        ),
+        )
+        // IconButton(
+        //   tooltip: 'remover informação',
+        //   icon: Icon(
+        //     Icons.delete,
+        //     size: 15,
+        //   ),
+
+        //   onPressed: () {
+        //     widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
+
+        //     widget.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
+        //         infoCodeModel);
+        //   },
+        // ),
       ],
     );
   }

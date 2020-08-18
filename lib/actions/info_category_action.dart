@@ -74,7 +74,12 @@ class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+    if (infoCategoryModel.categoryDataMap == null) {
+      infoCategoryModel.categoryDataMap = Map<String, CategoryData>();
+    }
+
     infoCategoryModel.categoryDataMap[categoryData.id] = categoryData;
+
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
         infoCategoryCurrent: infoCategoryModel,
@@ -83,7 +88,7 @@ class CreateInfoCategoryDataCurrentSyncInfoCategoryAction
   }
 
   @override
-  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  Object wrapError(error) => UserException("ATENÇÃO1:", cause: error);
   @override
   void after() =>
       dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
@@ -126,7 +131,7 @@ class UpdateInfoCategoryDataCurrentSyncInfoCategoryAction
   }
 
   @override
-  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  Object wrapError(error) => UserException("ATENÇÃO2:", cause: error);
   @override
   void after() =>
       dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
@@ -231,7 +236,7 @@ class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
   }
 
   @override
-  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  Object wrapError(error) => UserException("ATENÇÃO3:", cause: error);
   @override
   void after() => dispatch(GetDocsInfoCategoryListAsyncInfoCategoryAction());
 }

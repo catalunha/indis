@@ -17,7 +17,8 @@ class InfoCategoryListDS extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista com ${infoCategoryList.length} categorias'),
+        title: Text(
+            'Minhas informações por categoria (${infoCategoryList.length})'),
       ),
       body: ListView.builder(
         itemCount: infoCategoryList.length,

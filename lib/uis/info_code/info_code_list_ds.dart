@@ -15,7 +15,8 @@ class InfoCodeListDS extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista com ${infoCodeList.length} informações'),
+        title:
+            Text('Lista de informações cadastradas (${infoCodeList.length})'),
       ),
       body: ListView.builder(
         itemCount: infoCodeList.length,

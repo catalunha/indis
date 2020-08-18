@@ -23,7 +23,8 @@ class ViewModel extends BaseModel<AppState> {
   @override
   ViewModel fromStore() => ViewModel.build(
         categoryDataMap:
-            state.infoCategoryState.infoCategoryCurrent.categoryDataMap,
+            state.infoCategoryState.infoCategoryCurrent?.categoryDataMap ??
+                Map<String, CategoryData>(),
         onEditInfoCategoryDataCurrent: (String id, bool isCreateOrUpdate) {
           dispatch(SetInfoCategoryDataCurrentSyncInfoCategoryAction(
               id: id, isCreateOrUpdate: isCreateOrUpdate));

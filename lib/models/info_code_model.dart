@@ -8,7 +8,7 @@ class InfoCodeModel extends FirestoreModel {
   String name;
   String description;
   String unit;
-  bool isNumber;
+  // bool isNumber;
   InfoIndOwnerModel infoIndOwnerRef;
   Map<String, InfoCodeModel> cloneInfoCodeRefMap;
   Map<String, InfoCodeModel> linkInfoCodeRefMap;
@@ -23,7 +23,7 @@ class InfoCodeModel extends FirestoreModel {
     this.name,
     this.description,
     this.unit,
-    this.isNumber,
+    // this.isNumber,
     this.arquived,
   }) : super(id);
 
@@ -34,7 +34,7 @@ class InfoCodeModel extends FirestoreModel {
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
       if (map.containsKey('unit')) unit = map['unit'];
-      if (map.containsKey('isNumber')) isNumber = map['isNumber'];
+      // if (map.containsKey('isNumber')) isNumber = map['isNumber'];
       if (map.containsKey('arquived')) arquived = map['arquived'];
       infoIndOwnerRef =
           map.containsKey('infoIndOwnerRef') && map['infoIndOwnerRef'] != null
@@ -64,7 +64,7 @@ class InfoCodeModel extends FirestoreModel {
     if (name != null) data['name'] = this.name;
     if (description != null) data['description'] = this.description;
     if (unit != null) data['unit'] = this.unit;
-    if (isNumber != null) data['isNumber'] = this.isNumber;
+    // if (isNumber != null) data['isNumber'] = this.isNumber;
     if (this.infoIndOwnerRef != null) {
       data['infoIndOwnerRef'] = this.infoIndOwnerRef.toMapRef();
     }

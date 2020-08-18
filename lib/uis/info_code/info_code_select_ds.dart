@@ -22,8 +22,8 @@ class _InfoCodeSelectDSState extends State<InfoCodeSelectDS> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: 500.0,
-        width: 400.0,
+        height: 700.0,
+        width: 800.0,
         child: ListView.builder(
           itemCount: widget.infoCodeList.length,
           itemBuilder: (context, index) {

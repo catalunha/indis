@@ -15,7 +15,8 @@ class InfoIndOwnerListDS extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista com ${infoIndOwnerList.length} informações'),
+        title: Text(
+            'Lista de proprietários de informações e indicadores (${infoIndOwnerList.length})'),
       ),
       body: ListView.builder(
         itemCount: infoIndOwnerList.length,

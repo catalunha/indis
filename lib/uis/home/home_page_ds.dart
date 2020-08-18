@@ -39,7 +39,7 @@ class HomePageDS extends StatelessWidget {
             leading: Icon(
               Icons.format_textdirection_r_to_l,
             ),
-            title: Text('Proprietário de info/ind'),
+            title: Text('Proprietários de informações e indicadores'),
             onTap: () => Navigator.pushNamed(context, Routes.infoIndOwnerList),
           ),
           // ListTile(
@@ -52,18 +52,19 @@ class HomePageDS extends StatelessWidget {
           // ),
           ListTile(
             leading: Icon(
-              Icons.line_style,
+              Icons.view_carousel,
             ),
-            title: Text('Categoria de info'),
-            onTap: () => Navigator.pushNamed(context, Routes.infoCategoryList),
+            title: Text('Informações'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoCodeList),
           ),
           ListTile(
             leading: Icon(
-              Icons.view_carousel,
+              Icons.line_style,
             ),
-            title: Text('Informação'),
-            onTap: () => Navigator.pushNamed(context, Routes.infoCodeList),
+            title: Text('Minhas organização das informações'),
+            onTap: () => Navigator.pushNamed(context, Routes.infoCategoryList),
           ),
+
           ListTile(
             leading: Icon(
               Icons.location_on,
