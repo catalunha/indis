@@ -1,6 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/info_code_model.dart';
+import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
 
 // +++ Actions Sync
@@ -15,6 +16,23 @@ class SetInfoCodeCurrentSyncInfoCodeAction extends ReduxAction<AppState> {
         ? InfoCodeModel(null)
         : state.infoCodeState.infoCodeList
             .firstWhere((element) => element.id == id);
+    return state.copyWith(
+      infoCodeState: state.infoCodeState.copyWith(
+        infoCodeCurrent: infoCodeModel,
+      ),
+    );
+  }
+}
+
+class SetInfoIndOwnerInInfoCodeSyncGroupAction extends ReduxAction<AppState> {
+  final InfoIndOwnerModel infoIndOwnerModel;
+  SetInfoIndOwnerInInfoCodeSyncGroupAction({this.infoIndOwnerModel});
+  @override
+  AppState reduce() {
+    InfoCodeModel infoCodeModel =
+        InfoCodeModel(state.infoCodeState.infoCodeCurrent.id)
+            .fromMap(state.infoCodeState.infoCodeCurrent.toMap());
+    infoCodeModel.infoIndOwnerRef = infoIndOwnerModel;
     return state.copyWith(
       infoCodeState: state.infoCodeState.copyWith(
         infoCodeCurrent: infoCodeModel,

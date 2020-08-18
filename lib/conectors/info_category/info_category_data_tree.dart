@@ -44,12 +44,12 @@ class ViewModel extends BaseModel<AppState> {
       );
 }
 
-class InfoCategoryTree extends StatelessWidget {
+class InfoCategoryDataTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
       model: ViewModel(),
-      builder: (context, viewModel) => InfoCategoryTreeDS(
+      builder: (context, viewModel) => InfoCategoryDataTreeDS(
         categoryDataMap: viewModel.categoryDataMap,
         onEditInfoCategoryDataCurrent: viewModel.onEditInfoCategoryDataCurrent,
         onSetInfoCategoryDataCurrent: viewModel.onSetInfoCategoryDataCurrent,

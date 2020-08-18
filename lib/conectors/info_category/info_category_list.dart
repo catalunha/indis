@@ -27,7 +27,7 @@ class ViewModel extends BaseModel<AppState> {
         },
         onTreeInfoCategoryCurrent: (String id) {
           dispatch(SetInfoCategoryCurrentSyncInfoCategoryAction(id));
-          dispatch(NavigateAction.pushNamed(Routes.infoCategoryTree));
+          dispatch(NavigateAction.pushNamed(Routes.infoCategoryDataTree));
         },
       );
 }

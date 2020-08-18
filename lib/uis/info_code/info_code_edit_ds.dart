@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:indis/conectors/info_ind_owner/info_ind_owner_select.dart';
+import 'package:indis/models/info_ind_owner_model.dart';
 
 class InfoCodeEditDS extends StatefulWidget {
   final String code;
   final String description;
   final String name;
   final String unit;
+  final InfoIndOwnerModel infoIndOwnerRef;
+
   final bool arquived;
   final bool isCreateOrUpdate;
   final Function(String, String, String, String) onCreate;
@@ -13,13 +17,14 @@ class InfoCodeEditDS extends StatefulWidget {
   const InfoCodeEditDS({
     Key key,
     this.code,
+    this.name,
+    this.unit,
+    this.infoIndOwnerRef,
     this.description,
     this.arquived,
     this.isCreateOrUpdate,
     this.onCreate,
     this.onUpdate,
-    this.name,
-    this.unit,
   }) : super(key: key);
   @override
   _InfoCodeEditDSState createState() => _InfoCodeEditDSState();
@@ -124,6 +129,17 @@ class _InfoCodeEditDSState extends State<InfoCodeEditDS> {
                 return 'Informe o que se pede.';
               }
               return null;
+            },
+          ),
+          ListTile(
+            title: Text('${widget.infoIndOwnerRef?.name}'),
+            subtitle: Text('Qual o proprietário desta informação.'),
+            trailing: Icon(Icons.search),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => InfoindOwnerSelect(),
+              );
             },
           ),
           widget.isCreateOrUpdate

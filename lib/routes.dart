@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:indis/conectors/info_category/info_category_data_edit.dart';
 import 'package:indis/conectors/info_category/info_category_edit.dart';
 import 'package:indis/conectors/info_category/info_category_list.dart';
-import 'package:indis/conectors/info_category/info_category_tree.dart';
+import 'package:indis/conectors/info_category/info_category_data_tree.dart';
 import 'package:indis/conectors/info_code/info_code_edit.dart';
 import 'package:indis/conectors/info_code/info_code_list.dart';
 import 'package:indis/conectors/info_data/info_data_edit.dart';
@@ -25,7 +25,7 @@ class Routes {
   static final infoIndOwnerEdit = '/infoIndOwnerEdit';
   static final infoCategoryList = '/infoCategoryList';
   static final infoCategoryEdit = '/infoCategoryEdit';
-  static final infoCategoryTree = '/infoCategoryTree';
+  static final infoCategoryDataTree = '/infoCategoryDataTree';
   static final infoCategoryDataEdit = '/infoCategoryDataEdit';
   static final infoCodeList = '/infoCodeList';
   static final infoCodeEdit = '/infoCodeEdit';
@@ -42,7 +42,7 @@ class Routes {
     infoIndOwnerEdit: (BuildContext context) => InfoIndOwnerEdit(),
     infoCategoryList: (BuildContext context) => InfoCategoryList(),
     infoCategoryEdit: (BuildContext context) => InfoCategoryEdit(),
-    infoCategoryTree: (BuildContext context) => InfoCategoryTree(),
+    infoCategoryDataTree: (BuildContext context) => InfoCategoryDataTree(),
     infoCategoryDataEdit: (BuildContext context) => InfoCategoryDataEdit(),
     infoCodeList: (BuildContext context) => InfoCodeList(),
     infoCodeEdit: (BuildContext context) => InfoCodeEdit(),

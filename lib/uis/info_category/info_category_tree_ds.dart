@@ -4,14 +4,14 @@ import 'package:indis/conectors/info_code/info_code_select.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 
-class InfoCategoryTreeDS extends StatefulWidget {
+class InfoCategoryDataTreeDS extends StatefulWidget {
   final Map<String, CategoryData> categoryDataMap;
   final Function(String, bool) onEditInfoCategoryDataCurrent;
   final Function(String, bool) onSetInfoCategoryDataCurrent;
   final Function(InfoCodeModel)
       onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction;
 
-  const InfoCategoryTreeDS({
+  const InfoCategoryDataTreeDS({
     Key key,
     this.categoryDataMap,
     this.onEditInfoCategoryDataCurrent,
@@ -20,10 +20,10 @@ class InfoCategoryTreeDS extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _InfoCategoryTreeDSState createState() => _InfoCategoryTreeDSState();
+  _InfoCategoryDataTreeDSState createState() => _InfoCategoryDataTreeDSState();
 }
 
-class _InfoCategoryTreeDSState extends State<InfoCategoryTreeDS> {
+class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
   final TreeController _controller = TreeController(allNodesExpanded: true);
 
   @override
