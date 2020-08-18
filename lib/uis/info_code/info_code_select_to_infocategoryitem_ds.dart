@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 
-class InfoCodeSelectDS extends StatefulWidget {
+class InfoCodeSelectToInfoCategoryItemDS extends StatefulWidget {
   final List<InfoCodeModel> infoCodeList;
   final InfoCategoryItem categoryDataCurrent;
   final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
 
-  const InfoCodeSelectDS({
+  const InfoCodeSelectToInfoCategoryItemDS({
     Key key,
     this.onSetInfoCodeInInfoCategory,
     this.infoCodeList,
     this.categoryDataCurrent,
   }) : super(key: key);
   @override
-  _InfoCodeSelectDSState createState() => _InfoCodeSelectDSState();
+  _InfoCodeSelectToInfoCategoryItemDSState createState() =>
+      _InfoCodeSelectToInfoCategoryItemDSState();
 }
 
-class _InfoCodeSelectDSState extends State<InfoCodeSelectDS> {
+class _InfoCodeSelectToInfoCategoryItemDSState
+    extends State<InfoCodeSelectToInfoCategoryItemDS> {
   @override
   Widget build(BuildContext context) {
     return Dialog(

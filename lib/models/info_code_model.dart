@@ -10,16 +10,16 @@ class InfoCodeModel extends FirestoreModel {
   String unit;
   // bool isNumber;
   InfoIndOwnerModel infoIndOwnerRef;
-  Map<String, InfoCodeModel> cloneInfoCodeRefMap;
-  Map<String, InfoCodeModel> linkInfoCodeRefMap;
+  Map<String, InfoCodeModel> cloneMap;
+  Map<String, InfoCodeModel> linkMap;
   bool arquived;
 
   InfoCodeModel(
     String id, {
     this.infoIndOwnerRef,
     this.code,
-    this.cloneInfoCodeRefMap,
-    this.linkInfoCodeRefMap,
+    this.cloneMap,
+    this.linkMap,
     this.name,
     this.description,
     this.unit,
@@ -41,16 +41,16 @@ class InfoCodeModel extends FirestoreModel {
               ? InfoIndOwnerModel(map['infoIndOwnerRef']['id'])
                   .fromMap(map['infoIndOwnerRef'])
               : null;
-      if (map["cloneInfoCodeRefMap"] is Map) {
-        cloneInfoCodeRefMap = Map<String, InfoCodeModel>();
-        map["cloneInfoCodeRefMap"].forEach((k, v) {
-          cloneInfoCodeRefMap[k] = InfoCodeModel(k).fromMap(v);
+      if (map["cloneMap"] is Map) {
+        cloneMap = Map<String, InfoCodeModel>();
+        map["cloneMap"].forEach((k, v) {
+          cloneMap[k] = InfoCodeModel(k).fromMap(v);
         });
       }
-      if (map["linkInfoCodeRefMap"] is Map) {
-        linkInfoCodeRefMap = Map<String, InfoCodeModel>();
-        map["linkInfoCodeRefMap"].forEach((k, v) {
-          linkInfoCodeRefMap[k] = InfoCodeModel(k).fromMap(v);
+      if (map["linkMap"] is Map) {
+        linkMap = Map<String, InfoCodeModel>();
+        map["linkMap"].forEach((k, v) {
+          linkMap[k] = InfoCodeModel(k).fromMap(v);
         });
       }
     }
@@ -68,19 +68,19 @@ class InfoCodeModel extends FirestoreModel {
     if (this.infoIndOwnerRef != null) {
       data['infoIndOwnerRef'] = this.infoIndOwnerRef.toMapRef();
     }
-    if (cloneInfoCodeRefMap != null) {
+    if (cloneMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.cloneInfoCodeRefMap.forEach((k, v) {
-        dataFromField[k] = v.toMapRef();
+      this.cloneMap.forEach((k, v) {
+        dataFromField[k] = v.toMap();
       });
-      data['cloneInfoCodeRefMap'] = dataFromField;
+      data['cloneMap'] = dataFromField;
     }
-    if (linkInfoCodeRefMap != null) {
+    if (linkMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.linkInfoCodeRefMap.forEach((k, v) {
-        dataFromField[k] = v.toMapRef();
+      this.linkMap.forEach((k, v) {
+        dataFromField[k] = v.toMap();
       });
-      data['linkInfoCodeRefMap'] = dataFromField;
+      data['linkMap'] = dataFromField;
     }
     return data;
   }
@@ -91,5 +91,17 @@ class InfoCodeModel extends FirestoreModel {
     if (name != null) data['name'] = this.name;
     data.addAll({'id': this.id});
     return data;
+  }
+
+  String toStringInfoCodeCloneMap() {
+    String _return = '';
+    List<InfoCodeModel> cloneList = cloneMap?.values?.toList() ?? [];
+    cloneList.sort((a, b) => a.name.compareTo(b.name));
+    for (var clone in cloneList) {
+      _return = _return +
+          '\n${clone.infoIndOwnerRef.name} - ${clone.code} - ${clone.name}   || ${clone.id.substring(0, 5)}';
+      // - ${clone.infoIndOwnerRef.name}
+    }
+    return _return;
   }
 }

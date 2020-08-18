@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
-import 'package:indis/conectors/info_code/info_code_select.dart';
+import 'package:indis/conectors/info_code/info_code_select_to_infocategoryitem.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 
@@ -30,7 +30,8 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Árvore de categorias das informações'),
+        title: Text(
+            'Árvore de categorias das informações (${widget.itemMap?.length})'),
       ),
       body: Container(
         width: double.infinity,
@@ -85,7 +86,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
             widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
             showDialog(
               context: context,
-              builder: (context) => InfoCodeSelect(),
+              builder: (context) => InfoCodeSelectToInfoCategoryItem(),
             );
           },
         ),

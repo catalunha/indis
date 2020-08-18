@@ -29,15 +29,53 @@ class SetInfoIndOwnerInInfoCodeSyncGroupAction extends ReduxAction<AppState> {
   SetInfoIndOwnerInInfoCodeSyncGroupAction({this.infoIndOwnerModel});
   @override
   AppState reduce() {
-    InfoCodeModel infoCodeModel =
+    InfoCodeModel _infoCodeModel =
         InfoCodeModel(state.infoCodeState.infoCodeCurrent.id)
             .fromMap(state.infoCodeState.infoCodeCurrent.toMap());
-    infoCodeModel.infoIndOwnerRef = infoIndOwnerModel;
+    _infoCodeModel.infoIndOwnerRef = infoIndOwnerModel;
     return state.copyWith(
       infoCodeState: state.infoCodeState.copyWith(
-        infoCodeCurrent: infoCodeModel,
+        infoCodeCurrent: _infoCodeModel,
       ),
     );
+  }
+}
+
+class SetInfoCodeInInfoCodeCloneMapSyncGroupAction
+    extends ReduxAction<AppState> {
+  final InfoCodeModel infoCodeModel;
+  final bool addOrRemove;
+  SetInfoCodeInInfoCodeCloneMapSyncGroupAction({
+    this.infoCodeModel,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    InfoCodeModel _infoCodeModel =
+        InfoCodeModel(state.infoCodeState.infoCodeCurrent.id)
+            .fromMap(state.infoCodeState.infoCodeCurrent.toMap());
+
+    if (_infoCodeModel.cloneMap == null)
+      _infoCodeModel.cloneMap = Map<String, InfoCodeModel>();
+    if (addOrRemove) {
+      if (!_infoCodeModel.cloneMap.containsKey(infoCodeModel.id)) {
+        _infoCodeModel.cloneMap.addAll({infoCodeModel.id: infoCodeModel});
+        return state.copyWith(
+          infoCodeState: state.infoCodeState.copyWith(
+            infoCodeCurrent: _infoCodeModel,
+          ),
+        );
+      } else {
+        return null;
+      }
+    } else {
+      _infoCodeModel.cloneMap.remove(infoCodeModel.id);
+      return state.copyWith(
+        infoCodeState: state.infoCodeState.copyWith(
+          infoCodeCurrent: _infoCodeModel,
+        ),
+      );
+    }
   }
 }
 

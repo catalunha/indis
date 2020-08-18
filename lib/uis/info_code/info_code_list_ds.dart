@@ -27,7 +27,7 @@ class InfoCodeListDS extends StatelessWidget {
               selected: infoCode.arquived ?? false,
               title: Text('${infoCode.code}'),
               subtitle: Text(
-                  '${infoCode.name}\n${infoCode.description}\n${infoCode.unit}\n${infoCode.infoIndOwnerRef.name}'),
+                  '${infoCode.name}\n${infoCode.description}\n${infoCode.unit}\n${infoCode.infoIndOwnerRef.name}\nClones:${infoCode.toStringInfoCodeCloneMap()}\n\n$infoCode'),
               onTap: () {
                 onEditInfoCodeCurrent(infoCode.id);
               },

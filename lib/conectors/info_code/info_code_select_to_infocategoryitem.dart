@@ -5,7 +5,7 @@ import 'package:indis/actions/info_code_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/info_code/info_code_select_ds.dart';
+import 'package:indis/uis/info_code/info_code_select_to_infocategoryitem_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoCodeModel> infoCodeList;
@@ -49,7 +49,7 @@ class ViewModel extends BaseModel<AppState> {
       );
 }
 
-class InfoCodeSelect extends StatelessWidget {
+class InfoCodeSelectToInfoCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
@@ -57,7 +57,7 @@ class InfoCodeSelect extends StatelessWidget {
       model: ViewModel(),
       onInit: (store) =>
           store.dispatch(GetDocsInfoCodeListAsyncInfoCodeAction()),
-      builder: (context, viewModel) => InfoCodeSelectDS(
+      builder: (context, viewModel) => InfoCodeSelectToInfoCategoryItemDS(
         infoCodeList: viewModel.infoCodeList,
         categoryDataCurrent: viewModel.categoryDataCurrent,
         onSetInfoCodeInInfoCategory: viewModel.onSetInfoCodeInInfoCategory,

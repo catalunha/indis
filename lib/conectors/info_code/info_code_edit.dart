@@ -1,6 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:indis/actions/info_code_action.dart';
+import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
 import 'package:indis/uis/info_code/info_code_edit_ds.dart';
@@ -11,6 +12,8 @@ class ViewModel extends BaseModel<AppState> {
   String name;
   String unit;
   InfoIndOwnerModel infoIndOwnerRef;
+  Map<String, InfoCodeModel> cloneMap;
+  Map<String, InfoCodeModel> linkMap;
   bool arquived;
   bool isCreateOrUpdate;
   Function(String, String, String, String) onCreate;
@@ -21,6 +24,8 @@ class ViewModel extends BaseModel<AppState> {
     @required this.description,
     @required this.name,
     @required this.unit,
+    @required this.cloneMap,
+    @required this.linkMap,
     @required this.infoIndOwnerRef,
     @required this.arquived,
     @required this.isCreateOrUpdate,
@@ -31,6 +36,8 @@ class ViewModel extends BaseModel<AppState> {
           description,
           name,
           unit,
+          cloneMap,
+          linkMap,
           infoIndOwnerRef,
           arquived,
           isCreateOrUpdate,
@@ -42,6 +49,8 @@ class ViewModel extends BaseModel<AppState> {
         description: state.infoCodeState.infoCodeCurrent.description,
         name: state.infoCodeState.infoCodeCurrent.name,
         unit: state.infoCodeState.infoCodeCurrent.unit,
+        cloneMap: state.infoCodeState.infoCodeCurrent.cloneMap,
+        linkMap: state.infoCodeState.infoCodeCurrent.linkMap,
         infoIndOwnerRef: state.infoCodeState.infoCodeCurrent.infoIndOwnerRef,
         arquived: state.infoCodeState.infoCodeCurrent?.arquived ?? false,
         onCreate: (String code, String description, String name, String unit) {
@@ -79,6 +88,8 @@ class InfoCodeEdit extends StatelessWidget {
         description: viewModel.description,
         name: viewModel.name,
         unit: viewModel.unit,
+        cloneMap: viewModel.cloneMap,
+        linkMap: viewModel.linkMap,
         infoIndOwnerRef: viewModel.infoIndOwnerRef,
         arquived: viewModel.arquived,
         onCreate: viewModel.onCreate,

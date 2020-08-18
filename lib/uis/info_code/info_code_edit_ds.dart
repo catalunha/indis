@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:indis/conectors/info_code/info_code_select_to_infocodeclone.dart';
 import 'package:indis/conectors/info_ind_owner/info_ind_owner_select.dart';
+import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 
 class InfoCodeEditDS extends StatefulWidget {
@@ -7,6 +9,8 @@ class InfoCodeEditDS extends StatefulWidget {
   final String description;
   final String name;
   final String unit;
+  final Map<String, InfoCodeModel> cloneMap;
+  final Map<String, InfoCodeModel> linkMap;
   final InfoIndOwnerModel infoIndOwnerRef;
 
   final bool arquived;
@@ -19,6 +23,8 @@ class InfoCodeEditDS extends StatefulWidget {
     this.code,
     this.name,
     this.unit,
+    this.cloneMap,
+    this.linkMap,
     this.infoIndOwnerRef,
     this.description,
     this.arquived,
@@ -132,9 +138,9 @@ class _InfoCodeEditDSState extends State<InfoCodeEditDS> {
             },
           ),
           ListTile(
-            title: Text('${widget.infoIndOwnerRef?.name}'),
-            subtitle: Text('Qual o proprietário desta informação.'),
-            trailing: Icon(Icons.search),
+            title: Text('Qual o proprietário desta informação ?'),
+            subtitle: Text('${widget.infoIndOwnerRef?.name}'),
+            leading: Icon(Icons.search),
             onTap: () {
               showDialog(
                 context: context,
@@ -142,6 +148,43 @@ class _InfoCodeEditDSState extends State<InfoCodeEditDS> {
               );
             },
           ),
+          ListTile(
+            title: Text(
+                'Há ${(widget.cloneMap != null && widget.cloneMap.isNotEmpty) ? widget.cloneMap.length : null} clones desta informação.'),
+            leading: Icon(Icons.search),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => InfoCodeSelectToInfoCodeClone(),
+              );
+              // .then((value) => setState(() {}));
+            },
+          ),
+          widget.cloneMap != null && widget.cloneMap.isNotEmpty
+              ? Container(
+                  width: double.infinity,
+                  height: 100,
+                  child: ListView.builder(
+                    itemCount: widget.cloneMap.length,
+                    itemBuilder: (context, index) {
+                      InfoCodeModel clone =
+                          widget.cloneMap.entries.toList()[index].value;
+                      return ListTile(
+                        title: Text('${clone.code} - ${clone.name}'),
+                        // trailing: IconButton(
+                        //     icon: Icon(Icons.delete),
+                        //     onPressed: () {
+                        //       widget.onSetWorkerTheGroupSyncGroupAction(
+                        //         clone,
+                        //         false,
+                        //       );
+                        //       // setState(() {});
+                        //     }),
+                      );
+                    },
+                  ),
+                )
+              : Container(),
           widget.isCreateOrUpdate
               ? Container()
               : SwitchListTile(
