@@ -24,9 +24,10 @@ class SetInfoCodeCurrentSyncInfoCodeAction extends ReduxAction<AppState> {
   }
 }
 
-class SetInfoIndOwnerInInfoCodeSyncGroupAction extends ReduxAction<AppState> {
+class SetInfoIndOwnerInInfoCodeSyncInfoCodeAction
+    extends ReduxAction<AppState> {
   final InfoIndOwnerModel infoIndOwnerModel;
-  SetInfoIndOwnerInInfoCodeSyncGroupAction({this.infoIndOwnerModel});
+  SetInfoIndOwnerInInfoCodeSyncInfoCodeAction({this.infoIndOwnerModel});
   @override
   AppState reduce() {
     InfoCodeModel _infoCodeModel =
@@ -41,11 +42,11 @@ class SetInfoIndOwnerInInfoCodeSyncGroupAction extends ReduxAction<AppState> {
   }
 }
 
-class SetInfoCodeInInfoCodeCloneMapSyncGroupAction
+class SetInfoCodeInInfoCodeCloneMapSyncInfoCodeAction
     extends ReduxAction<AppState> {
   final InfoCodeModel infoCodeModel;
   final bool addOrRemove;
-  SetInfoCodeInInfoCodeCloneMapSyncGroupAction({
+  SetInfoCodeInInfoCodeCloneMapSyncInfoCodeAction({
     this.infoCodeModel,
     this.addOrRemove,
   });
@@ -79,11 +80,11 @@ class SetInfoCodeInInfoCodeCloneMapSyncGroupAction
   }
 }
 
-class SetInfoCodeInInfoCodeLinkMapSyncGroupAction
+class SetInfoCodeInInfoCodeLinkMapSyncInfoCodeAction
     extends ReduxAction<AppState> {
   final InfoCodeModel infoCodeModel;
   final bool addOrRemove;
-  SetInfoCodeInInfoCodeLinkMapSyncGroupAction({
+  SetInfoCodeInInfoCodeLinkMapSyncInfoCodeAction({
     this.infoCodeModel,
     this.addOrRemove,
   });

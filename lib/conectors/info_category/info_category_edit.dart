@@ -7,6 +7,7 @@ import 'package:indis/uis/info_category/info_category_edit_ds.dart';
 class ViewModel extends BaseModel<AppState> {
   String name;
   String description;
+  bool containItemMap;
   bool isCreateOrUpdate;
   Function(String, String) onCreate;
   Function(String, String) onUpdate;
@@ -14,8 +15,9 @@ class ViewModel extends BaseModel<AppState> {
 
   ViewModel();
   ViewModel.build({
-    @required this.description,
     @required this.name,
+    @required this.description,
+    @required this.containItemMap,
     @required this.isCreateOrUpdate,
     @required this.onCreate,
     @required this.onUpdate,
@@ -23,6 +25,7 @@ class ViewModel extends BaseModel<AppState> {
   }) : super(equals: [
           name,
           description,
+          containItemMap,
           isCreateOrUpdate,
         ]);
   @override
@@ -30,6 +33,10 @@ class ViewModel extends BaseModel<AppState> {
         isCreateOrUpdate:
             state.infoCategoryState.infoCategoryCurrent.id == null,
         description: state.infoCategoryState.infoCategoryCurrent.description,
+        containItemMap:
+            state.infoCategoryState.infoCategoryCurrent?.itemMap != null
+                ? true
+                : false,
         name: state.infoCategoryState.infoCategoryCurrent.name,
         onCreate: (String name, String description) {
           dispatch(CreateDocInfoCategoryCurrentAsyncInfoCategoryAction(
@@ -65,6 +72,7 @@ class InfoCategoryEdit extends StatelessWidget {
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
         name: viewModel.name,
         description: viewModel.description,
+        containItemMap: viewModel.containItemMap,
         onCreate: viewModel.onCreate,
         onUpdate: viewModel.onUpdate,
         // onSetInfoCodeInInfoCategory: viewModel.onSetInfoCodeInInfoCategory,

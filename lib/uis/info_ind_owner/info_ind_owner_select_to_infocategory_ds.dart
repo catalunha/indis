@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 
-class InfoindOwnerSelectDS extends StatelessWidget {
+class InfoindOwnerSelectToInfoCategoryDS extends StatelessWidget {
   final List<InfoIndOwnerModel> infoIndOwnerList;
-  final Function(InfoIndOwnerModel) onSetInfoIndOwnerInInfoCode;
+  final Function(String) onSetInfoIndOwnerInInfoCategory;
 
-  const InfoindOwnerSelectDS({
+  const InfoindOwnerSelectToInfoCategoryDS({
     Key key,
     this.infoIndOwnerList,
-    this.onSetInfoIndOwnerInInfoCode,
+    this.onSetInfoIndOwnerInInfoCategory,
   }) : super(key: key);
 
   @override
@@ -23,9 +23,10 @@ class InfoindOwnerSelectDS extends StatelessWidget {
             final infoIndOwner = infoIndOwnerList[index];
             return ListTile(
               title: Text('${infoIndOwner.code}'),
-              subtitle: Text('${infoIndOwner.name}'),
+              subtitle:
+                  Text('${infoIndOwner.name}\n${infoIndOwner.description}'),
               onTap: () {
-                onSetInfoIndOwnerInInfoCode(infoIndOwner);
+                onSetInfoIndOwnerInInfoCategory(infoIndOwner.code);
               },
             );
           },

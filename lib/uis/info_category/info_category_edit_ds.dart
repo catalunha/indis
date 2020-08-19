@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:indis/conectors/info_ind_owner/info_ind_owner_select_to_infocategory.dart';
 
 class InfoCategoryEditDS extends StatefulWidget {
   final String name;
   final String description;
+  final bool containItemMap;
   final bool isCreateOrUpdate;
   final Function(String, String) onCreate;
   final Function(String, String) onUpdate;
@@ -16,6 +18,7 @@ class InfoCategoryEditDS extends StatefulWidget {
     this.onCreate,
     this.onUpdate,
     this.name,
+    this.containItemMap,
     // this.onSetInfoCodeInInfoCategory,
     // this.infoCodeRefMap,
   }) : super(key: key);
@@ -94,6 +97,22 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
               return null;
             },
           ),
+          widget.isCreateOrUpdate
+              ? ListTile(
+                  title: Text(
+                      'Deseja copiar a árvore de categorias de um autor ?'),
+                  subtitle: widget.containItemMap
+                      ? Text('Cópia realizada com sucesso')
+                      : Text('Arvore atual sem itens.'),
+                  leading: Icon(Icons.search),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => InfoindOwnerSelectToInfoCategory(),
+                    );
+                  },
+                )
+              : Container(),
           // ListTile(
           //   title: Text(
           //       'Há ${widget.infoCodeRefMap != null && widget.infoCodeRefMap.isNotEmpty ? widget.infoCodeRefMap.length : null} informações nesta categoria'),

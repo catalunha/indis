@@ -34,7 +34,7 @@ class ViewModel extends BaseModel<AppState> {
             state.infoCodeState.infoCodeCurrent?.cloneMap?.keys?.toList() ?? [],
         onSetInfoCodeInInfoCodeCloneMapSyncGroupAction:
             (InfoCodeModel infoCodeModel, bool addOrRemove) {
-          dispatch(SetInfoCodeInInfoCodeCloneMapSyncGroupAction(
+          dispatch(SetInfoCodeInInfoCodeCloneMapSyncInfoCodeAction(
             infoCodeModel: infoCodeModel,
             addOrRemove: addOrRemove,
           ));

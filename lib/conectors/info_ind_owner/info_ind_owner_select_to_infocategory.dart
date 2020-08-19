@@ -1,33 +1,33 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:indis/actions/info_code_action.dart';
+import 'package:indis/actions/info_category_action.dart';
 import 'package:indis/actions/info_ind_owner_action.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/info_ind_owner/info_ind_owner_select_ds.dart';
+import 'package:indis/uis/info_ind_owner/info_ind_owner_select_to_infocategory_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoIndOwnerModel> infoIndOwnerList;
-  Function(InfoIndOwnerModel) onSetInfoIndOwnerInInfoCode;
+  Function(String) onSetInfoIndOwnerInInfoCategory;
   ViewModel();
   ViewModel.build({
     @required this.infoIndOwnerList,
-    @required this.onSetInfoIndOwnerInInfoCode,
+    @required this.onSetInfoIndOwnerInInfoCategory,
   }) : super(equals: [
           infoIndOwnerList,
         ]);
   @override
   ViewModel fromStore() => ViewModel.build(
         infoIndOwnerList: state.infoIndOwnerState.infoIndOwnerList,
-        onSetInfoIndOwnerInInfoCode: (InfoIndOwnerModel infoIndOwnerModel) {
-          dispatch(SetInfoIndOwnerInInfoCodeSyncGroupAction(
-              infoIndOwnerModel: infoIndOwnerModel));
+        onSetInfoIndOwnerInInfoCategory: (String infoIndOwnerCode) {
+          dispatch(SetInfoIndOwnerInInfoCategorySyncInfoCategoryAction(
+              infoIndOwnerCode: infoIndOwnerCode));
           dispatch(NavigateAction.pop());
         },
       );
 }
 
-class InfoindOwnerSelect extends StatelessWidget {
+class InfoindOwnerSelectToInfoCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
@@ -35,9 +35,10 @@ class InfoindOwnerSelect extends StatelessWidget {
       model: ViewModel(),
       onInit: (store) =>
           store.dispatch(GetDocsInfoIndOwnerListAsyncInfoIndOwnerAction()),
-      builder: (context, viewModel) => InfoindOwnerSelectDS(
+      builder: (context, viewModel) => InfoindOwnerSelectToInfoCategoryDS(
         infoIndOwnerList: viewModel.infoIndOwnerList,
-        onSetInfoIndOwnerInInfoCode: viewModel.onSetInfoIndOwnerInInfoCode,
+        onSetInfoIndOwnerInInfoCategory:
+            viewModel.onSetInfoIndOwnerInInfoCategory,
       ),
     );
   }

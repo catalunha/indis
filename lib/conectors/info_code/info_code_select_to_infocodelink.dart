@@ -37,7 +37,7 @@ class ViewModel extends BaseModel<AppState> {
             state.infoCodeState.infoCodeCurrent?.linkMap?.keys?.toList() ?? [],
         onSetInfoCodeInInfoCodeLinkMapSyncGroupAction:
             (InfoCodeModel infoCodeModel, bool addOrRemove) {
-          dispatch(SetInfoCodeInInfoCodeLinkMapSyncGroupAction(
+          dispatch(SetInfoCodeInInfoCodeLinkMapSyncInfoCodeAction(
             infoCodeModel: infoCodeModel,
             addOrRemove: addOrRemove,
           ));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:indis/conectors/info_code/info_code_select_to_infocodeclone.dart';
 import 'package:indis/conectors/info_code/info_code_select_to_infocodelink.dart';
-import 'package:indis/conectors/info_ind_owner/info_ind_owner_select.dart';
+import 'package:indis/conectors/info_ind_owner/info_ind_owner_select_to_infocode.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 
@@ -145,7 +145,7 @@ class _InfoCodeEditDSState extends State<InfoCodeEditDS> {
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) => InfoindOwnerSelect(),
+                builder: (context) => InfoindOwnerSelectToInfoCode(),
               );
             },
           ),
