@@ -40,6 +40,7 @@ class InfoIndOwnerModel extends FirestoreModel {
 
   Map<String, dynamic> toMapRef() {
     final Map<String, dynamic> data = Map<String, dynamic>();
+    if (code != null) data['code'] = this.code;
     if (name != null) data['name'] = this.name;
     data.addAll({'id': this.id});
     return data;

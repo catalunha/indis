@@ -37,7 +37,8 @@ class _InfoCodeSelectToInfoCategoryItemDSState
                       .containsKey(infoCode.id)
                   : false,
               title: Text('${infoCode.code}'),
-              subtitle: Text('${infoCode.name}\nworkerModel: $infoCode'),
+              subtitle: Text(
+                  '${infoCode.name}\nOrganizador: ${infoCode.infoIndOwnerRef.name}'),
               onTap: () {
                 widget.onSetInfoCodeInInfoCategory(
                     infoCode,

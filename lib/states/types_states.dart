@@ -8,18 +8,32 @@ enum AuthenticationStatusLogged {
 
 //+++ UserOrder
 enum UserOrder {
-  displayName,
+  name,
 }
 
 extension UserOrderExtension on UserOrder {
   static const names = {
-    UserOrder.displayName: 'Nome',
+    UserOrder.name: 'Nome',
   };
-  String get name => names[this];
+  String get label => names[this];
 }
 //--- UserOrder
 
-//+++ PlataformOrder
-enum PlataformOrder {
-  codigo,
+//+++ InfoCodeOrder
+enum InfoCodeOrder {
+  code,
+  name,
+  unit,
+  infoIndOwnerCode,
 }
+
+extension InfoCodeOrderExtension on InfoCodeOrder {
+  static const names = {
+    InfoCodeOrder.code: 'Codigo',
+    InfoCodeOrder.name: 'Nome',
+    InfoCodeOrder.unit: 'Unidade',
+    InfoCodeOrder.infoIndOwnerCode: 'Organizador',
+  };
+  String get label => names[this];
+}
+//--- InfoCodeOrder

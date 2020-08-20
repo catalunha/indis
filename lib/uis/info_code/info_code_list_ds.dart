@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:indis/conectors/info_code/info_code_ordering.dart';
 import 'package:indis/models/info_code_model.dart';
+import 'package:indis/states/types_states.dart';
 
 class InfoCodeListDS extends StatelessWidget {
   final List<InfoCodeModel> infoCodeList;
@@ -17,6 +19,7 @@ class InfoCodeListDS extends StatelessWidget {
       appBar: AppBar(
         title:
             Text('Lista de informações cadastradas (${infoCodeList.length})'),
+        actions: [InfoCodeOrdering()],
       ),
       body: ListView.builder(
         itemCount: infoCodeList.length,

@@ -16,12 +16,12 @@ class UserOrderingDS extends StatelessWidget with _UserOrderingDSComponents {
       onSelected: (value) => onSelectOrder(value),
       itemBuilder: (context) => <PopupMenuItem<UserOrder>>[
         PopupMenuItem<UserOrder>(
-          value: UserOrder.displayName,
+          value: UserOrder.name,
           child: Row(
             children: [
-              displayNameIcon,
+              nameIcon,
               SizedBox(width: 5),
-              Text(UserOrder.displayName.name),
+              Text(UserOrder.name.label),
             ],
           ),
         ),
@@ -32,13 +32,13 @@ class UserOrderingDS extends StatelessWidget with _UserOrderingDSComponents {
 
 class _UserOrderingDSComponents {
   final sispatIcon = Icon(Icons.format_list_numbered);
-  final displayNameIcon = Icon(Icons.sort_by_alpha);
+  final nameIcon = Icon(Icons.sort_by_alpha);
   final plataformRefOnBoardIcon = Icon(Icons.directions_boat);
   final dateTimeOnBoardIcon = Icon(Icons.date_range);
   Icon popupIcon(UserOrder userOrder) {
     var icon = sispatIcon;
-    if (userOrder == UserOrder.displayName) {
-      icon = displayNameIcon;
+    if (userOrder == UserOrder.name) {
+      icon = nameIcon;
     }
     return icon;
   }

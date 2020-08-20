@@ -15,7 +15,7 @@ class UserState {
   factory UserState.initialState() {
     return UserState(
       userList: [],
-      userOrder: UserOrder.displayName,
+      userOrder: UserOrder.name,
     );
   }
   UserState copyWith({

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
+import 'package:indis/states/types_states.dart';
 
 // +++ Actions Sync
 class SetInfoCodeCurrentSyncInfoCodeAction extends ReduxAction<AppState> {
@@ -115,6 +116,33 @@ class SetInfoCodeInInfoCodeLinkMapSyncInfoCodeAction
         ),
       );
     }
+  }
+}
+
+class SetInfoCodeOrderSyncInfoCodeAction extends ReduxAction<AppState> {
+  final InfoCodeOrder infoCodeOrder;
+
+  SetInfoCodeOrderSyncInfoCodeAction(this.infoCodeOrder);
+  @override
+  AppState reduce() {
+    List<InfoCodeModel> _infoCodeList = [];
+    _infoCodeList.addAll(state.infoCodeState.infoCodeList);
+    if (infoCodeOrder == InfoCodeOrder.code) {
+      _infoCodeList.sort((a, b) => a.code.compareTo(b.code));
+    } else if (infoCodeOrder == InfoCodeOrder.name) {
+      _infoCodeList.sort((a, b) => a.name.compareTo(b.name));
+    } else if (infoCodeOrder == InfoCodeOrder.unit) {
+      _infoCodeList.sort((a, b) => a.unit.compareTo(b.unit));
+    } else if (infoCodeOrder == InfoCodeOrder.infoIndOwnerCode) {
+      _infoCodeList.sort(
+          (a, b) => a.infoIndOwnerRef.code.compareTo(b.infoIndOwnerRef.code));
+    }
+    return state.copyWith(
+      infoCodeState: state.infoCodeState.copyWith(
+        infoCodeOrder: infoCodeOrder,
+        infoCodeList: _infoCodeList,
+      ),
+    );
   }
 }
 
