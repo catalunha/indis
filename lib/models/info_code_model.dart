@@ -99,7 +99,7 @@ class InfoCodeModel extends FirestoreModel {
     cloneList.sort((a, b) => a.name.compareTo(b.name));
     for (var clone in cloneList) {
       _return = _return +
-          '\n${clone.infoIndOwnerRef.name} - ${clone.code} - ${clone.name}   || ${clone.id.substring(0, 5)}';
+          '\n ${clone.infoIndOwnerRef.name} - ${clone.code} - ${clone.name} - (id:${clone.id.substring(0, 5)})';
     }
     return _return;
   }
@@ -110,7 +110,7 @@ class InfoCodeModel extends FirestoreModel {
     linkList.sort((a, b) => a.name.compareTo(b.name));
     for (var link in linkList) {
       _return = _return +
-          '\n${link.infoIndOwnerRef.name} - ${link.code} - ${link.name}   || ${link.id.substring(0, 5)}';
+          '\n ${link.infoIndOwnerRef.name} - ${link.code} - ${link.name} - (id:${link.id.substring(0, 5)})';
     }
     return _return;
   }
