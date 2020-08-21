@@ -1,6 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:indis/models/info_data_model.dart';
+import 'package:indis/models/info_setor_model.dart';
 import 'package:indis/states/app_state.dart';
 
 // +++ Actions Sync
@@ -11,8 +11,8 @@ class SetInfoDataCurrentSyncInfoDataAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() {
-    InfoDataModel infoDataModel = id == null
-        ? InfoDataModel(null)
+    InfoSetorModel infoDataModel = id == null
+        ? InfoSetorModel(null)
         : state.infoDataState.infoDataList
             .firstWhere((element) => element.id == id);
     return state.copyWith(
@@ -30,12 +30,12 @@ class GetDocsInfoDataListAsyncInfoDataAction extends ReduxAction<AppState> {
     print('GetDocsInfoDataListAsyncInfoDataAction...');
     Firestore firestore = Firestore.instance;
 
-    final collRef = firestore.collection(InfoDataModel.collection);
+    final collRef = firestore.collection(InfoSetorModel.collection);
     final docsSnap = await collRef.getDocuments();
 
     final listDocs = docsSnap.documents
         .map((docSnap) =>
-            InfoDataModel(docSnap.documentID).fromMap(docSnap.data))
+            InfoSetorModel(docSnap.documentID).fromMap(docSnap.data))
         .toList();
     return state.copyWith(
       infoDataState: state.infoDataState.copyWith(
@@ -66,8 +66,8 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
   Future<AppState> reduce() async {
     print('SetDocInfoDataCurrentAsyncInfoDataAction...');
     Firestore firestore = Firestore.instance;
-    InfoDataModel infoDataModel =
-        InfoDataModel(state.infoDataState.infoDataCurrent.id)
+    InfoSetorModel infoDataModel =
+        InfoSetorModel(state.infoDataState.infoDataCurrent.id)
             .fromMap(state.infoDataState.infoDataCurrent.toMap());
     infoDataModel.uf = uf;
     infoDataModel.city = city;
@@ -78,7 +78,7 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
     infoDataModel.updated = FieldValue.serverTimestamp();
 
     var docRef = await firestore
-        .collection(InfoDataModel.collection)
+        .collection(InfoSetorModel.collection)
         .where('code', isEqualTo: code)
         .getDocuments();
     bool doc = docRef.documents.length != 0;
@@ -86,7 +86,7 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
       throw const UserException(
           "Esta proprietário de informações e indicadores já foi cadastrado.");
     await firestore
-        .collection(InfoDataModel.collection)
+        .collection(InfoSetorModel.collection)
         .document(infoDataModel.id)
         .setData(infoDataModel.toMap(), merge: true);
     return state.copyWith(
@@ -123,8 +123,8 @@ class UpdateDocInfoDataCurrentAsyncInfoDataAction
   Future<AppState> reduce() async {
     print('SetDocInfoDataCurrentAsyncInfoDataAction...');
     Firestore firestore = Firestore.instance;
-    InfoDataModel infoDataModel =
-        InfoDataModel(state.infoDataState.infoDataCurrent.id)
+    InfoSetorModel infoDataModel =
+        InfoSetorModel(state.infoDataState.infoDataCurrent.id)
             .fromMap(state.infoDataState.infoDataCurrent.toMap());
     infoDataModel.uf = uf;
     infoDataModel.city = city;
@@ -135,7 +135,7 @@ class UpdateDocInfoDataCurrentAsyncInfoDataAction
     infoDataModel.updated = FieldValue.serverTimestamp();
 
     await firestore
-        .collection(InfoDataModel.collection)
+        .collection(InfoSetorModel.collection)
         .document(infoDataModel.id)
         .updateData(infoDataModel.toMap());
     return state.copyWith(

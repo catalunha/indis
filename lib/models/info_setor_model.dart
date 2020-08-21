@@ -1,19 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/firestore_model.dart';
+import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/user_model.dart';
 
 //uma para cada município ou setor
-class InfoDataModel extends FirestoreModel {
-  static final String collection = 'infodata';
+class InfoSetorModel extends FirestoreModel {
+  static final String collection = 'infosetor';
   String uf;
   String city;
   String area;
   String code;
   String description;
   dynamic updated;
-  Map<String, InfoDataSourceField> sourceMap;
-  Map<String, InfoDataCodeField> codeMap;
+  Map<String, CodeValue> valueCodeMap;
+  Map<String, Source> sourceMap;
 
-  InfoDataModel(
+  InfoSetorModel(
     String id, {
     this.uf,
     this.city,
@@ -21,12 +23,12 @@ class InfoDataModel extends FirestoreModel {
     this.code,
     this.description,
     this.updated,
-    this.codeMap,
+    this.valueCodeMap,
     this.sourceMap,
   }) : super(id);
 
   @override
-  InfoDataModel fromMap(Map<String, dynamic> map) {
+  InfoSetorModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('uf')) uf = map['uf'];
       if (map.containsKey('city')) city = map['city'];
@@ -38,15 +40,15 @@ class InfoDataModel extends FirestoreModel {
               map['updated'].millisecondsSinceEpoch)
           : null;
       if (map["sourceMap"] is Map) {
-        sourceMap = Map<String, InfoDataSourceField>();
+        sourceMap = Map<String, Source>();
         map["sourceMap"].forEach((k, v) {
-          sourceMap[k] = InfoDataSourceField(k).fromMap(v);
+          sourceMap[k] = Source(k).fromMap(v);
         });
       }
-      if (map["codeMap"] is Map) {
-        codeMap = Map<String, InfoDataCodeField>();
-        map["codeMap"].forEach((k, v) {
-          codeMap[k] = InfoDataCodeField(k).fromMap(v);
+      if (map["valueCodeMap"] is Map) {
+        valueCodeMap = Map<String, CodeValue>();
+        map["valueCodeMap"].forEach((k, v) {
+          valueCodeMap[k] = CodeValue(k).fromMap(v);
         });
       }
     }
@@ -61,7 +63,7 @@ class InfoDataModel extends FirestoreModel {
     if (area != null) data['area'] = this.area;
     if (code != null) data['code'] = this.code;
     if (description != null) data['description'] = this.description;
-    if (updated != null) data['updated'] = this.updated;
+    data['updated'] = FieldValue.serverTimestamp();
     if (sourceMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
       this.sourceMap.forEach((k, v) {
@@ -69,31 +71,33 @@ class InfoDataModel extends FirestoreModel {
       });
       data['sourceMap'] = dataFromField;
     }
-    if (codeMap != null) {
+    if (valueCodeMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.codeMap.forEach((k, v) {
+      this.valueCodeMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['codeMap'] = dataFromField;
+      data['valueCodeMap'] = dataFromField;
     }
     return data;
   }
 }
 
-class InfoDataCodeField {
-  String id;
-  String code;
-  Map<String, InfoDataValueField> dataMap;
+class CodeValue {
+  String id; //igual ao infoCodeRef.id
+  InfoCodeModel infoCodeRef;
+  Map<String, CodeValueData> codeValueDataMap;
 
-  InfoDataCodeField(this.id, {this.code, this.dataMap});
+  CodeValue(this.id, {this.infoCodeRef, this.codeValueDataMap});
 
-  InfoDataCodeField fromMap(Map<String, dynamic> map) {
+  CodeValue fromMap(Map<String, dynamic> map) {
     if (map != null) {
-      if (map.containsKey('code')) code = map['code'];
-      if (map["dataMap"] is Map) {
-        dataMap = Map<String, InfoDataValueField>();
-        map["dataMap"].forEach((k, v) {
-          dataMap[k] = InfoDataValueField(k).fromMap(v);
+      infoCodeRef = map.containsKey('infoCodeRef') && map['infoCodeRef'] != null
+          ? InfoCodeModel(map['infoCodeRef']['id']).fromMap(map['infoCodeRef'])
+          : null;
+      if (map["codeValueDataMap"] is Map) {
+        codeValueDataMap = Map<String, CodeValueData>();
+        map["codeValueDataMap"].forEach((k, v) {
+          codeValueDataMap[k] = CodeValueData(k).fromMap(v);
         });
       }
     }
@@ -102,30 +106,30 @@ class InfoDataCodeField {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (code != null) data['code'] = this.code;
-    if (dataMap != null) {
+    if (this.infoCodeRef != null) {
+      data['infoCodeRef'] = this.infoCodeRef.toMapRef();
+    }
+    if (codeValueDataMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.dataMap.forEach((k, v) {
+      this.codeValueDataMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['dataMap'] = dataFromField;
+      data['codeValueDataMap'] = dataFromField;
     }
     return data;
   }
 }
 
-class InfoDataValueField {
-  String id;
-  String code;
+class CodeValueData {
+  String id; //idem a period
   String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,
   dynamic updated;
   UserModel userRef;
-  InfoDataSourceField sourceRef;
+  Source sourceRef;
 
-  InfoDataValueField(
+  CodeValueData(
     this.id, {
-    this.code,
     this.period,
     this.value,
     this.userRef,
@@ -133,9 +137,8 @@ class InfoDataValueField {
     this.sourceRef,
   });
 
-  InfoDataValueField fromMap(Map<String, dynamic> map) {
+  CodeValueData fromMap(Map<String, dynamic> map) {
     if (map != null) {
-      if (map.containsKey('code')) code = map['code'];
       if (map.containsKey('period')) period = map['period'];
       if (map.containsKey('value')) value = map['value'];
       updated = map.containsKey('updated') && map['updated'] != null
@@ -146,8 +149,7 @@ class InfoDataValueField {
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
       sourceRef = map.containsKey('sourceRef') && map['sourceRef'] != null
-          ? InfoDataSourceField(map['sourceRef']['id'])
-              .fromMap(map['sourceRef'])
+          ? Source(map['sourceRef']['id']).fromMap(map['sourceRef'])
           : null;
     }
     return this;
@@ -155,7 +157,6 @@ class InfoDataValueField {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (code != null) data['code'] = this.code;
     if (period != null) data['period'] = this.period;
     if (value != null) data['value'] = this.value;
     if (this.userRef != null) {
@@ -164,22 +165,26 @@ class InfoDataValueField {
     if (this.sourceRef != null) {
       data['sourceRef'] = this.sourceRef.toMapRef();
     }
-    if (updated != null) data['updated'] = this.updated;
+    data['updated'] = FieldValue.serverTimestamp();
     return data;
   }
 }
 
-class InfoDataSourceField {
+class Source {
   String id;
   String name;
   String description;
+  UserModel userRef;
 
-  InfoDataSourceField(this.id, {this.name, this.description});
+  Source(this.id, {this.name, this.description, this.userRef});
 
-  InfoDataSourceField fromMap(Map<String, dynamic> map) {
+  Source fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
+      userRef = map.containsKey('userRef') && map['userRef'] != null
+          ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
+          : null;
     }
     return this;
   }
@@ -188,6 +193,9 @@ class InfoDataSourceField {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (name != null) data['name'] = this.name;
     if (description != null) data['description'] = this.description;
+    if (this.userRef != null) {
+      data['userRef'] = this.userRef.toMapRef();
+    }
     return data;
   }
 

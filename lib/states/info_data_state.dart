@@ -1,10 +1,10 @@
-import 'package:indis/models/info_data_model.dart';
+import 'package:indis/models/info_setor_model.dart';
 import 'package:meta/meta.dart';
 
 @immutable
 class InfoDataState {
-  final List<InfoDataModel> infoDataList;
-  final InfoDataModel infoDataCurrent;
+  final List<InfoSetorModel> infoDataList;
+  final InfoSetorModel infoDataCurrent;
   final List<InfoDataSourceField> infoDataSourceFieldList;
   final InfoDataSourceField infoDataSourceFieldCurrent;
   InfoDataState({
@@ -14,16 +14,16 @@ class InfoDataState {
     this.infoDataSourceFieldCurrent,
   });
   factory InfoDataState.initialState() => InfoDataState(
-        infoDataList: <InfoDataModel>[],
+        infoDataList: <InfoSetorModel>[],
         infoDataCurrent: null,
         infoDataSourceFieldList: <InfoDataSourceField>[],
         infoDataSourceFieldCurrent: null,
       );
   InfoDataState copyWith({
-    List<InfoDataModel> infoDataList,
-    InfoDataModel infoDataCurrent,
+    List<InfoSetorModel> infoDataList,
+    InfoSetorModel infoDataCurrent,
     List<InfoDataSourceField> infoDataSourceFieldList,
-    InfoDataModel infoDataSourceFieldCurrent,
+    InfoSetorModel infoDataSourceFieldCurrent,
   }) =>
       InfoDataState(
         infoDataList: infoDataList ?? this.infoDataList,

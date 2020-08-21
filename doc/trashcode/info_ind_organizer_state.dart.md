@@ -1,4 +1,4 @@
-import 'package:indis/models/info_ind_organizer_model.dart';
+import 'info_ind_organizer_model.dart.md';
 import 'package:meta/meta.dart';
 
 @immutable

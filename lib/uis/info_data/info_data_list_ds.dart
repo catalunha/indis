@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:indis/models/info_data_model.dart';
+import 'package:indis/models/info_setor_model.dart';
 
 class InfoDataListDS extends StatelessWidget {
-  final List<InfoDataModel> infoDataList;
+  final List<InfoSetorModel> infoDataList;
   final Function(String) onEditInfoDataCurrent;
 
   const InfoDataListDS({
