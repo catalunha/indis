@@ -26,6 +26,7 @@ class InfoCategoryListDS extends StatelessWidget {
           final infoCategory = infoCategoryList[index];
           return Card(
             child: ListTile(
+              selected: infoCategory?.public ?? false,
               title: Text('${infoCategory.name}'),
               // subtitle: Text('$infoCategory'),
               trailing: IconButton(

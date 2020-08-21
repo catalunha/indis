@@ -9,11 +9,13 @@ class InfoCategoryModel extends FirestoreModel {
   UserModel userRef;
   String name;
   String description;
+  bool public;
   Map<String, InfoCategoryItem> itemMap;
   InfoCategoryModel(
     String id, {
     this.userRef,
     this.name,
+    this.public,
     this.itemMap,
   }) : super(id);
 
@@ -22,6 +24,7 @@ class InfoCategoryModel extends FirestoreModel {
     if (map != null) {
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
+      if (map.containsKey('public')) public = map['public'];
       userRef = map.containsKey('userRef') && map['userRef'] != null
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
@@ -40,7 +43,8 @@ class InfoCategoryModel extends FirestoreModel {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (name != null) data['name'] = this.name;
     if (description != null) data['description'] = this.description;
-    if (this.userRef != null) {
+    if (public != null) data['public'] = this.public;
+    if (userRef != null) {
       data['userRef'] = this.userRef.toMapRef();
     }
 

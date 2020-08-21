@@ -24,7 +24,7 @@ enum InfoCodeOrder {
   code,
   name,
   unit,
-  infoIndOwnerCode,
+  infoIndOwnerRefName,
 }
 
 extension InfoCodeOrderExtension on InfoCodeOrder {
@@ -32,7 +32,7 @@ extension InfoCodeOrderExtension on InfoCodeOrder {
     InfoCodeOrder.code: 'Codigo',
     InfoCodeOrder.name: 'Nome',
     InfoCodeOrder.unit: 'Unidade',
-    InfoCodeOrder.infoIndOwnerCode: 'Organizador',
+    InfoCodeOrder.infoIndOwnerRefName: 'Organizador',
   };
   String get label => names[this];
 }

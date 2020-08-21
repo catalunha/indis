@@ -5,17 +5,21 @@ import 'package:indis/actions/info_code_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/states/app_state.dart';
+import 'package:indis/states/types_states.dart';
 import 'package:indis/uis/info_code/info_code_select_to_infocategoryitem_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoCodeModel> infoCodeList;
   InfoCategoryItem categoryDataCurrent;
   Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
+  Function(InfoCodeOrder) onSelectOrder;
+
   ViewModel();
   ViewModel.build({
     @required this.infoCodeList,
     @required this.categoryDataCurrent,
     @required this.onSetInfoCodeInInfoCategory,
+    @required this.onSelectOrder,
   }) : super(equals: [
           infoCodeList,
           categoryDataCurrent,
@@ -46,6 +50,13 @@ class ViewModel extends BaseModel<AppState> {
             addOrRemove: addOrRemove,
           ));
         },
+        onSelectOrder: (InfoCodeOrder infoCodeOrder) {
+          dispatch(
+            SetInfoCodeOrderSyncInfoCodeAction(
+              infoCodeOrder,
+            ),
+          );
+        },
       );
 }
 
@@ -61,6 +72,7 @@ class InfoCodeSelectToInfoCategoryItem extends StatelessWidget {
         infoCodeList: viewModel.infoCodeList,
         categoryDataCurrent: viewModel.categoryDataCurrent,
         onSetInfoCodeInInfoCategory: viewModel.onSetInfoCodeInInfoCategory,
+        onSelectOrder: viewModel.onSelectOrder,
       ),
     );
   }

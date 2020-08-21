@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:indis/conectors/info_ind_owner/info_ind_owner_select_to_infocategory.dart';
+import 'package:indis/conectors/info_category/info_category_select_to_copyitemmap.dart';
 
 class InfoCategoryEditDS extends StatefulWidget {
   final String name;
   final String description;
+  final bool public;
   final bool containItemMap;
   final bool isCreateOrUpdate;
-  final Function(String, String) onCreate;
-  final Function(String, String) onUpdate;
+  final Function(String, String, bool) onCreate;
+  final Function(String, String, bool) onUpdate;
   // final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
   // final Map<String, InfoCodeModel> infoCodeRefMap;
 
   const InfoCategoryEditDS({
     Key key,
+    this.name,
     this.description,
+    this.public,
     this.isCreateOrUpdate,
     this.onCreate,
     this.onUpdate,
-    this.name,
     this.containItemMap,
     // this.onSetInfoCodeInInfoCategory,
     // this.infoCodeRefMap,
@@ -30,12 +32,13 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
   final formKey = GlobalKey<FormState>();
   String _description;
   String _name;
+  bool _public;
   void validateData() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       widget.isCreateOrUpdate
-          ? widget.onCreate(_name, _description)
-          : widget.onUpdate(_name, _description);
+          ? widget.onCreate(_name, _description, _public)
+          : widget.onUpdate(_name, _description, _public);
     } else {
       setState(() {});
     }
@@ -44,6 +47,7 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
   @override
   void initState() {
     super.initState();
+    _public = widget.public ?? false;
   }
 
   @override
@@ -97,6 +101,15 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
               return null;
             },
           ),
+          SwitchListTile(
+            value: _public,
+            title: Text('Deixar pública minha árvore de categorias ?'),
+            onChanged: (value) {
+              setState(() {
+                _public = value;
+              });
+            },
+          ),
           widget.isCreateOrUpdate
               ? ListTile(
                   title: Text(
@@ -108,7 +121,7 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => InfoindOwnerSelectToInfoCategory(),
+                      builder: (context) => InfoCategorySelectToCopyItemMap(),
                     );
                   },
                 )

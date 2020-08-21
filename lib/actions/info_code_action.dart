@@ -133,9 +133,9 @@ class SetInfoCodeOrderSyncInfoCodeAction extends ReduxAction<AppState> {
       _infoCodeList.sort((a, b) => a.name.compareTo(b.name));
     } else if (infoCodeOrder == InfoCodeOrder.unit) {
       _infoCodeList.sort((a, b) => a.unit.compareTo(b.unit));
-    } else if (infoCodeOrder == InfoCodeOrder.infoIndOwnerCode) {
+    } else if (infoCodeOrder == InfoCodeOrder.infoIndOwnerRefName) {
       _infoCodeList.sort(
-          (a, b) => a.infoIndOwnerRef.code.compareTo(b.infoIndOwnerRef.code));
+          (a, b) => a.infoIndOwnerRef.name.compareTo(b.infoIndOwnerRef.name));
     }
     return state.copyWith(
       infoCodeState: state.infoCodeState.copyWith(

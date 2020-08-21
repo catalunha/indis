@@ -47,12 +47,12 @@ class InfoCodeOrderingDS extends StatelessWidget
           ),
         ),
         PopupMenuItem<InfoCodeOrder>(
-          value: InfoCodeOrder.infoIndOwnerCode,
+          value: InfoCodeOrder.infoIndOwnerRefName,
           child: Row(
             children: [
-              infoIndOwnerCodeIcon,
+              infoIndOwnerRefNameIcon,
               SizedBox(width: 5),
-              Text(InfoCodeOrder.infoIndOwnerCode.label),
+              Text(InfoCodeOrder.infoIndOwnerRefName.label),
             ],
           ),
         ),
@@ -65,15 +65,15 @@ class _InfoCodeOrderingDSComponents {
   final codeIcon = Icon(Icons.code);
   final nameIcon = Icon(Icons.sort_by_alpha);
   final unitIcon = Icon(Icons.format_underlined);
-  final infoIndOwnerCodeIcon = Icon(Icons.format_textdirection_r_to_l);
+  final infoIndOwnerRefNameIcon = Icon(Icons.format_textdirection_r_to_l);
   Icon popupIcon(InfoCodeOrder infoCodeOrder) {
     var icon = codeIcon;
     if (infoCodeOrder == InfoCodeOrder.name) {
       icon = nameIcon;
     } else if (infoCodeOrder == InfoCodeOrder.unit) {
       icon = unitIcon;
-    } else if (infoCodeOrder == InfoCodeOrder.infoIndOwnerCode) {
-      icon = infoIndOwnerCodeIcon;
+    } else if (infoCodeOrder == InfoCodeOrder.infoIndOwnerRefName) {
+      icon = infoIndOwnerRefNameIcon;
     }
     return icon;
   }

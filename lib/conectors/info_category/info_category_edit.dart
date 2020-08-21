@@ -7,16 +7,18 @@ import 'package:indis/uis/info_category/info_category_edit_ds.dart';
 class ViewModel extends BaseModel<AppState> {
   String name;
   String description;
+  bool public;
   bool containItemMap;
   bool isCreateOrUpdate;
-  Function(String, String) onCreate;
-  Function(String, String) onUpdate;
+  Function(String, String, bool) onCreate;
+  Function(String, String, bool) onUpdate;
   // Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
 
   ViewModel();
   ViewModel.build({
     @required this.name,
     @required this.description,
+    @required this.public,
     @required this.containItemMap,
     @required this.isCreateOrUpdate,
     @required this.onCreate,
@@ -25,6 +27,7 @@ class ViewModel extends BaseModel<AppState> {
   }) : super(equals: [
           name,
           description,
+          public,
           containItemMap,
           isCreateOrUpdate,
         ]);
@@ -32,23 +35,26 @@ class ViewModel extends BaseModel<AppState> {
   ViewModel fromStore() => ViewModel.build(
         isCreateOrUpdate:
             state.infoCategoryState.infoCategoryCurrent.id == null,
+        name: state.infoCategoryState.infoCategoryCurrent.name,
         description: state.infoCategoryState.infoCategoryCurrent.description,
+        public: state.infoCategoryState.infoCategoryCurrent.public,
         containItemMap:
             state.infoCategoryState.infoCategoryCurrent?.itemMap != null
                 ? true
                 : false,
-        name: state.infoCategoryState.infoCategoryCurrent.name,
-        onCreate: (String name, String description) {
+        onCreate: (String name, String description, bool public) {
           dispatch(CreateDocInfoCategoryCurrentAsyncInfoCategoryAction(
             name: name,
             description: description,
+            public: public,
           ));
           dispatch(NavigateAction.pop());
         },
-        onUpdate: (String name, String description) {
+        onUpdate: (String name, String description, bool public) {
           dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction(
             name: name,
             description: description,
+            public: public,
           ));
           dispatch(NavigateAction.pop());
         },
@@ -72,6 +78,7 @@ class InfoCategoryEdit extends StatelessWidget {
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
         name: viewModel.name,
         description: viewModel.description,
+        public: viewModel.public,
         containItemMap: viewModel.containItemMap,
         onCreate: viewModel.onCreate,
         onUpdate: viewModel.onUpdate,

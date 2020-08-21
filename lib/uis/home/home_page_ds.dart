@@ -61,7 +61,7 @@ class HomePageDS extends StatelessWidget {
             leading: Icon(
               Icons.line_style,
             ),
-            title: Text('Minhas organização das informações'),
+            title: Text('Minha organização de informações'),
             onTap: () => Navigator.pushNamed(context, Routes.infoCategoryList),
           ),
 

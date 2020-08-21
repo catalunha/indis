@@ -33,7 +33,8 @@ class GetDocsUserListAsyncUserAction extends ReduxAction<AppState> {
     final docsSnap = await collRef.getDocuments();
 
     final listDocs = docsSnap.documents
-        .map((docSnap) => UserModel(docSnap.documentID).fromMap(docSnap.data))
+        .map((docSnap) =>
+            UserModel(docSnap.documentID).fromFirestore(docSnap.data))
         .toList();
     return state.copyWith(
       userState: state.userState.copyWith(

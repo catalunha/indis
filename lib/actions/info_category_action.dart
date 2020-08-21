@@ -2,7 +2,6 @@ import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
-import 'package:indis/models/info_ind_owner_model.dart';
 import 'package:indis/states/app_state.dart';
 import 'package:uuid/uuid.dart' as uuid;
 
@@ -15,13 +14,17 @@ class SetInfoCategoryCurrentSyncInfoCategoryAction
 
   @override
   AppState reduce() {
-    InfoCategoryModel infoCategoryModel = id == null
-        ? InfoCategoryModel(null)
-        : state.infoCategoryState.infoCategoryList
-            .firstWhere((element) => element.id == id);
+    InfoCategoryModel _infoCategoryModel;
+    if (id == null) {
+      _infoCategoryModel = InfoCategoryModel(null);
+    } else {
+      var temp = state.infoCategoryState.infoCategoryList
+          .firstWhere((element) => element.id == id);
+      _infoCategoryModel = InfoCategoryModel(temp.id).fromMap(temp.toMap());
+    }
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
-        infoCategoryCurrent: infoCategoryModel,
+        infoCategoryCurrent: _infoCategoryModel,
       ),
     );
   }
@@ -174,30 +177,21 @@ class SetInfoCodeInInfoCategoryItemSyncInfoCategoryAction
       dispatch(UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction());
 }
 
-class SetInfoIndOwnerInInfoCategorySyncInfoCategoryAction
+class SetCopyItemMapInInfoCategorySyncInfoCategoryAction
     extends ReduxAction<AppState> {
-  final String infoIndOwnerCode;
-  SetInfoIndOwnerInInfoCategorySyncInfoCategoryAction({this.infoIndOwnerCode});
+  final InfoCategoryModel infoCategoryModel;
+  SetCopyItemMapInInfoCategorySyncInfoCategoryAction({this.infoCategoryModel});
   @override
   Future<AppState> reduce() async {
     InfoCategoryModel _infoCategoryCurrent =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-
-    Firestore firestore = Firestore.instance;
-
-    final docRef = await firestore
-        .collection(InfoCategoryModel.collection)
-        .where('name', isEqualTo: infoIndOwnerCode)
-        .getDocuments();
-
-    InfoCategoryModel _infoCategoryWithItem =
-        InfoCategoryModel(docRef.documents.first.documentID)
-            .fromMap(docRef.documents.first.data);
-
-    _infoCategoryCurrent.itemMap = Map<String, InfoCategoryItem>();
-    _infoCategoryCurrent.itemMap.addAll(_infoCategoryWithItem.itemMap);
-
+    if (infoCategoryModel?.itemMap != null) {
+      _infoCategoryCurrent.itemMap = Map<String, InfoCategoryItem>();
+      _infoCategoryCurrent.itemMap.addAll(infoCategoryModel.itemMap);
+    } else {
+      _infoCategoryCurrent.itemMap = null;
+    }
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
         infoCategoryCurrent: _infoCategoryCurrent,
@@ -229,14 +223,40 @@ class GetDocsInfoCategoryListAsyncInfoCategoryAction
   }
 }
 
+class GetDocsInfoCategoryListToCopyItemMapAsyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  @override
+  Future<AppState> reduce() async {
+    print('GetDocsInfoCategoryListToCopyItemMapAsyncInfoCategoryAction...');
+    Firestore firestore = Firestore.instance;
+
+    final collRef = firestore
+        .collection(InfoCategoryModel.collection)
+        .where('public', isEqualTo: true);
+    final docsSnap = await collRef.getDocuments();
+
+    final listDocs = docsSnap.documents
+        .map((docSnap) =>
+            InfoCategoryModel(docSnap.documentID).fromMap(docSnap.data))
+        .toList();
+    return state.copyWith(
+      infoCategoryState: state.infoCategoryState.copyWith(
+        infoCategoryListToCopyItemMap: listDocs,
+      ),
+    );
+  }
+}
+
 class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final String name;
   final String description;
+  final bool public;
 
   CreateDocInfoCategoryCurrentAsyncInfoCategoryAction({
     this.name,
     this.description,
+    this.public,
   });
   @override
   Future<AppState> reduce() async {
@@ -247,6 +267,7 @@ class CreateDocInfoCategoryCurrentAsyncInfoCategoryAction
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
     infoCategoryModel.name = name;
     infoCategoryModel.description = description;
+    infoCategoryModel.public = public;
     infoCategoryModel.userRef = state.loggedState.userModelLogged;
     var docRef = await firestore
         .collection(InfoCategoryModel.collection)
@@ -277,10 +298,12 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
     extends ReduxAction<AppState> {
   final String name;
   final String description;
+  final bool public;
 
   UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction({
     this.name,
     this.description,
+    this.public,
   });
   @override
   Future<AppState> reduce() async {
@@ -289,9 +312,10 @@ class UpdateDocInfoCategoryCurrentAsyncInfoCategoryAction
     InfoCategoryModel infoCategoryModel =
         InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
             .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
-    infoCategoryModel.name = name ?? infoCategoryModel.name;
-    infoCategoryModel.description =
-        description ?? infoCategoryModel.description;
+    infoCategoryModel.name = name;
+    infoCategoryModel.description = description;
+    infoCategoryModel.public = public;
+
     await firestore
         .collection(InfoCategoryModel.collection)
         .document(infoCategoryModel.id)

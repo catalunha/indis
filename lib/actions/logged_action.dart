@@ -211,7 +211,8 @@ class GetDocsUserModelAsyncLoggedAction extends ReduxAction<AppState> {
 
     if (docSnap.exists) {
       dispatch(CurrentUserModelSyncLoggedAction(
-          userModel: UserModel(docSnap.documentID).fromMap(docSnap.data)));
+          userModel:
+              UserModel(docSnap.documentID).fromFirestore(docSnap.data)));
     } else {
       dispatch(CurrentUserModelSyncLoggedAction(
           userModel: UserModel(id)
