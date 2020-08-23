@@ -13,7 +13,7 @@ class AppState {
   final InfoIndOwnerState infoIndOwnerState;
   final InfoCategoryState infoCategoryState;
   final InfoCodeState infoCodeState;
-  final InfoDataState infoDataState;
+  final InfoSetorState infoSetorState;
 
   AppState({
     this.wait,
@@ -22,7 +22,7 @@ class AppState {
     this.infoIndOwnerState,
     this.infoCategoryState,
     this.infoCodeState,
-    this.infoDataState,
+    this.infoSetorState,
   });
 
   static AppState initialState() => AppState(
@@ -32,7 +32,7 @@ class AppState {
         infoIndOwnerState: InfoIndOwnerState.initialState(),
         infoCategoryState: InfoCategoryState.initialState(),
         infoCodeState: InfoCodeState.initialState(),
-        infoDataState: InfoDataState.initialState(),
+        infoSetorState: InfoSetorState.initialState(),
       );
   AppState copyWith({
     Wait wait,
@@ -41,7 +41,7 @@ class AppState {
     InfoIndOwnerState infoIndOwnerState,
     InfoCategoryState infoCategoryState,
     InfoCodeState infoCodeState,
-    InfoDataState infoDataState,
+    InfoSetorState infoSetorState,
   }) =>
       AppState(
         wait: wait ?? this.wait,
@@ -50,11 +50,11 @@ class AppState {
         infoIndOwnerState: infoIndOwnerState ?? this.infoIndOwnerState,
         infoCategoryState: infoCategoryState ?? this.infoCategoryState,
         infoCodeState: infoCodeState ?? this.infoCodeState,
-        infoDataState: infoDataState ?? this.infoDataState,
+        infoSetorState: infoSetorState ?? this.infoSetorState,
       );
   @override
   int get hashCode =>
-      infoDataState.hashCode ^
+      infoSetorState.hashCode ^
       infoCodeState.hashCode ^
       infoCategoryState.hashCode ^
       infoIndOwnerState.hashCode ^
@@ -66,7 +66,7 @@ class AppState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AppState &&
-          infoDataState == other.infoDataState &&
+          infoSetorState == other.infoSetorState &&
           infoCodeState == other.infoCodeState &&
           infoCategoryState == other.infoCategoryState &&
           infoIndOwnerState == other.infoIndOwnerState &&

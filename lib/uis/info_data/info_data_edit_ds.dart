@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InfoDataEditDS extends StatefulWidget {
+class InfoSetorEditDS extends StatefulWidget {
   final String code;
   final String description;
   final String uf;
@@ -10,7 +10,7 @@ class InfoDataEditDS extends StatefulWidget {
   final Function(String, String, String, String, String) onCreate;
   final Function(String, String, String, String, String) onUpdate;
 
-  const InfoDataEditDS({
+  const InfoSetorEditDS({
     Key key,
     this.code,
     this.description,
@@ -22,17 +22,17 @@ class InfoDataEditDS extends StatefulWidget {
     this.city,
   }) : super(key: key);
   @override
-  _InfoDataEditDSState createState() => _InfoDataEditDSState();
+  _InfoSetorEditDSState createState() => _InfoSetorEditDSState();
 }
 
-class _InfoDataEditDSState extends State<InfoDataEditDS> {
+class _InfoSetorEditDSState extends State<InfoSetorEditDS> {
   final formKey = GlobalKey<FormState>();
   String _code;
   String _description;
   String _uf;
   String _city;
   String _area;
-  void validateData() {
+  void validateSetor() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       widget.isCreateOrUpdate
@@ -61,7 +61,7 @@ class _InfoDataEditDSState extends State<InfoDataEditDS> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.cloud_upload),
         onPressed: () {
-          validateData();
+          validateSetor();
         },
       ),
     );

@@ -70,7 +70,7 @@ class HomePageDS extends StatelessWidget {
               Icons.location_on,
             ),
             title: Text('Áreas'),
-            onTap: () => Navigator.pushNamed(context, Routes.infoDataList),
+            onTap: () => Navigator.pushNamed(context, Routes.infoSetorList),
           ),
         ],
       ),

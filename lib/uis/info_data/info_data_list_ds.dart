@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:indis/models/info_setor_model.dart';
 
-class InfoDataListDS extends StatelessWidget {
-  final List<InfoSetorModel> infoDataList;
-  final Function(String) onEditInfoDataCurrent;
+class InfoSetorListDS extends StatelessWidget {
+  final List<InfoSetorModel> infoSetorList;
+  final Function(String) onEditInfoSetorCurrent;
 
-  const InfoDataListDS({
+  const InfoSetorListDS({
     Key key,
-    this.infoDataList,
-    this.onEditInfoDataCurrent,
+    this.infoSetorList,
+    this.onEditInfoSetorCurrent,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista com ${infoDataList.length} município/setor'),
+        title: Text('Lista com ${infoSetorList.length} município/setor'),
       ),
       body: ListView.builder(
-        itemCount: infoDataList.length,
+        itemCount: infoSetorList.length,
         itemBuilder: (context, index) {
-          final infoData = infoDataList[index];
+          final infoSetor = infoSetorList[index];
           return Card(
             child: ListTile(
-              title: Text('${infoData.code}'),
-              subtitle:
-                  Text('${infoData.city}\n${infoData.description}\n$infoData'),
+              title: Text('${infoSetor.code}'),
+              subtitle: Text(
+                  '${infoSetor.city}\n${infoSetor.description}\n$infoSetor'),
               onTap: () {
-                onEditInfoDataCurrent(infoData.id);
+                onEditInfoSetorCurrent(infoSetor.id);
               },
             ),
           );
@@ -36,7 +36,7 @@ class InfoDataListDS extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          onEditInfoDataCurrent(null);
+          onEditInfoSetorCurrent(null);
         },
       ),
     );

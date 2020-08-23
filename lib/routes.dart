@@ -29,8 +29,8 @@ class Routes {
   static final infoCategoryDataEdit = '/infoCategoryDataEdit';
   static final infoCodeList = '/infoCodeList';
   static final infoCodeEdit = '/infoCodeEdit';
-  static final infoDataList = '/infoDataList';
-  static final infoDataEdit = '/infoDataEdit';
+  static final infoSetorList = '/infoSetorList';
+  static final infoSetorEdit = '/infoSetorEdit';
 
   static final routes = {
     home: (BuildContext context) => UserExceptionDialog<AppState>(
@@ -46,8 +46,8 @@ class Routes {
     infoCategoryDataEdit: (BuildContext context) => InfoCategoryDataEdit(),
     infoCodeList: (BuildContext context) => InfoCodeList(),
     infoCodeEdit: (BuildContext context) => InfoCodeEdit(),
-    infoDataList: (BuildContext context) => InfoDataList(),
-    infoDataEdit: (BuildContext context) => InfoDataEdit(),
+    infoSetorList: (BuildContext context) => InfoSetorList(),
+    infoSetorEdit: (BuildContext context) => InfoSetorEdit(),
   };
 }
 

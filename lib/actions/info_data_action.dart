@@ -4,30 +4,30 @@ import 'package:indis/models/info_setor_model.dart';
 import 'package:indis/states/app_state.dart';
 
 // +++ Actions Sync
-class SetInfoDataCurrentSyncInfoDataAction extends ReduxAction<AppState> {
+class SetInfoDataCurrentSyncInfoSetorAction extends ReduxAction<AppState> {
   final String id;
 
-  SetInfoDataCurrentSyncInfoDataAction(this.id);
+  SetInfoDataCurrentSyncInfoSetorAction(this.id);
 
   @override
   AppState reduce() {
-    InfoSetorModel infoDataModel = id == null
+    InfoSetorModel infoSetorModel = id == null
         ? InfoSetorModel(null)
-        : state.infoDataState.infoDataList
+        : state.infoSetorState.infoSetorList
             .firstWhere((element) => element.id == id);
     return state.copyWith(
-      infoDataState: state.infoDataState.copyWith(
-        infoDataCurrent: infoDataModel,
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorCurrent: infoSetorModel,
       ),
     );
   }
 }
 
 // +++ Actions Async
-class GetDocsInfoDataListAsyncInfoDataAction extends ReduxAction<AppState> {
+class GetDocsInfoDataListAsyncInfoSetorAction extends ReduxAction<AppState> {
   @override
   Future<AppState> reduce() async {
-    print('GetDocsInfoDataListAsyncInfoDataAction...');
+    print('GetDocsInfoDataListAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
 
     final collRef = firestore.collection(InfoSetorModel.collection);
@@ -38,14 +38,14 @@ class GetDocsInfoDataListAsyncInfoDataAction extends ReduxAction<AppState> {
             InfoSetorModel(docSnap.documentID).fromMap(docSnap.data))
         .toList();
     return state.copyWith(
-      infoDataState: state.infoDataState.copyWith(
-        infoDataList: listDocs,
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorList: listDocs,
       ),
     );
   }
 }
 
-class CreateDocInfoDataCurrentAsyncInfoDataAction
+class CreateDocInfoDataCurrentAsyncInfoSetorAction
     extends ReduxAction<AppState> {
   final String uf;
   final String city;
@@ -54,7 +54,7 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
   final String description;
   final dynamic updated;
 
-  CreateDocInfoDataCurrentAsyncInfoDataAction({
+  CreateDocInfoDataCurrentAsyncInfoSetorAction({
     this.uf,
     this.city,
     this.area,
@@ -64,11 +64,11 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
   });
   @override
   Future<AppState> reduce() async {
-    print('SetDocInfoDataCurrentAsyncInfoDataAction...');
+    print('SetDocInfoDataCurrentAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
     InfoSetorModel infoDataModel =
-        InfoSetorModel(state.infoDataState.infoDataCurrent.id)
-            .fromMap(state.infoDataState.infoDataCurrent.toMap());
+        InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
+            .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
     infoDataModel.uf = uf;
     infoDataModel.city = city;
     infoDataModel.area = area;
@@ -90,8 +90,8 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
         .document(infoDataModel.id)
         .setData(infoDataModel.toMap(), merge: true);
     return state.copyWith(
-      infoDataState: state.infoDataState.copyWith(
-        infoDataCurrent: infoDataModel,
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorCurrent: infoDataModel,
       ),
     );
   }
@@ -99,10 +99,10 @@ class CreateDocInfoDataCurrentAsyncInfoDataAction
   @override
   Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
   @override
-  void after() => dispatch(GetDocsInfoDataListAsyncInfoDataAction());
+  void after() => dispatch(GetDocsInfoDataListAsyncInfoSetorAction());
 }
 
-class UpdateDocInfoDataCurrentAsyncInfoDataAction
+class UpdateDocInfoDataCurrentAsyncInfoSetorAction
     extends ReduxAction<AppState> {
   final String uf;
   final String city;
@@ -111,7 +111,7 @@ class UpdateDocInfoDataCurrentAsyncInfoDataAction
   final String description;
   final dynamic updated;
 
-  UpdateDocInfoDataCurrentAsyncInfoDataAction({
+  UpdateDocInfoDataCurrentAsyncInfoSetorAction({
     this.uf,
     this.city,
     this.area,
@@ -121,11 +121,11 @@ class UpdateDocInfoDataCurrentAsyncInfoDataAction
   });
   @override
   Future<AppState> reduce() async {
-    print('SetDocInfoDataCurrentAsyncInfoDataAction...');
+    print('SetDocInfoDataCurrentAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
     InfoSetorModel infoDataModel =
-        InfoSetorModel(state.infoDataState.infoDataCurrent.id)
-            .fromMap(state.infoDataState.infoDataCurrent.toMap());
+        InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
+            .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
     infoDataModel.uf = uf;
     infoDataModel.city = city;
     infoDataModel.area = area;
@@ -139,12 +139,12 @@ class UpdateDocInfoDataCurrentAsyncInfoDataAction
         .document(infoDataModel.id)
         .updateData(infoDataModel.toMap());
     return state.copyWith(
-      infoDataState: state.infoDataState.copyWith(
-        infoDataCurrent: infoDataModel,
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorCurrent: infoDataModel,
       ),
     );
   }
 
   @override
-  void after() => dispatch(GetDocsInfoDataListAsyncInfoDataAction());
+  void after() => dispatch(GetDocsInfoDataListAsyncInfoSetorAction());
 }

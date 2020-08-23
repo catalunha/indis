@@ -33,15 +33,15 @@ class ViewModel extends BaseModel<AppState> {
         ]);
   @override
   ViewModel fromStore() => ViewModel.build(
-        isCreateOrUpdate: state.infoDataState.infoDataCurrent.id == null,
-        code: state.infoDataState.infoDataCurrent.code,
-        description: state.infoDataState.infoDataCurrent.description,
-        uf: state.infoDataState.infoDataCurrent.uf,
-        city: state.infoDataState.infoDataCurrent.city,
-        area: state.infoDataState.infoDataCurrent.area,
+        isCreateOrUpdate: state.infoSetorState.infoSetorCurrent.id == null,
+        code: state.infoSetorState.infoSetorCurrent.code,
+        description: state.infoSetorState.infoSetorCurrent.description,
+        uf: state.infoSetorState.infoSetorCurrent.uf,
+        city: state.infoSetorState.infoSetorCurrent.city,
+        area: state.infoSetorState.infoSetorCurrent.area,
         onCreate: (String uf, String city, String area, String code,
             String description) {
-          dispatch(CreateDocInfoDataCurrentAsyncInfoDataAction(
+          dispatch(CreateDocInfoDataCurrentAsyncInfoSetorAction(
             code: code,
             description: description,
             uf: uf,
@@ -52,7 +52,7 @@ class ViewModel extends BaseModel<AppState> {
         },
         onUpdate: (String uf, String city, String area, String code,
             String description) {
-          dispatch(UpdateDocInfoDataCurrentAsyncInfoDataAction(
+          dispatch(UpdateDocInfoDataCurrentAsyncInfoSetorAction(
             code: code,
             description: description,
             uf: uf,
@@ -64,13 +64,13 @@ class ViewModel extends BaseModel<AppState> {
       );
 }
 
-class InfoDataEdit extends StatelessWidget {
+class InfoSetorEdit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
       //debug: this,
       model: ViewModel(),
-      builder: (context, viewModel) => InfoDataEditDS(
+      builder: (context, viewModel) => InfoSetorEditDS(
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
         code: viewModel.code,
         description: viewModel.description,

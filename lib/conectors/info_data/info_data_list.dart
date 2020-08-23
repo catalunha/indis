@@ -7,36 +7,36 @@ import 'package:indis/states/app_state.dart';
 import 'package:indis/uis/info_data/info_data_list_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
-  List<InfoSetorModel> infoDataList;
-  Function(String) onEditInfoDataCurrent;
+  List<InfoSetorModel> infoSetorList;
+  Function(String) onEditInfoSetorCurrent;
   ViewModel();
   ViewModel.build({
-    @required this.infoDataList,
-    @required this.onEditInfoDataCurrent,
+    @required this.infoSetorList,
+    @required this.onEditInfoSetorCurrent,
   }) : super(equals: [
-          infoDataList,
+          infoSetorList,
         ]);
   @override
   ViewModel fromStore() => ViewModel.build(
-        infoDataList: state.infoDataState.infoDataList,
-        onEditInfoDataCurrent: (String id) {
-          dispatch(SetInfoDataCurrentSyncInfoDataAction(id));
-          dispatch(NavigateAction.pushNamed(Routes.infoDataEdit));
+        infoSetorList: state.infoSetorState.infoSetorList,
+        onEditInfoSetorCurrent: (String id) {
+          dispatch(SetInfoDataCurrentSyncInfoSetorAction(id));
+          dispatch(NavigateAction.pushNamed(Routes.infoSetorEdit));
         },
       );
 }
 
-class InfoDataList extends StatelessWidget {
+class InfoSetorList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
       //debug: this,
       model: ViewModel(),
       onInit: (store) =>
-          store.dispatch(GetDocsInfoDataListAsyncInfoDataAction()),
-      builder: (context, viewModel) => InfoDataListDS(
-        infoDataList: viewModel.infoDataList,
-        onEditInfoDataCurrent: viewModel.onEditInfoDataCurrent,
+          store.dispatch(GetDocsInfoDataListAsyncInfoSetorAction()),
+      builder: (context, viewModel) => InfoSetorListDS(
+        infoSetorList: viewModel.infoSetorList,
+        onEditInfoSetorCurrent: viewModel.onEditInfoSetorCurrent,
       ),
     );
   }
