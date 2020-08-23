@@ -12,8 +12,8 @@ class InfoSetorModel extends FirestoreModel {
   String code;
   String description;
   dynamic updated;
-  Map<String, CodeValue> valueCodeMap;
-  Map<String, Source> sourceMap;
+  Map<String, ValueInfo> valueCodeMap;
+  Map<String, SourceInfo> sourceMap;
 
   InfoSetorModel(
     String id, {
@@ -40,15 +40,15 @@ class InfoSetorModel extends FirestoreModel {
               map['updated'].millisecondsSinceEpoch)
           : null;
       if (map["sourceMap"] is Map) {
-        sourceMap = Map<String, Source>();
+        sourceMap = Map<String, SourceInfo>();
         map["sourceMap"].forEach((k, v) {
-          sourceMap[k] = Source(k).fromMap(v);
+          sourceMap[k] = SourceInfo(k).fromMap(v);
         });
       }
       if (map["valueCodeMap"] is Map) {
-        valueCodeMap = Map<String, CodeValue>();
+        valueCodeMap = Map<String, ValueInfo>();
         map["valueCodeMap"].forEach((k, v) {
-          valueCodeMap[k] = CodeValue(k).fromMap(v);
+          valueCodeMap[k] = ValueInfo(k).fromMap(v);
         });
       }
     }
@@ -82,22 +82,22 @@ class InfoSetorModel extends FirestoreModel {
   }
 }
 
-class CodeValue {
+class ValueInfo {
   String id; //igual ao infoCodeRef.id
   InfoCodeModel infoCodeRef;
-  Map<String, CodeValueData> codeValueDataMap;
+  Map<String, ValueInfoData> codeValueDataMap;
 
-  CodeValue(this.id, {this.infoCodeRef, this.codeValueDataMap});
+  ValueInfo(this.id, {this.infoCodeRef, this.codeValueDataMap});
 
-  CodeValue fromMap(Map<String, dynamic> map) {
+  ValueInfo fromMap(Map<String, dynamic> map) {
     if (map != null) {
       infoCodeRef = map.containsKey('infoCodeRef') && map['infoCodeRef'] != null
           ? InfoCodeModel(map['infoCodeRef']['id']).fromMap(map['infoCodeRef'])
           : null;
       if (map["codeValueDataMap"] is Map) {
-        codeValueDataMap = Map<String, CodeValueData>();
+        codeValueDataMap = Map<String, ValueInfoData>();
         map["codeValueDataMap"].forEach((k, v) {
-          codeValueDataMap[k] = CodeValueData(k).fromMap(v);
+          codeValueDataMap[k] = ValueInfoData(k).fromMap(v);
         });
       }
     }
@@ -120,15 +120,15 @@ class CodeValue {
   }
 }
 
-class CodeValueData {
+class ValueInfoData {
   String id; //idem a period
   String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,
   dynamic updated;
   UserModel userRef;
-  Source sourceRef;
+  SourceInfo sourceRef;
 
-  CodeValueData(
+  ValueInfoData(
     this.id, {
     this.period,
     this.value,
@@ -137,7 +137,7 @@ class CodeValueData {
     this.sourceRef,
   });
 
-  CodeValueData fromMap(Map<String, dynamic> map) {
+  ValueInfoData fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('period')) period = map['period'];
       if (map.containsKey('value')) value = map['value'];
@@ -149,7 +149,7 @@ class CodeValueData {
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
       sourceRef = map.containsKey('sourceRef') && map['sourceRef'] != null
-          ? Source(map['sourceRef']['id']).fromMap(map['sourceRef'])
+          ? SourceInfo(map['sourceRef']['id']).fromMap(map['sourceRef'])
           : null;
     }
     return this;
@@ -170,15 +170,15 @@ class CodeValueData {
   }
 }
 
-class Source {
+class SourceInfo {
   String id;
   String name;
   String description;
   UserModel userRef;
 
-  Source(this.id, {this.name, this.description, this.userRef});
+  SourceInfo(this.id, {this.name, this.description, this.userRef});
 
-  Source fromMap(Map<String, dynamic> map) {
+  SourceInfo fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
