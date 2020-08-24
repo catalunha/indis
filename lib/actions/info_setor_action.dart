@@ -52,7 +52,7 @@ class CreateDocInfoDataCurrentAsyncInfoSetorAction
   final String area;
   final String code;
   final String description;
-  final dynamic updated;
+  final bool public;
 
   CreateDocInfoDataCurrentAsyncInfoSetorAction({
     this.uf,
@@ -60,11 +60,11 @@ class CreateDocInfoDataCurrentAsyncInfoSetorAction
     this.area,
     this.code,
     this.description,
-    this.updated,
+    this.public,
   });
   @override
   Future<AppState> reduce() async {
-    print('SetDocInfoDataCurrentAsyncInfoSetorAction...');
+    print('CreateDocInfoDataCurrentAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
     InfoSetorModel infoDataModel =
         InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
@@ -73,18 +73,18 @@ class CreateDocInfoDataCurrentAsyncInfoSetorAction
     infoDataModel.city = city;
     infoDataModel.area = area;
     infoDataModel.code = code;
-    infoDataModel.updated = updated;
     infoDataModel.description = description;
+    infoDataModel.public = public;
     infoDataModel.updated = FieldValue.serverTimestamp();
-
-    var docRef = await firestore
-        .collection(InfoSetorModel.collection)
-        .where('code', isEqualTo: code)
-        .getDocuments();
-    bool doc = docRef.documents.length != 0;
-    if (doc)
-      throw const UserException(
-          "Esta proprietário de informações e indicadores já foi cadastrado.");
+    infoDataModel.userRef = state.loggedState.userModelLogged;
+    // var docRef = await firestore
+    //     .collection(InfoSetorModel.collection)
+    //     .where('code', isEqualTo: code)
+    //     .getDocuments();
+    // bool doc = docRef.documents.length != 0;
+    // if (doc)
+    //   throw const UserException(
+    //       "Esta proprietário de informações e indicadores já foi cadastrado.");
     await firestore
         .collection(InfoSetorModel.collection)
         .document(infoDataModel.id)
@@ -109,7 +109,7 @@ class UpdateDocInfoDataCurrentAsyncInfoSetorAction
   final String area;
   final String code;
   final String description;
-  final dynamic updated;
+  final bool public;
 
   UpdateDocInfoDataCurrentAsyncInfoSetorAction({
     this.uf,
@@ -117,7 +117,7 @@ class UpdateDocInfoDataCurrentAsyncInfoSetorAction
     this.area,
     this.code,
     this.description,
-    this.updated,
+    this.public,
   });
   @override
   Future<AppState> reduce() async {
@@ -130,8 +130,8 @@ class UpdateDocInfoDataCurrentAsyncInfoSetorAction
     infoDataModel.city = city;
     infoDataModel.area = area;
     infoDataModel.code = code;
-    infoDataModel.updated = updated;
     infoDataModel.description = description;
+    infoDataModel.public = public;
     infoDataModel.updated = FieldValue.serverTimestamp();
 
     await firestore

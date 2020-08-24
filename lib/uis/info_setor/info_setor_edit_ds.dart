@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 
 class InfoSetorEditDS extends StatefulWidget {
-  final String code;
-  final String description;
   final String uf;
   final String city;
   final String area;
+  final String code;
+  final String description;
+  final bool public;
   final bool isCreateOrUpdate;
-  final Function(String, String, String, String, String) onCreate;
-  final Function(String, String, String, String, String) onUpdate;
+  final Function(String, String, String, String, String, bool) onCreate;
+  final Function(String, String, String, String, String, bool) onUpdate;
 
   const InfoSetorEditDS({
     Key key,
+    this.uf,
+    this.city,
+    this.area,
     this.code,
     this.description,
-    this.area,
+    this.public,
     this.isCreateOrUpdate,
     this.onCreate,
     this.onUpdate,
-    this.uf,
-    this.city,
   }) : super(key: key);
   @override
   _InfoSetorEditDSState createState() => _InfoSetorEditDSState();
@@ -27,17 +29,18 @@ class InfoSetorEditDS extends StatefulWidget {
 
 class _InfoSetorEditDSState extends State<InfoSetorEditDS> {
   final formKey = GlobalKey<FormState>();
-  String _code;
-  String _description;
   String _uf;
   String _city;
   String _area;
+  String _code;
+  String _description;
+  bool _public;
   void validateSetor() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       widget.isCreateOrUpdate
-          ? widget.onCreate(_uf, _city, _area, _code, _description)
-          : widget.onUpdate(_uf, _city, _area, _code, _description);
+          ? widget.onCreate(_uf, _city, _area, _code, _description, _public)
+          : widget.onUpdate(_uf, _city, _area, _code, _description, _public);
     } else {
       setState(() {});
     }
@@ -46,6 +49,7 @@ class _InfoSetorEditDSState extends State<InfoSetorEditDS> {
   @override
   void initState() {
     super.initState();
+    _public = widget.public;
   }
 
   @override
@@ -135,6 +139,15 @@ class _InfoSetorEditDSState extends State<InfoSetorEditDS> {
                 return 'Informe o que se pede.';
               }
               return null;
+            },
+          ),
+          SwitchListTile(
+            value: _public,
+            title: Text('Área pública ? Todos poderão cooperar.'),
+            onChanged: (value) {
+              setState(() {
+                _public = value;
+              });
             },
           ),
         ],

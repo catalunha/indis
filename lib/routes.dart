@@ -6,10 +6,10 @@ import 'package:indis/conectors/info_category/info_category_list.dart';
 import 'package:indis/conectors/info_category/info_category_data_tree.dart';
 import 'package:indis/conectors/info_code/info_code_edit.dart';
 import 'package:indis/conectors/info_code/info_code_list.dart';
-import 'package:indis/conectors/info_data/info_data_edit.dart';
-import 'package:indis/conectors/info_data/info_data_list.dart';
 import 'package:indis/conectors/info_ind_owner/info_ind_owner_edit.dart';
 import 'package:indis/conectors/info_ind_owner/info_ind_owner_list.dart';
+import 'package:indis/conectors/info_setor/info_setor_edit.dart';
+import 'package:indis/conectors/info_setor/info_setor_list.dart';
 
 import 'package:indis/conectors/user/user_list.dart';
 import 'package:indis/conectors/user/user_logged_edit.dart';

@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:indis/states/info_category_state.dart';
 import 'package:indis/states/info_code_state.dart';
-import 'package:indis/states/info_data_state.dart';
+import 'package:indis/states/info_setor_state.dart';
 import 'package:indis/states/info_ind_owner_state.dart';
 import 'package:indis/states/logged_state.dart';
 import 'package:indis/states/user_state.dart';

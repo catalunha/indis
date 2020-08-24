@@ -1,10 +1,10 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:indis/actions/info_data_action.dart';
+import 'package:indis/actions/info_setor_action.dart';
 import 'package:indis/models/info_setor_model.dart';
 import 'package:indis/routes.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/info_data/info_data_list_ds.dart';
+import 'package:indis/uis/info_setor/info_setor_list_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   List<InfoSetorModel> infoSetorList;

@@ -24,8 +24,7 @@ class InfoSetorListDS extends StatelessWidget {
           return Card(
             child: ListTile(
               title: Text('${infoSetor.code}'),
-              subtitle: Text(
-                  '${infoSetor.city}\n${infoSetor.description}\n$infoSetor'),
+              subtitle: Text('${infoSetor.toString()}'),
               onTap: () {
                 onEditInfoSetorCurrent(infoSetor.id);
               },

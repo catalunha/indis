@@ -6,14 +6,18 @@ import 'package:indis/models/user_model.dart';
 //uma para cada município ou setor
 class InfoSetorModel extends FirestoreModel {
   static final String collection = 'infosetor';
+
+  UserModel userRef;
   String uf;
   String city;
   String area;
   String code;
   String description;
   dynamic updated;
-  Map<String, ValueInfo> valueCodeMap;
-  Map<String, SourceInfo> sourceMap;
+  bool public; //qq user pode cooperar
+  Map<String, UserModel> editorsMap; //apenas estes users podem cooperar
+  Map<String, ValueInfo> valueInfoMap;
+  Map<String, SourceInfo> sourceInfoMap;
 
   InfoSetorModel(
     String id, {
@@ -23,8 +27,10 @@ class InfoSetorModel extends FirestoreModel {
     this.code,
     this.description,
     this.updated,
-    this.valueCodeMap,
-    this.sourceMap,
+    this.public,
+    this.editorsMap,
+    this.valueInfoMap,
+    this.sourceInfoMap,
   }) : super(id);
 
   @override
@@ -35,20 +41,24 @@ class InfoSetorModel extends FirestoreModel {
       if (map.containsKey('area')) area = map['area'];
       if (map.containsKey('code')) code = map['code'];
       if (map.containsKey('description')) description = map['description'];
+      if (map.containsKey('public')) public = map['public'];
+      userRef = map.containsKey('userRef') && map['userRef'] != null
+          ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
+          : null;
       updated = map.containsKey('updated') && map['updated'] != null
           ? DateTime.fromMillisecondsSinceEpoch(
               map['updated'].millisecondsSinceEpoch)
           : null;
-      if (map["sourceMap"] is Map) {
-        sourceMap = Map<String, SourceInfo>();
-        map["sourceMap"].forEach((k, v) {
-          sourceMap[k] = SourceInfo(k).fromMap(v);
+      if (map["sourceInfoMap"] is Map) {
+        sourceInfoMap = Map<String, SourceInfo>();
+        map["sourceInfoMap"].forEach((k, v) {
+          sourceInfoMap[k] = SourceInfo(k).fromMap(v);
         });
       }
-      if (map["valueCodeMap"] is Map) {
-        valueCodeMap = Map<String, ValueInfo>();
-        map["valueCodeMap"].forEach((k, v) {
-          valueCodeMap[k] = ValueInfo(k).fromMap(v);
+      if (map["valueInfoMap"] is Map) {
+        valueInfoMap = Map<String, ValueInfo>();
+        map["valueInfoMap"].forEach((k, v) {
+          valueInfoMap[k] = ValueInfo(k).fromMap(v);
         });
       }
     }
@@ -63,22 +73,39 @@ class InfoSetorModel extends FirestoreModel {
     if (area != null) data['area'] = this.area;
     if (code != null) data['code'] = this.code;
     if (description != null) data['description'] = this.description;
-    data['updated'] = FieldValue.serverTimestamp();
-    if (sourceMap != null) {
-      Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.sourceMap.forEach((k, v) {
-        dataFromField[k] = v.toMap();
-      });
-      data['sourceMap'] = dataFromField;
+    if (public != null) data['public'] = this.public;
+    if (userRef != null) {
+      data['userRef'] = this.userRef.toMapRef();
     }
-    if (valueCodeMap != null) {
+    data['updated'] = this.updated;
+    if (sourceInfoMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.valueCodeMap.forEach((k, v) {
+      this.sourceInfoMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['valueCodeMap'] = dataFromField;
+      data['sourceInfoMap'] = dataFromField;
+    }
+    if (valueInfoMap != null) {
+      Map<String, dynamic> dataFromField = Map<String, dynamic>();
+      this.valueInfoMap.forEach((k, v) {
+        dataFromField[k] = v.toMap();
+      });
+      data['valueInfoMap'] = dataFromField;
     }
     return data;
+  }
+
+  @override
+  String toString() {
+    String temp = 'InfoSetorModel:';
+    temp = temp + '\nuf: $uf';
+    temp = temp + '\ncity: $city';
+    temp = temp + '\narea: $area';
+    temp = temp + '\ncode: $code';
+    temp = temp + '\ndescription: $description';
+    temp = temp + '\nupdated: $updated';
+    temp = temp + '\npublic: $public';
+    return temp;
   }
 }
 
