@@ -1,6 +1,8 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_setor_model.dart';
+import 'package:indis/models/user_model.dart';
 import 'package:indis/states/app_state.dart';
 
 // +++ Actions Sync
@@ -23,7 +25,91 @@ class SetInfoDataCurrentSyncInfoSetorAction extends ReduxAction<AppState> {
   }
 }
 
+class SetUserInInfoSetorEditorsSyncInfoSetorAction
+    extends ReduxAction<AppState> {
+  final UserModel userModel;
+  final bool addOrRemove;
+  SetUserInInfoSetorEditorsSyncInfoSetorAction({
+    this.userModel,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    InfoSetorModel _infoSetorCurrent =
+        InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
+            .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
+
+    if (_infoSetorCurrent.editorsMap == null) {
+      _infoSetorCurrent.editorsMap = Map<String, UserModel>();
+      print('userModel.id: ${userModel.name}');
+    }
+    if (addOrRemove) {
+      if (!_infoSetorCurrent.editorsMap.containsKey(userModel.id)) {
+        _infoSetorCurrent.editorsMap.addAll({userModel.id: userModel});
+        return state.copyWith(
+          infoSetorState: state.infoSetorState.copyWith(
+            infoSetorCurrent: _infoSetorCurrent,
+          ),
+        );
+      } else {
+        return null;
+      }
+    } else {
+      _infoSetorCurrent.editorsMap.remove(userModel.id);
+      return state.copyWith(
+        infoSetorState: state.infoSetorState.copyWith(
+          infoSetorCurrent: _infoSetorCurrent,
+        ),
+      );
+    }
+  }
+}
+
+class SetInfoCodeInInfoSetorValueMapSyncInfoCodeAction
+    extends ReduxAction<AppState> {
+  final InfoCodeModel infoCodeModel;
+  final bool addOrRemove;
+  SetInfoCodeInInfoSetorValueMapSyncInfoCodeAction({
+    this.infoCodeModel,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    InfoSetorModel _infoSetorCurrent =
+        InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
+            .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
+
+    if (_infoSetorCurrent.valueMap == null) {
+      _infoSetorCurrent.valueMap = Map<String, ValueInfo>();
+    }
+    if (addOrRemove) {
+      if (!_infoSetorCurrent.valueMap.containsKey(infoCodeModel.id)) {
+        _infoSetorCurrent.valueMap.addAll({
+          infoCodeModel.id:
+              ValueInfo(infoCodeModel.id, infoCodeRef: infoCodeModel)
+        });
+        return state.copyWith(
+          infoSetorState: state.infoSetorState.copyWith(
+            infoSetorCurrent: _infoSetorCurrent,
+          ),
+        );
+      } else {
+        return null;
+      }
+    } else {
+      _infoSetorCurrent.valueMap.remove(infoCodeModel.id);
+      return state.copyWith(
+        infoSetorState: state.infoSetorState.copyWith(
+          infoSetorCurrent: _infoSetorCurrent,
+        ),
+      );
+    }
+  }
+}
+
+// +++ +++++++++++++++++++++++++++++++++++++++++++++++++
 // +++ Actions Async
+// +++ +++++++++++++++++++++++++++++++++++++++++++++++++
 class GetDocsInfoDataListAsyncInfoSetorAction extends ReduxAction<AppState> {
   @override
   Future<AppState> reduce() async {

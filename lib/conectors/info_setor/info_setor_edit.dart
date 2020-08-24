@@ -1,6 +1,10 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:indis/actions/info_code_action.dart';
 import 'package:indis/actions/info_setor_action.dart';
+import 'package:indis/actions/user_action.dart';
+import 'package:indis/models/info_setor_model.dart';
+import 'package:indis/models/user_model.dart';
 import 'package:indis/states/app_state.dart';
 import 'package:indis/uis/info_setor/info_setor_edit_ds.dart';
 
@@ -11,6 +15,8 @@ class ViewModel extends BaseModel<AppState> {
   String code;
   String description;
   bool public;
+  Map<String, UserModel> editorsMap;
+  Map<String, ValueInfo> valueMap;
   bool isCreateOrUpdate;
   Function(String, String, String, String, String, bool) onCreate;
   Function(String, String, String, String, String, bool) onUpdate;
@@ -22,6 +28,8 @@ class ViewModel extends BaseModel<AppState> {
     @required this.code,
     @required this.description,
     @required this.public,
+    @required this.editorsMap,
+    @required this.valueMap,
     @required this.isCreateOrUpdate,
     @required this.onCreate,
     @required this.onUpdate,
@@ -32,6 +40,7 @@ class ViewModel extends BaseModel<AppState> {
           code,
           description,
           public,
+          editorsMap,
           isCreateOrUpdate,
         ]);
   @override
@@ -43,6 +52,8 @@ class ViewModel extends BaseModel<AppState> {
         code: state.infoSetorState.infoSetorCurrent.code,
         description: state.infoSetorState.infoSetorCurrent.description,
         public: state.infoSetorState.infoSetorCurrent.public ?? false,
+        editorsMap: state.infoSetorState.infoSetorCurrent.editorsMap,
+        valueMap: state.infoSetorState.infoSetorCurrent.valueMap,
         onCreate: (String uf, String city, String area, String code,
             String description, bool public) {
           dispatch(CreateDocInfoDataCurrentAsyncInfoSetorAction(
@@ -75,6 +86,10 @@ class InfoSetorEdit extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
       //debug: this,
+      onInit: (store) {
+        store.dispatch(GetDocsUserListAsyncUserAction());
+        store.dispatch(GetDocsInfoCodeListAsyncInfoCodeAction());
+      },
       model: ViewModel(),
       builder: (context, viewModel) => InfoSetorEditDS(
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
@@ -84,6 +99,8 @@ class InfoSetorEdit extends StatelessWidget {
         code: viewModel.code,
         description: viewModel.description,
         public: viewModel.public,
+        editorsMap: viewModel.editorsMap,
+        valueMap: viewModel.valueMap,
         onCreate: viewModel.onCreate,
         onUpdate: viewModel.onUpdate,
       ),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:indis/conectors/info_code/info_code_select_to_infosetorvalue.dart';
+import 'package:indis/conectors/user/user_select_to_infosetor.dart';
+import 'package:indis/models/info_setor_model.dart';
+import 'package:indis/models/user_model.dart';
 
 class InfoSetorEditDS extends StatefulWidget {
   final String uf;
@@ -7,6 +11,8 @@ class InfoSetorEditDS extends StatefulWidget {
   final String code;
   final String description;
   final bool public;
+  final Map<String, UserModel> editorsMap;
+  final Map<String, ValueInfo> valueMap;
   final bool isCreateOrUpdate;
   final Function(String, String, String, String, String, bool) onCreate;
   final Function(String, String, String, String, String, bool) onUpdate;
@@ -22,6 +28,8 @@ class InfoSetorEditDS extends StatefulWidget {
     this.isCreateOrUpdate,
     this.onCreate,
     this.onUpdate,
+    this.editorsMap,
+    this.valueMap,
   }) : super(key: key);
   @override
   _InfoSetorEditDSState createState() => _InfoSetorEditDSState();
@@ -143,13 +151,91 @@ class _InfoSetorEditDSState extends State<InfoSetorEditDS> {
           ),
           SwitchListTile(
             value: _public,
-            title: Text('Área pública ? Todos poderão cooperar.'),
+            title: Text(
+                'Área pública ? Todos os usuários poderão cooperar com informações.'),
             onChanged: (value) {
               setState(() {
                 _public = value;
               });
             },
           ),
+          !_public
+              ? ListTile(
+                  title: Text(
+                      'Há ${(widget.editorsMap != null && widget.editorsMap.isNotEmpty) ? widget.editorsMap.length : null} usuários cooperando com informações.'),
+                  leading: Icon(Icons.search),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => UserSelectToInfoSetorEditors(),
+                    );
+                    // .then((value) => setState(() {}));
+                  },
+                )
+              : Container(),
+          !_public && widget.editorsMap != null && widget.editorsMap.isNotEmpty
+              ? Container(
+                  width: double.infinity,
+                  height: 100,
+                  child: ListView.builder(
+                    itemCount: widget.editorsMap.length,
+                    itemBuilder: (context, index) {
+                      UserModel editorsList =
+                          widget.editorsMap.entries.toList()[index].value;
+                      return ListTile(
+                        title: Text('${editorsList.name}'),
+                        // trailing: IconButton(
+                        //     icon: Icon(Icons.delete),
+                        //     onPressed: () {
+                        //       widget.onSetWorkerTheGroupSyncGroupAction(
+                        //         clone,
+                        //         false,
+                        //       );
+                        //       // setState(() {});
+                        //     }),
+                      );
+                    },
+                  ),
+                )
+              : Container(),
+          ListTile(
+            title: Text(
+                'Há ${(widget.valueMap != null && widget.valueMap.isNotEmpty) ? widget.valueMap.length : null} informações.'),
+            leading: Icon(Icons.search),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => InfoCodeSelectToInfoSetorValue(),
+              );
+              // .then((value) => setState(() {}));
+            },
+          ),
+          widget.valueMap != null && widget.valueMap.isNotEmpty
+              ? Container(
+                  width: double.infinity,
+                  height: 100,
+                  child: ListView.builder(
+                    itemCount: widget.valueMap.length,
+                    itemBuilder: (context, index) {
+                      ValueInfo valueInfo =
+                          widget.valueMap.entries.toList()[index].value;
+                      return ListTile(
+                        title: Text(
+                            '${valueInfo.infoCodeRef.code}-${valueInfo.infoCodeRef.name}'),
+                        // trailing: IconButton(
+                        //     icon: Icon(Icons.delete),
+                        //     onPressed: () {
+                        //       widget.onSetWorkerTheGroupSyncGroupAction(
+                        //         clone,
+                        //         false,
+                        //       );
+                        //       // setState(() {});
+                        //     }),
+                      );
+                    },
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

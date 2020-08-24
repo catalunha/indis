@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/firestore_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/user_model.dart';
@@ -15,9 +14,10 @@ class InfoSetorModel extends FirestoreModel {
   String description;
   dynamic updated;
   bool public; //qq user pode cooperar
-  Map<String, UserModel> editorsMap; //apenas estes users podem cooperar
-  Map<String, ValueInfo> valueInfoMap;
-  Map<String, SourceInfo> sourceInfoMap;
+  Map<String, UserModel>
+      editorsMap; //são UserModelRef e apenas estes users podem cooperar
+  Map<String, ValueInfo> valueMap;
+  Map<String, Source> sourceMap;
 
   InfoSetorModel(
     String id, {
@@ -29,8 +29,8 @@ class InfoSetorModel extends FirestoreModel {
     this.updated,
     this.public,
     this.editorsMap,
-    this.valueInfoMap,
-    this.sourceInfoMap,
+    this.valueMap,
+    this.sourceMap,
   }) : super(id);
 
   @override
@@ -49,16 +49,22 @@ class InfoSetorModel extends FirestoreModel {
           ? DateTime.fromMillisecondsSinceEpoch(
               map['updated'].millisecondsSinceEpoch)
           : null;
-      if (map["sourceInfoMap"] is Map) {
-        sourceInfoMap = Map<String, SourceInfo>();
-        map["sourceInfoMap"].forEach((k, v) {
-          sourceInfoMap[k] = SourceInfo(k).fromMap(v);
+      if (map["editorsMap"] is Map) {
+        editorsMap = Map<String, UserModel>();
+        map["editorsMap"].forEach((k, v) {
+          editorsMap[k] = UserModel(k).fromMap(v);
         });
       }
-      if (map["valueInfoMap"] is Map) {
-        valueInfoMap = Map<String, ValueInfo>();
-        map["valueInfoMap"].forEach((k, v) {
-          valueInfoMap[k] = ValueInfo(k).fromMap(v);
+      if (map["sourceMap"] is Map) {
+        sourceMap = Map<String, Source>();
+        map["sourceMap"].forEach((k, v) {
+          sourceMap[k] = Source(k).fromMap(v);
+        });
+      }
+      if (map["valueMap"] is Map) {
+        valueMap = Map<String, ValueInfo>();
+        map["valueMap"].forEach((k, v) {
+          valueMap[k] = ValueInfo(k).fromMap(v);
         });
       }
     }
@@ -78,19 +84,26 @@ class InfoSetorModel extends FirestoreModel {
       data['userRef'] = this.userRef.toMapRef();
     }
     data['updated'] = this.updated;
-    if (sourceInfoMap != null) {
+    if (sourceMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.sourceInfoMap.forEach((k, v) {
+      this.sourceMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['sourceInfoMap'] = dataFromField;
+      data['sourceMap'] = dataFromField;
     }
-    if (valueInfoMap != null) {
+    if (editorsMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.valueInfoMap.forEach((k, v) {
+      this.editorsMap.forEach((k, v) {
+        dataFromField[k] = v.toMapRef();
+      });
+      data['editorsMap'] = dataFromField;
+    }
+    if (valueMap != null) {
+      Map<String, dynamic> dataFromField = Map<String, dynamic>();
+      this.valueMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['valueInfoMap'] = dataFromField;
+      data['valueMap'] = dataFromField;
     }
     return data;
   }
@@ -105,6 +118,19 @@ class InfoSetorModel extends FirestoreModel {
     temp = temp + '\ndescription: $description';
     temp = temp + '\nupdated: $updated';
     temp = temp + '\npublic: $public';
+    temp = temp + '\neditorsMap: ${editorsMap?.length}';
+    List<UserModel> editorsList = editorsMap?.values?.toList() ?? [];
+    editorsList.sort((a, b) => a.name.compareTo(b.name));
+    for (var userModel in editorsList) {
+      temp = temp + '\n ${userModel.name} (id:${userModel.id.substring(0, 5)})';
+    }
+    temp = temp + '\nvalueMap: ${valueMap?.length}';
+    List<ValueInfo> valueList = valueMap?.values?.toList() ?? [];
+    valueList.sort((a, b) => a.infoCodeRef.code.compareTo(b.infoCodeRef.code));
+    for (var valueInfo in valueList) {
+      temp = temp +
+          '\n ${valueInfo.infoCodeRef.code} (id:${valueInfo.id.substring(0, 5)})';
+    }
     return temp;
   }
 }
@@ -112,19 +138,19 @@ class InfoSetorModel extends FirestoreModel {
 class ValueInfo {
   String id; //igual ao infoCodeRef.id
   InfoCodeModel infoCodeRef;
-  Map<String, ValueInfoData> codeValueDataMap;
+  Map<String, ValueData> valueDataMap;
 
-  ValueInfo(this.id, {this.infoCodeRef, this.codeValueDataMap});
+  ValueInfo(this.id, {this.infoCodeRef, this.valueDataMap});
 
   ValueInfo fromMap(Map<String, dynamic> map) {
     if (map != null) {
       infoCodeRef = map.containsKey('infoCodeRef') && map['infoCodeRef'] != null
           ? InfoCodeModel(map['infoCodeRef']['id']).fromMap(map['infoCodeRef'])
           : null;
-      if (map["codeValueDataMap"] is Map) {
-        codeValueDataMap = Map<String, ValueInfoData>();
-        map["codeValueDataMap"].forEach((k, v) {
-          codeValueDataMap[k] = ValueInfoData(k).fromMap(v);
+      if (map["valueDataMap"] is Map) {
+        valueDataMap = Map<String, ValueData>();
+        map["valueDataMap"].forEach((k, v) {
+          valueDataMap[k] = ValueData(k).fromMap(v);
         });
       }
     }
@@ -134,28 +160,28 @@ class ValueInfo {
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.infoCodeRef != null) {
-      data['infoCodeRef'] = this.infoCodeRef.toMapRef();
+      data['infoCodeRef'] = this.infoCodeRef.toMap();
     }
-    if (codeValueDataMap != null) {
+    if (valueDataMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
-      this.codeValueDataMap.forEach((k, v) {
+      this.valueDataMap.forEach((k, v) {
         dataFromField[k] = v.toMap();
       });
-      data['codeValueDataMap'] = dataFromField;
+      data['valueDataMap'] = dataFromField;
     }
     return data;
   }
 }
 
-class ValueInfoData {
-  String id; //idem a period
+class ValueData {
+  String id;
   String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,
   dynamic updated;
   UserModel userRef;
-  SourceInfo sourceRef;
+  Source sourceRef;
 
-  ValueInfoData(
+  ValueData(
     this.id, {
     this.period,
     this.value,
@@ -164,7 +190,7 @@ class ValueInfoData {
     this.sourceRef,
   });
 
-  ValueInfoData fromMap(Map<String, dynamic> map) {
+  ValueData fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('period')) period = map['period'];
       if (map.containsKey('value')) value = map['value'];
@@ -176,7 +202,7 @@ class ValueInfoData {
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
       sourceRef = map.containsKey('sourceRef') && map['sourceRef'] != null
-          ? SourceInfo(map['sourceRef']['id']).fromMap(map['sourceRef'])
+          ? Source(map['sourceRef']['id']).fromMap(map['sourceRef'])
           : null;
     }
     return this;
@@ -192,25 +218,30 @@ class ValueInfoData {
     if (this.sourceRef != null) {
       data['sourceRef'] = this.sourceRef.toMapRef();
     }
-    data['updated'] = FieldValue.serverTimestamp();
+    data['updated'] = this.updated;
     return data;
   }
 }
 
-class SourceInfo {
+class Source {
   String id;
   String name;
   String description;
   UserModel userRef;
+  dynamic updated;
 
-  SourceInfo(this.id, {this.name, this.description, this.userRef});
+  Source(this.id, {this.name, this.description, this.userRef, this.updated});
 
-  SourceInfo fromMap(Map<String, dynamic> map) {
+  Source fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
       userRef = map.containsKey('userRef') && map['userRef'] != null
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
+          : null;
+      updated = map.containsKey('updated') && map['updated'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              map['updated'].millisecondsSinceEpoch)
           : null;
     }
     return this;
@@ -223,6 +254,8 @@ class SourceInfo {
     if (this.userRef != null) {
       data['userRef'] = this.userRef.toMapRef();
     }
+    data['updated'] = this.updated;
+
     return data;
   }
 
