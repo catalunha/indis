@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
+import 'package:indis/models/info_setor_model.dart';
 import 'package:indis/states/app_state.dart';
 import 'package:uuid/uuid.dart' as uuid;
 
@@ -195,6 +196,33 @@ class SetCopyItemMapInInfoCategorySyncInfoCategoryAction
     return state.copyWith(
       infoCategoryState: state.infoCategoryState.copyWith(
         infoCategoryCurrent: _infoCategoryCurrent,
+      ),
+    );
+  }
+}
+
+class SetInfoSetorInInfoCategorySetorSyncInfoCategoryAction
+    extends ReduxAction<AppState> {
+  final InfoSetorModel infoSetorModel;
+  final bool addOrRemove;
+  SetInfoSetorInInfoCategorySetorSyncInfoCategoryAction({
+    this.infoSetorModel,
+    this.addOrRemove,
+  });
+  @override
+  AppState reduce() {
+    InfoCategoryModel _infoCategoryModel =
+        InfoCategoryModel(state.infoCategoryState.infoCategoryCurrent.id)
+            .fromMap(state.infoCategoryState.infoCategoryCurrent.toMap());
+
+    if (addOrRemove) {
+      _infoCategoryModel.setorRef = infoSetorModel;
+    } else {
+      _infoCategoryModel.setorRef = null;
+    }
+    return state.copyWith(
+      infoCategoryState: state.infoCategoryState.copyWith(
+        infoCategoryCurrent: _infoCategoryModel,
       ),
     );
   }

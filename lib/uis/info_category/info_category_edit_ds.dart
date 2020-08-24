@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:indis/conectors/info_category/info_category_select_to_copyitemmap.dart';
+import 'package:indis/conectors/info_setor/info_setor_select_to_infocategorysetor%20.dart';
+import 'package:indis/models/info_setor_model.dart';
 
 class InfoCategoryEditDS extends StatefulWidget {
   final String name;
   final String description;
   final bool public;
+  final InfoSetorModel setorRef;
   final bool containItemMap;
   final bool isCreateOrUpdate;
   final Function(String, String, bool) onCreate;
@@ -21,6 +24,7 @@ class InfoCategoryEditDS extends StatefulWidget {
     this.onCreate,
     this.onUpdate,
     this.containItemMap,
+    this.setorRef,
     // this.onSetInfoCodeInInfoCategory,
     // this.infoCodeRefMap,
   }) : super(key: key);
@@ -108,6 +112,18 @@ class _InfoCategoryEditDSState extends State<InfoCategoryEditDS> {
               setState(() {
                 _public = value;
               });
+            },
+          ),
+          ListTile(
+            title: Text('Qual a área associada a estas categorias ?'),
+            subtitle: Text(
+                '${widget.setorRef?.code}-${widget.setorRef?.uf}-${widget.setorRef?.city}'),
+            leading: Icon(Icons.search),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => InfoSetorSelectToInfoCategorySetor(),
+              );
             },
           ),
           widget.isCreateOrUpdate

@@ -1,5 +1,6 @@
 import 'package:indis/models/firestore_model.dart';
 import 'package:indis/models/info_code_model.dart';
+import 'package:indis/models/info_setor_model.dart';
 import 'package:indis/models/user_model.dart';
 // import 'package:uuid/uuid.dart' as uuid;
 
@@ -11,12 +12,14 @@ class InfoCategoryModel extends FirestoreModel {
   String description;
   bool public;
   Map<String, InfoCategoryItem> itemMap;
+  InfoSetorModel setorRef;
   InfoCategoryModel(
     String id, {
     this.userRef,
     this.name,
     this.public,
     this.itemMap,
+    this.setorRef,
   }) : super(id);
 
   @override
@@ -27,6 +30,9 @@ class InfoCategoryModel extends FirestoreModel {
       if (map.containsKey('public')) public = map['public'];
       userRef = map.containsKey('userRef') && map['userRef'] != null
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
+          : null;
+      setorRef = map.containsKey('setorRef') && map['setorRef'] != null
+          ? InfoSetorModel(map['setorRef']['id']).fromMap(map['setorRef'])
           : null;
       if (map["itemMap"] is Map) {
         itemMap = Map<String, InfoCategoryItem>();
@@ -47,7 +53,11 @@ class InfoCategoryModel extends FirestoreModel {
     if (userRef != null) {
       data['userRef'] = this.userRef.toMapRef();
     }
-
+    if (setorRef != null) {
+      data['setorRef'] = this.setorRef.toMapRef();
+    } else {
+      data['setorRef'] = null;
+    }
     if (itemMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
       itemMap.forEach((k, v) {

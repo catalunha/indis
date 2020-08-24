@@ -108,6 +108,15 @@ class InfoSetorModel extends FirestoreModel {
     return data;
   }
 
+  Map<String, dynamic> toMapRef() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (uf != null) data['uf'] = this.uf;
+    if (city != null) data['city'] = this.city;
+    if (code != null) data['code'] = this.code;
+    data.addAll({'id': this.id});
+    return data;
+  }
+
   @override
   String toString() {
     String temp = 'InfoSetorModel:';
