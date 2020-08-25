@@ -5,45 +5,61 @@ import 'package:meta/meta.dart';
 class InfoSetorState {
   final List<InfoSetorModel> infoSetorList;
   final InfoSetorModel infoSetorCurrent;
-  // final List<InfoSetorSourceField> infoSetorSourceFieldList;
-  // final InfoSetorSourceField infoSetorSourceFieldCurrent;
+  final List<InfoSetorSourceModel> infoSetorSourceList;
+  final InfoSetorSourceModel infoSetorSourceCurrent;
+  final List<InfoSetorValueDataModel> infoSetorValueDataList;
+  final InfoSetorValueDataModel infoSetorValueDataCurrent;
   InfoSetorState({
     this.infoSetorList,
     this.infoSetorCurrent,
-    // this.infoSetorSourceFieldList,
-    // this.infoSetorSourceFieldCurrent,
+    this.infoSetorSourceList,
+    this.infoSetorSourceCurrent,
+    this.infoSetorValueDataList,
+    this.infoSetorValueDataCurrent,
   });
   factory InfoSetorState.initialState() => InfoSetorState(
         infoSetorList: <InfoSetorModel>[],
         infoSetorCurrent: null,
-        // infoSetorSourceFieldList: <InfoSetorSourceField>[],
-        // infoSetorSourceFieldCurrent: null,
+        infoSetorSourceList: <InfoSetorSourceModel>[],
+        infoSetorSourceCurrent: null,
+        infoSetorValueDataList: <InfoSetorValueDataModel>[],
+        infoSetorValueDataCurrent: null,
       );
   InfoSetorState copyWith({
     List<InfoSetorModel> infoSetorList,
     InfoSetorModel infoSetorCurrent,
-    // List<InfoSetorSourceField> infoSetorSourceFieldList,
-    // InfoSetorModel infoSetorSourceFieldCurrent,
+    List<InfoSetorSourceModel> infoSetorSourceList,
+    InfoSetorSourceModel infoSetorSourceCurrent,
+    List<InfoSetorValueDataModel> infoSetorValueDataList,
+    InfoSetorValueDataModel infoSetorValueDataCurrent,
   }) =>
       InfoSetorState(
+        infoSetorValueDataCurrent:
+            infoSetorValueDataCurrent ?? this.infoSetorValueDataCurrent,
+        infoSetorValueDataList:
+            infoSetorValueDataList ?? this.infoSetorValueDataList,
         infoSetorList: infoSetorList ?? this.infoSetorList,
         infoSetorCurrent: infoSetorCurrent ?? this.infoSetorCurrent,
-        // infoSetorSourceFieldList:
-        //     infoSetorSourceFieldList ?? this.infoSetorSourceFieldList,
-        // infoSetorSourceFieldCurrent:
-        //     infoSetorSourceFieldCurrent ?? this.infoSetorSourceFieldCurrent,
+        infoSetorSourceList: infoSetorSourceList ?? this.infoSetorSourceList,
+        infoSetorSourceCurrent:
+            infoSetorSourceCurrent ?? this.infoSetorSourceCurrent,
       );
   @override
   int get hashCode =>
-      // infoSetorSourceFieldCurrent.hashCode ^
-      // infoSetorSourceFieldList.hashCode ^
-      infoSetorList.hashCode ^ infoSetorCurrent.hashCode;
+      infoSetorValueDataCurrent.hashCode ^
+      infoSetorValueDataList.hashCode ^
+      infoSetorSourceCurrent.hashCode ^
+      infoSetorSourceList.hashCode ^
+      infoSetorList.hashCode ^
+      infoSetorCurrent.hashCode;
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is InfoSetorState &&
-          // infoSetorSourceFieldCurrent == other.infoSetorSourceFieldCurrent &&
-          // infoSetorSourceFieldList == other.infoSetorSourceFieldList &&
+          infoSetorValueDataCurrent == other.infoSetorValueDataCurrent &&
+          infoSetorValueDataList == other.infoSetorValueDataList &&
+          infoSetorSourceCurrent == other.infoSetorSourceCurrent &&
+          infoSetorSourceList == other.infoSetorSourceList &&
           infoSetorList == other.infoSetorList &&
           infoSetorCurrent == other.infoSetorCurrent &&
           runtimeType == other.runtimeType;

@@ -12,7 +12,7 @@ class InfoSetorEditDS extends StatefulWidget {
   final String description;
   final bool public;
   final Map<String, UserModel> editorsMap;
-  final Map<String, ValueInfo> valueMap;
+  final Map<String, InfoSetorValueModel> valueMap;
   final bool isCreateOrUpdate;
   final Function(String, String, String, String, String, bool) onCreate;
   final Function(String, String, String, String, String, bool) onUpdate;
@@ -217,7 +217,7 @@ class _InfoSetorEditDSState extends State<InfoSetorEditDS> {
                   child: ListView.builder(
                     itemCount: widget.valueMap.length,
                     itemBuilder: (context, index) {
-                      ValueInfo valueInfo =
+                      InfoSetorValueModel valueInfo =
                           widget.valueMap.entries.toList()[index].value;
                       return ListTile(
                         title: Text(

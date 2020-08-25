@@ -4,12 +4,14 @@ import 'package:indis/conectors/info_code/info_code_select_to_infocategoryitem.d
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_setor_model.dart';
+import 'package:indis/routes.dart';
 
 class InfoCategoryItemTreeDS extends StatefulWidget {
   final Map<String, InfoCategoryItem> itemMap;
   final InfoSetorModel infoSetorModel;
   final InfoCategoryModel infoCategoryModel;
   final Function(String, bool) onEditInfoCategoryItemCurrent;
+  final Function() onInfoSetorSourceList;
   final Function(String, bool) onSetInfoCategoryItemCurrent;
   final Function(InfoCodeModel)
       onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction;
@@ -22,6 +24,7 @@ class InfoCategoryItemTreeDS extends StatefulWidget {
     this.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,
     this.infoSetorModel,
     this.infoCategoryModel,
+    this.onInfoSetorSourceList,
   }) : super(key: key);
 
   @override
@@ -41,7 +44,8 @@ class _InfoCategoryItemTreeDSState extends State<InfoCategoryItemTreeDS> {
           widget.infoCategoryModel.setorRef != null
               ? IconButton(
                   icon: Icon(Icons.book),
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.pushNamed(context, Routes.infoSetorSourceList),
                 )
               : Container()
         ],
@@ -110,7 +114,8 @@ class _InfoCategoryItemTreeDSState extends State<InfoCategoryItemTreeDS> {
   Widget infoCodeContent(
       InfoCodeModel infoCodeModel, InfoCategoryItem categoryItem) {
     bool containInfoCode = false;
-    if (widget.infoCategoryModel.setorRef != null) {
+    if (widget.infoCategoryModel.setorRef != null &&
+        widget.infoSetorModel != null) {
       containInfoCode =
           widget.infoSetorModel.valueMap.containsKey(infoCodeModel.id);
     }

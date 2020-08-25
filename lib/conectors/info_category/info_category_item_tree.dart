@@ -12,6 +12,7 @@ class ViewModel extends BaseModel<AppState> {
   Map<String, InfoCategoryItem> itemMap;
   InfoCategoryModel infoCategoryModel;
   InfoSetorModel infoSetorModel;
+  Function() onInfoSetorSourceList;
   Function(String, bool) onEditInfoCategoryItemCurrent;
   Function(String, bool) onSetInfoCategoryItemCurrent;
   Function(InfoCodeModel) onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction;
@@ -21,6 +22,7 @@ class ViewModel extends BaseModel<AppState> {
     @required this.itemMap,
     @required this.infoCategoryModel,
     @required this.infoSetorModel,
+    @required this.onInfoSetorSourceList,
     @required this.onEditInfoCategoryItemCurrent,
     @required this.onSetInfoCategoryItemCurrent,
     @required this.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,
@@ -47,6 +49,9 @@ class ViewModel extends BaseModel<AppState> {
             addOrRemove: false,
           ));
         },
+        onInfoSetorSourceList: () {
+          dispatch(NavigateAction.pushNamed(Routes.infoSetorSourceList));
+        },
       );
 }
 
@@ -60,6 +65,7 @@ class InfoCategoryItemTree extends StatelessWidget {
         infoCategoryModel: viewModel.infoCategoryModel,
         infoSetorModel: viewModel.infoSetorModel,
         onEditInfoCategoryItemCurrent: viewModel.onEditInfoCategoryItemCurrent,
+        onInfoSetorSourceList: viewModel.onInfoSetorSourceList,
         onSetInfoCategoryItemCurrent: viewModel.onSetInfoCategoryItemCurrent,
         onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction:
             viewModel.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,

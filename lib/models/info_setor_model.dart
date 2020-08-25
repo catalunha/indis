@@ -16,8 +16,8 @@ class InfoSetorModel extends FirestoreModel {
   bool public; //qq user pode cooperar
   Map<String, UserModel>
       editorsMap; //são UserModelRef e apenas estes users podem cooperar
-  Map<String, ValueInfo> valueMap;
-  Map<String, Source> sourceMap;
+  Map<String, InfoSetorValueModel> valueMap;
+  Map<String, InfoSetorSourceModel> sourceMap;
 
   InfoSetorModel(
     String id, {
@@ -56,15 +56,15 @@ class InfoSetorModel extends FirestoreModel {
         });
       }
       if (map["sourceMap"] is Map) {
-        sourceMap = Map<String, Source>();
+        sourceMap = Map<String, InfoSetorSourceModel>();
         map["sourceMap"].forEach((k, v) {
-          sourceMap[k] = Source(k).fromMap(v);
+          sourceMap[k] = InfoSetorSourceModel(k).fromMap(v);
         });
       }
       if (map["valueMap"] is Map) {
-        valueMap = Map<String, ValueInfo>();
+        valueMap = Map<String, InfoSetorValueModel>();
         map["valueMap"].forEach((k, v) {
-          valueMap[k] = ValueInfo(k).fromMap(v);
+          valueMap[k] = InfoSetorValueModel(k).fromMap(v);
         });
       }
     }
@@ -120,6 +120,7 @@ class InfoSetorModel extends FirestoreModel {
   @override
   String toString() {
     String temp = 'InfoSetorModel:';
+    temp = temp + '\nid: $id';
     temp = temp + '\nuf: $uf';
     temp = temp + '\ncity: $city';
     temp = temp + '\narea: $area';
@@ -134,7 +135,7 @@ class InfoSetorModel extends FirestoreModel {
       temp = temp + '\n ${userModel.name} (id:${userModel.id.substring(0, 5)})';
     }
     temp = temp + '\nvalueMap: ${valueMap?.length}';
-    List<ValueInfo> valueList = valueMap?.values?.toList() ?? [];
+    List<InfoSetorValueModel> valueList = valueMap?.values?.toList() ?? [];
     valueList.sort((a, b) => a.infoCodeRef.code.compareTo(b.infoCodeRef.code));
     for (var valueInfo in valueList) {
       temp = temp +
@@ -144,22 +145,22 @@ class InfoSetorModel extends FirestoreModel {
   }
 }
 
-class ValueInfo {
+class InfoSetorValueModel {
   String id; //igual ao infoCodeRef.id
   InfoCodeModel infoCodeRef;
-  Map<String, ValueData> valueDataMap;
+  Map<String, InfoSetorValueDataModel> valueDataMap;
 
-  ValueInfo(this.id, {this.infoCodeRef, this.valueDataMap});
+  InfoSetorValueModel(this.id, {this.infoCodeRef, this.valueDataMap});
 
-  ValueInfo fromMap(Map<String, dynamic> map) {
+  InfoSetorValueModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
       infoCodeRef = map.containsKey('infoCodeRef') && map['infoCodeRef'] != null
           ? InfoCodeModel(map['infoCodeRef']['id']).fromMap(map['infoCodeRef'])
           : null;
       if (map["valueDataMap"] is Map) {
-        valueDataMap = Map<String, ValueData>();
+        valueDataMap = Map<String, InfoSetorValueDataModel>();
         map["valueDataMap"].forEach((k, v) {
-          valueDataMap[k] = ValueData(k).fromMap(v);
+          valueDataMap[k] = InfoSetorValueDataModel(k).fromMap(v);
         });
       }
     }
@@ -182,15 +183,15 @@ class ValueInfo {
   }
 }
 
-class ValueData {
+class InfoSetorValueDataModel {
   String id;
   String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,
   dynamic updated;
   UserModel userRef;
-  Source sourceRef;
+  InfoSetorSourceModel sourceRef;
 
-  ValueData(
+  InfoSetorValueDataModel(
     this.id, {
     this.period,
     this.value,
@@ -199,7 +200,7 @@ class ValueData {
     this.sourceRef,
   });
 
-  ValueData fromMap(Map<String, dynamic> map) {
+  InfoSetorValueDataModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('period')) period = map['period'];
       if (map.containsKey('value')) value = map['value'];
@@ -211,7 +212,8 @@ class ValueData {
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
       sourceRef = map.containsKey('sourceRef') && map['sourceRef'] != null
-          ? Source(map['sourceRef']['id']).fromMap(map['sourceRef'])
+          ? InfoSetorSourceModel(map['sourceRef']['id'])
+              .fromMap(map['sourceRef'])
           : null;
     }
     return this;
@@ -232,23 +234,24 @@ class ValueData {
   }
 }
 
-class Source {
+class InfoSetorSourceModel {
   String id;
   String name;
   String description;
   UserModel userRef;
   dynamic updated;
 
-  Source(this.id, {this.name, this.description, this.userRef, this.updated});
+  InfoSetorSourceModel(this.id,
+      {this.name, this.description, this.userRef, this.updated});
 
-  Source fromMap(Map<String, dynamic> map) {
+  InfoSetorSourceModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
       if (map.containsKey('name')) name = map['name'];
       if (map.containsKey('description')) description = map['description'];
-      userRef = map.containsKey('userRef') && map['userRef'] != null
+      userRef = map['userRef'] != null && map.containsKey('userRef')
           ? UserModel(map['userRef']['id']).fromMap(map['userRef'])
           : null;
-      updated = map.containsKey('updated') && map['updated'] != null
+      updated = map['updated'] != null && map.containsKey('updated')
           ? DateTime.fromMillisecondsSinceEpoch(
               map['updated'].millisecondsSinceEpoch)
           : null;
@@ -273,5 +276,17 @@ class Source {
     if (name != null) data['name'] = this.name;
     data.addAll({'id': this.id});
     return data;
+  }
+
+  @override
+  String toString() {
+    String temp = 'InfoSetorSourceModel:';
+    temp = temp + '\nid: $id';
+    temp = temp + '\nname: $name';
+    temp = temp + '\ndescription: $description';
+    temp = temp + '\nupdated: $updated';
+    temp = temp + '\nuserRef: ${userRef.toString()}';
+
+    return temp;
   }
 }

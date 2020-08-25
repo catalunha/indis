@@ -29,10 +29,6 @@ class ViewModel extends BaseModel<AppState> {
         onTreeInfoCategoryCurrent: (String id) {
           dispatch(SetInfoCategoryCurrentSyncInfoCategoryAction(id));
           dispatch(NavigateAction.pushNamed(Routes.infoCategoryItemTree));
-          if (state.infoCategoryState.infoCategoryCurrent.setorRef != null) {
-            dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
-                state.infoCategoryState.infoCategoryCurrent.setorRef.id));
-          }
         },
       );
 }

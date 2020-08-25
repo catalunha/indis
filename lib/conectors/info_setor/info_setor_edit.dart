@@ -16,7 +16,7 @@ class ViewModel extends BaseModel<AppState> {
   String description;
   bool public;
   Map<String, UserModel> editorsMap;
-  Map<String, ValueInfo> valueMap;
+  Map<String, InfoSetorValueModel> valueMap;
   bool isCreateOrUpdate;
   Function(String, String, String, String, String, bool) onCreate;
   Function(String, String, String, String, String, bool) onUpdate;

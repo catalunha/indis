@@ -4,6 +4,7 @@ import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_setor_model.dart';
 import 'package:indis/models/user_model.dart';
 import 'package:indis/states/app_state.dart';
+import 'package:uuid/uuid.dart' as uuid;
 
 // +++ Actions Sync
 class SetInfoSetorCurrentSyncInfoSetorAction extends ReduxAction<AppState> {
@@ -20,6 +21,26 @@ class SetInfoSetorCurrentSyncInfoSetorAction extends ReduxAction<AppState> {
     return state.copyWith(
       infoSetorState: state.infoSetorState.copyWith(
         infoSetorCurrent: infoSetorModel,
+      ),
+    );
+  }
+}
+
+class SetInfoSetorSourceCurrentSyncInfoSetorAction
+    extends ReduxAction<AppState> {
+  final String infoSetorSourceId;
+
+  SetInfoSetorSourceCurrentSyncInfoSetorAction(this.infoSetorSourceId);
+
+  @override
+  AppState reduce() {
+    print('SetInfoSetorSourceCurrentSyncInfoSetorAction...');
+    InfoSetorSourceModel _infoSetorSourceModel = infoSetorSourceId == null
+        ? InfoSetorSourceModel(null)
+        : state.infoSetorState.infoSetorCurrent.sourceMap[infoSetorSourceId];
+    return state.copyWith(
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorSourceCurrent: _infoSetorSourceModel,
       ),
     );
   }
@@ -80,13 +101,13 @@ class SetInfoCodeInInfoSetorValueMapSyncInfoSetorAction
             .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
 
     if (_infoSetorCurrent.valueMap == null) {
-      _infoSetorCurrent.valueMap = Map<String, ValueInfo>();
+      _infoSetorCurrent.valueMap = Map<String, InfoSetorValueModel>();
     }
     if (addOrRemove) {
       if (!_infoSetorCurrent.valueMap.containsKey(infoCodeModel.id)) {
         _infoSetorCurrent.valueMap.addAll({
           infoCodeModel.id:
-              ValueInfo(infoCodeModel.id, infoCodeRef: infoCodeModel)
+              InfoSetorValueModel(infoCodeModel.id, infoCodeRef: infoCodeModel)
         });
         return state.copyWith(
           infoSetorState: state.infoSetorState.copyWith(
@@ -209,6 +230,67 @@ class CreateDocInfoSetorCurrentAsyncInfoSetorAction
   Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
   @override
   void after() => dispatch(GetDocsInfoSetorListAsyncInfoSetorAction());
+}
+
+class SetDocInfoSetorSourceCurrentAsyncInfoSetorAction
+    extends ReduxAction<AppState> {
+  final String name;
+  final String description;
+  final bool arquived;
+
+  SetDocInfoSetorSourceCurrentAsyncInfoSetorAction({
+    this.name,
+    this.description,
+    this.arquived,
+  });
+  @override
+  Future<AppState> reduce() async {
+    print('SetDocInfoSetorSourceCurrentAsyncInfoSetorAction...');
+    Firestore firestore = Firestore.instance;
+    InfoSetorModel _infoSetorModel =
+        InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
+            .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
+    print(
+        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction2...${_infoSetorModel.toString()}');
+    InfoSetorSourceModel _infoSetorSourceModel =
+        InfoSetorSourceModel(state.infoSetorState.infoSetorSourceCurrent.id)
+            .fromMap(state.infoSetorState.infoSetorSourceCurrent.toMap());
+    print(
+        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction3...${_infoSetorSourceModel.toString()}');
+    if (_infoSetorSourceModel.id == null) {
+      _infoSetorSourceModel.id = uuid.Uuid().v4();
+      _infoSetorSourceModel.userRef = state.loggedState.userModelLogged;
+    }
+    _infoSetorSourceModel.name = name;
+    _infoSetorSourceModel.description = description;
+    _infoSetorSourceModel.updated = FieldValue.serverTimestamp();
+    print(
+        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction4...${_infoSetorSourceModel.toString()}');
+    if (_infoSetorModel.sourceMap == null) {
+      _infoSetorModel.sourceMap = Map<String, InfoSetorSourceModel>();
+    }
+    _infoSetorModel.sourceMap[_infoSetorSourceModel.id] = _infoSetorSourceModel;
+    print(
+        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction5...${_infoSetorModel.toString()}');
+    await firestore
+        .collection(InfoSetorModel.collection)
+        .document(_infoSetorModel.id)
+        .updateData({
+      'sourceMap.${_infoSetorSourceModel.id}': _infoSetorSourceModel.toMap()
+    });
+    //
+    return state.copyWith(
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorCurrent: _infoSetorModel,
+      ),
+    );
+  }
+
+  @override
+  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  @override
+  void after() => dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
+      state.infoCategoryState.infoCategoryCurrent.setorRef.id));
 }
 
 class UpdateDocInfoSetorCurrentAsyncInfoSetorAction

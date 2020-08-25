@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:indis/actions/info_setor_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_setor_model.dart';
@@ -28,6 +29,14 @@ class SetInfoCategoryCurrentSyncInfoCategoryAction
         infoCategoryCurrent: _infoCategoryModel,
       ),
     );
+  }
+
+  @override
+  void after() {
+    if (state.infoCategoryState.infoCategoryCurrent?.setorRef != null) {
+      dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
+          state.infoCategoryState.infoCategoryCurrent.setorRef.id));
+    }
   }
 }
 
