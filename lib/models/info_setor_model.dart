@@ -185,7 +185,8 @@ class InfoSetorValueModel {
 
 class InfoSetorValueDataModel {
   String id;
-  String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
+  int year; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
+  int month; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,
   String description; // sim,nao,123.45,
   dynamic updated;
@@ -194,7 +195,8 @@ class InfoSetorValueDataModel {
 
   InfoSetorValueDataModel(
     this.id, {
-    this.period,
+    this.year,
+    this.month,
     this.value,
     this.description,
     this.userRef,
@@ -204,7 +206,8 @@ class InfoSetorValueDataModel {
 
   InfoSetorValueDataModel fromMap(Map<String, dynamic> map) {
     if (map != null) {
-      if (map.containsKey('period')) period = map['period'];
+      if (map.containsKey('year')) year = map['year'];
+      if (map.containsKey('month')) month = map['month'];
       if (map.containsKey('value')) value = map['value'];
       if (map.containsKey('description')) description = map['description'];
       updated = map.containsKey('updated') && map['updated'] != null
@@ -224,7 +227,8 @@ class InfoSetorValueDataModel {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (period != null) data['period'] = this.period;
+    if (year != null) data['year'] = this.year;
+    if (month != null) data['month'] = this.month;
     if (value != null) data['value'] = this.value;
     if (description != null) data['description'] = this.description;
     if (this.userRef != null) {

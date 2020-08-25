@@ -23,7 +23,7 @@ class InfoSetorValueDataListDS extends StatelessWidget {
           final valueData = valueDataList[index];
           return Card(
             child: ListTile(
-              title: Text('${valueData.period}'),
+              title: Text('${valueData.year}-${valueData.month}'),
               subtitle: Text('${valueData.toMap()}'),
               onTap: () {
                 onEditInfoSetorValueDataCurrent(valueData.id);

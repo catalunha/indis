@@ -23,6 +23,23 @@ class InfoSetorValueDataEditDS extends StatefulWidget {
 class _InfoSetorValueDataEditDSState extends State<InfoSetorValueDataEditDS> {
   final formKey = GlobalKey<FormState>();
 
+  int _year = 2020;
+  int _monthIndex = 0;
+  List<String> _month = [
+    'Ano inteiro',
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ];
   String _value;
   String _description;
   bool _arquived = false;
@@ -80,6 +97,50 @@ class _InfoSetorValueDataEditDSState extends State<InfoSetorValueDataEditDS> {
               }
               return null;
             },
+          ),
+          Row(
+            children: [
+              _monthIndex == 0
+                  ? Text('Este valor se refere ao ')
+                  : Text('Este valor se refere ao mês de '),
+              IconButton(
+                icon: Icon(Icons.arrow_upward),
+                onPressed: () {
+                  setState(() {
+                    _monthIndex =
+                        _monthIndex < _month.length - 1 ? _monthIndex + 1 : 0;
+                  });
+                },
+              ),
+              Text(_month[_monthIndex]),
+              IconButton(
+                icon: Icon(Icons.arrow_downward),
+                onPressed: () {
+                  setState(() {
+                    _monthIndex =
+                        _monthIndex > 0 ? _monthIndex - 1 : _month.length - 1;
+                  });
+                },
+              ),
+              Text('de '),
+              IconButton(
+                icon: Icon(Icons.arrow_upward),
+                onPressed: () {
+                  setState(() {
+                    _year += 1;
+                  });
+                },
+              ),
+              Text(_year.toString()),
+              IconButton(
+                icon: Icon(Icons.arrow_downward),
+                onPressed: () {
+                  setState(() {
+                    _year -= 1;
+                  });
+                },
+              ),
+            ],
           ),
           TextFormField(
             initialValue: widget.description,
