@@ -46,6 +46,55 @@ class SetInfoSetorSourceCurrentSyncInfoSetorAction
   }
 }
 
+class SetInfoSetorValueCurrentSyncInfoSetorAction
+    extends ReduxAction<AppState> {
+  final String infoSetorValueId;
+
+  SetInfoSetorValueCurrentSyncInfoSetorAction(this.infoSetorValueId);
+
+  @override
+  AppState reduce() {
+    print('SetInfoSetorSourceCurrentSyncInfoSetorAction...');
+    InfoSetorValueModel _infoSetorValueModel =
+        state.infoSetorState.infoSetorCurrent.valueMap[infoSetorValueId];
+
+    List<InfoSetorValueDataModel> _valueDataList = [];
+    if (_infoSetorValueModel.valueDataMap != null) {
+      _valueDataList = _infoSetorValueModel.valueDataMap.values.toList();
+    }
+
+    return state.copyWith(
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorValueCurrent: _infoSetorValueModel,
+        infoSetorValueDataList: _valueDataList,
+      ),
+    );
+  }
+}
+
+class SetInfoSetorValueDataCurrentSyncInfoSetorAction
+    extends ReduxAction<AppState> {
+  final String infoSetorValueDataId;
+
+  SetInfoSetorValueDataCurrentSyncInfoSetorAction(this.infoSetorValueDataId);
+
+  @override
+  AppState reduce() {
+    print('SetInfoSetorValueDataCurrentSyncInfoSetorAction...');
+    InfoSetorValueDataModel _infoSetorValueDataModel =
+        infoSetorValueDataId == null
+            ? InfoSetorValueDataModel(null)
+            : state.infoSetorState.infoSetorValueDataList
+                .firstWhere((element) => element.id == infoSetorValueDataId);
+
+    return state.copyWith(
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorValueDataCurrent: _infoSetorValueDataModel,
+      ),
+    );
+  }
+}
+
 class SetUserInInfoSetorEditorsSyncInfoSetorAction
     extends ReduxAction<AppState> {
   final UserModel userModel;

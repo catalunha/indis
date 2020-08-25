@@ -12,6 +12,7 @@ import 'package:indis/conectors/info_setor/info_setor_edit.dart';
 import 'package:indis/conectors/info_setor/info_setor_list.dart';
 import 'package:indis/conectors/info_setor/info_setor_source_edit.dart';
 import 'package:indis/conectors/info_setor/info_setor_source_list.dart';
+import 'package:indis/conectors/info_setor/info_setor_valuedata_list.dart';
 
 import 'package:indis/conectors/user/user_list.dart';
 import 'package:indis/conectors/user/user_logged_edit.dart';
@@ -35,6 +36,8 @@ class Routes {
   static final infoSetorEdit = '/infoSetorEdit';
   static final infoSetorSourceList = '/infoSetorSourceList';
   static final infoSetorSourceEdit = '/infoSetorSourceEdit';
+  static final infoSetorValueDataList = '/infoSetorValueDataList';
+  static final infoSetorValueDataEdit = '/infoSetorValueDataEdit';
 
   static final routes = {
     home: (BuildContext context) => UserExceptionDialog<AppState>(
@@ -54,6 +57,8 @@ class Routes {
     infoSetorEdit: (BuildContext context) => InfoSetorEdit(),
     infoSetorSourceList: (BuildContext context) => InfoSetorSourceList(),
     infoSetorSourceEdit: (BuildContext context) => InfoSetorSourceEdit(),
+    infoSetorValueDataList: (BuildContext context) => InfoSetorValueDataList(),
+    // infoSetorValueDataEdit: (BuildContext context) => InfoSetorValueDataEdit(),
   };
 }
 

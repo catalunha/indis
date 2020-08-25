@@ -11,7 +11,7 @@ class InfoCategoryItemTreeDS extends StatefulWidget {
   final InfoSetorModel infoSetorModel;
   final InfoCategoryModel infoCategoryModel;
   final Function(String, bool) onEditInfoCategoryItemCurrent;
-  final Function() onInfoSetorSourceList;
+  final Function(String) onInfoSetorValueDataList;
   final Function(String, bool) onSetInfoCategoryItemCurrent;
   final Function(InfoCodeModel)
       onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction;
@@ -24,7 +24,7 @@ class InfoCategoryItemTreeDS extends StatefulWidget {
     this.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,
     this.infoSetorModel,
     this.infoCategoryModel,
-    this.onInfoSetorSourceList,
+    this.onInfoSetorValueDataList,
   }) : super(key: key);
 
   @override
@@ -143,7 +143,9 @@ class _InfoCategoryItemTreeDSState extends State<InfoCategoryItemTreeDS> {
                   Icons.assignment,
                   size: 15,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  widget.onInfoSetorValueDataList(infoCodeModel.id);
+                },
               )
             : Container(),
 

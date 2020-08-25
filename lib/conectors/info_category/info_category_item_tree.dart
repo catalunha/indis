@@ -1,6 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:indis/actions/info_category_action.dart';
+import 'package:indis/actions/info_setor_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
 import 'package:indis/models/info_setor_model.dart';
@@ -12,7 +13,7 @@ class ViewModel extends BaseModel<AppState> {
   Map<String, InfoCategoryItem> itemMap;
   InfoCategoryModel infoCategoryModel;
   InfoSetorModel infoSetorModel;
-  Function() onInfoSetorSourceList;
+  Function(String) onInfoSetorValueDataList;
   Function(String, bool) onEditInfoCategoryItemCurrent;
   Function(String, bool) onSetInfoCategoryItemCurrent;
   Function(InfoCodeModel) onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction;
@@ -22,7 +23,7 @@ class ViewModel extends BaseModel<AppState> {
     @required this.itemMap,
     @required this.infoCategoryModel,
     @required this.infoSetorModel,
-    @required this.onInfoSetorSourceList,
+    @required this.onInfoSetorValueDataList,
     @required this.onEditInfoCategoryItemCurrent,
     @required this.onSetInfoCategoryItemCurrent,
     @required this.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,
@@ -49,8 +50,10 @@ class ViewModel extends BaseModel<AppState> {
             addOrRemove: false,
           ));
         },
-        onInfoSetorSourceList: () {
-          dispatch(NavigateAction.pushNamed(Routes.infoSetorSourceList));
+        onInfoSetorValueDataList: (String infoSetorValueId) {
+          dispatch(
+              SetInfoSetorValueCurrentSyncInfoSetorAction(infoSetorValueId));
+          dispatch(NavigateAction.pushNamed(Routes.infoSetorValueDataList));
         },
       );
 }
@@ -65,7 +68,7 @@ class InfoCategoryItemTree extends StatelessWidget {
         infoCategoryModel: viewModel.infoCategoryModel,
         infoSetorModel: viewModel.infoSetorModel,
         onEditInfoCategoryItemCurrent: viewModel.onEditInfoCategoryItemCurrent,
-        onInfoSetorSourceList: viewModel.onInfoSetorSourceList,
+        onInfoSetorValueDataList: viewModel.onInfoSetorValueDataList,
         onSetInfoCategoryItemCurrent: viewModel.onSetInfoCategoryItemCurrent,
         onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction:
             viewModel.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,
