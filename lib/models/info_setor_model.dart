@@ -187,6 +187,7 @@ class InfoSetorValueDataModel {
   String id;
   String period; //formato: yyyymm. para ano: 202000. para meses: 202001,202002
   String value; // sim,nao,123.45,
+  String description; // sim,nao,123.45,
   dynamic updated;
   UserModel userRef;
   InfoSetorSourceModel sourceRef;
@@ -195,6 +196,7 @@ class InfoSetorValueDataModel {
     this.id, {
     this.period,
     this.value,
+    this.description,
     this.userRef,
     this.updated,
     this.sourceRef,
@@ -204,6 +206,7 @@ class InfoSetorValueDataModel {
     if (map != null) {
       if (map.containsKey('period')) period = map['period'];
       if (map.containsKey('value')) value = map['value'];
+      if (map.containsKey('description')) description = map['description'];
       updated = map.containsKey('updated') && map['updated'] != null
           ? DateTime.fromMillisecondsSinceEpoch(
               map['updated'].millisecondsSinceEpoch)
@@ -223,6 +226,7 @@ class InfoSetorValueDataModel {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (period != null) data['period'] = this.period;
     if (value != null) data['value'] = this.value;
+    if (description != null) data['description'] = this.description;
     if (this.userRef != null) {
       data['userRef'] = this.userRef.toMapRef();
     }

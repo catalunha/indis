@@ -16,12 +16,25 @@ class ViewModel extends BaseModel<AppState> {
   }) : super(equals: [
           valueDataList,
         ]);
+  _valueDataList() {
+    List<InfoSetorValueDataModel> _valueDataList = [];
+    InfoSetorValueModel _infoSetorValueModel = state
+        .infoSetorState
+        .infoSetorCurrent
+        .valueMap[state.infoSetorState.infoSetorValueCurrent.id];
+
+    if (_infoSetorValueModel.valueDataMap != null) {
+      _valueDataList = _infoSetorValueModel.valueDataMap.values.toList();
+    }
+    return _valueDataList;
+  }
+
   @override
   ViewModel fromStore() => ViewModel.build(
-        valueDataList: state.infoSetorState.infoSetorValueDataList,
+        valueDataList: _valueDataList(),
         onEditInfoSetorValueDataCurrent: (String id) {
           dispatch(SetInfoSetorValueDataCurrentSyncInfoSetorAction(id));
-          // dispatch(NavigateAction.pushNamed(Routes.infoSetorValueDataEdit));
+          dispatch(NavigateAction.pushNamed(Routes.infoSetorValueDataEdit));
         },
       );
 }

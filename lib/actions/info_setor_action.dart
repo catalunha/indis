@@ -54,7 +54,7 @@ class SetInfoSetorValueCurrentSyncInfoSetorAction
 
   @override
   AppState reduce() {
-    print('SetInfoSetorSourceCurrentSyncInfoSetorAction...');
+    print('SetInfoSetorValueCurrentSyncInfoSetorAction...');
     InfoSetorValueModel _infoSetorValueModel =
         state.infoSetorState.infoSetorCurrent.valueMap[infoSetorValueId];
 
@@ -296,16 +296,16 @@ class SetDocInfoSetorSourceCurrentAsyncInfoSetorAction
   Future<AppState> reduce() async {
     print('SetDocInfoSetorSourceCurrentAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
-    InfoSetorModel _infoSetorModel =
-        InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
-            .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
-    print(
-        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction2...${_infoSetorModel.toString()}');
+    // InfoSetorModel _infoSetorModel =
+    //     InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
+    //         .fromMap(state.infoSetorState.infoSetorCurrent.toMap());
+    // print(
+    //     'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction2...${_infoSetorModel.toString()}');
     InfoSetorSourceModel _infoSetorSourceModel =
         InfoSetorSourceModel(state.infoSetorState.infoSetorSourceCurrent.id)
             .fromMap(state.infoSetorState.infoSetorSourceCurrent.toMap());
-    print(
-        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction3...${_infoSetorSourceModel.toString()}');
+    // print(
+    //     'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction3...${_infoSetorSourceModel.toString()}');
     if (_infoSetorSourceModel.id == null) {
       _infoSetorSourceModel.id = uuid.Uuid().v4();
       _infoSetorSourceModel.userRef = state.loggedState.userModelLogged;
@@ -313,26 +313,57 @@ class SetDocInfoSetorSourceCurrentAsyncInfoSetorAction
     _infoSetorSourceModel.name = name;
     _infoSetorSourceModel.description = description;
     _infoSetorSourceModel.updated = FieldValue.serverTimestamp();
-    print(
-        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction4...${_infoSetorSourceModel.toString()}');
-    if (_infoSetorModel.sourceMap == null) {
-      _infoSetorModel.sourceMap = Map<String, InfoSetorSourceModel>();
-    }
-    _infoSetorModel.sourceMap[_infoSetorSourceModel.id] = _infoSetorSourceModel;
-    print(
-        'SetDocInfoSetorSourceCurrentAsyncInfoSetorAction5...${_infoSetorModel.toString()}');
+
     await firestore
         .collection(InfoSetorModel.collection)
-        .document(_infoSetorModel.id)
+        .document(state.infoSetorState.infoSetorCurrent.id)
         .updateData({
       'sourceMap.${_infoSetorSourceModel.id}': _infoSetorSourceModel.toMap()
     });
-    //
-    return state.copyWith(
-      infoSetorState: state.infoSetorState.copyWith(
-        infoSetorCurrent: _infoSetorModel,
-      ),
-    );
+    return null;
+  }
+
+  @override
+  Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
+  @override
+  void after() => dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
+      state.infoCategoryState.infoCategoryCurrent.setorRef.id));
+}
+
+class SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction
+    extends ReduxAction<AppState> {
+  final String value;
+  final String description;
+  final bool arquived;
+
+  SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction({
+    this.value,
+    this.description,
+    this.arquived,
+  });
+  @override
+  Future<AppState> reduce() async {
+    print('SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction...');
+    Firestore firestore = Firestore.instance;
+    InfoSetorValueDataModel _infoSetorValueDataModel = InfoSetorValueDataModel(
+            state.infoSetorState.infoSetorValueDataCurrent.id)
+        .fromMap(state.infoSetorState.infoSetorValueDataCurrent.toMap());
+
+    if (_infoSetorValueDataModel.id == null) {
+      _infoSetorValueDataModel.id = uuid.Uuid().v4();
+      _infoSetorValueDataModel.userRef = state.loggedState.userModelLogged;
+    }
+    _infoSetorValueDataModel.value = value;
+    _infoSetorValueDataModel.description = description;
+    _infoSetorValueDataModel.updated = FieldValue.serverTimestamp();
+    await firestore
+        .collection(InfoSetorModel.collection)
+        .document(state.infoSetorState.infoSetorCurrent.id)
+        .updateData({
+      'valueMap.${state.infoSetorState.infoSetorValueCurrent.id}.valueDataMap.${_infoSetorValueDataModel.id}':
+          _infoSetorValueDataModel.toMap()
+    });
+    return null;
   }
 
   @override

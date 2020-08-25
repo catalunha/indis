@@ -12,6 +12,7 @@ import 'package:indis/conectors/info_setor/info_setor_edit.dart';
 import 'package:indis/conectors/info_setor/info_setor_list.dart';
 import 'package:indis/conectors/info_setor/info_setor_source_edit.dart';
 import 'package:indis/conectors/info_setor/info_setor_source_list.dart';
+import 'package:indis/conectors/info_setor/info_setor_valuedata_edit.dart';
 import 'package:indis/conectors/info_setor/info_setor_valuedata_list.dart';
 
 import 'package:indis/conectors/user/user_list.dart';
@@ -58,7 +59,7 @@ class Routes {
     infoSetorSourceList: (BuildContext context) => InfoSetorSourceList(),
     infoSetorSourceEdit: (BuildContext context) => InfoSetorSourceEdit(),
     infoSetorValueDataList: (BuildContext context) => InfoSetorValueDataList(),
-    // infoSetorValueDataEdit: (BuildContext context) => InfoSetorValueDataEdit(),
+    infoSetorValueDataEdit: (BuildContext context) => InfoSetorValueDataEdit(),
   };
 }
 
