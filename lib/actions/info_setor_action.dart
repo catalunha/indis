@@ -56,11 +56,14 @@ class SetInfoSetorValueCurrentSyncInfoSetorAction
   AppState reduce() {
     print('SetInfoSetorValueCurrentSyncInfoSetorAction...');
     InfoSetorValueModel _infoSetorValueModel =
-        state.infoSetorState.infoSetorCurrent.valueMap[infoSetorValueId];
+        // state.infoSetorState.infoSetorCurrent.valueMap[infoSetorValueId];
+        InfoSetorValueModel(infoSetorValueId).fromMap(state
+            .infoSetorState.infoSetorCurrent.valueMap[infoSetorValueId]
+            .toMap());
 
     List<InfoSetorValueDataModel> _valueDataList = [];
     if (_infoSetorValueModel.valueDataMap != null) {
-      _valueDataList = _infoSetorValueModel.valueDataMap.values.toList();
+      _valueDataList.addAll(_infoSetorValueModel.valueDataMap.values.toList());
     }
 
     return state.copyWith(
@@ -80,13 +83,23 @@ class SetInfoSetorValueDataCurrentSyncInfoSetorAction
 
   @override
   AppState reduce() {
-    print('SetInfoSetorValueDataCurrentSyncInfoSetorAction...');
+    print(
+        'SetInfoSetorValueDataCurrentSyncInfoSetorAction...${infoSetorValueDataId}');
     InfoSetorValueDataModel _infoSetorValueDataModel =
         infoSetorValueDataId == null
             ? InfoSetorValueDataModel(null)
             : state.infoSetorState.infoSetorValueDataList
                 .firstWhere((element) => element.id == infoSetorValueDataId);
-
+    // InfoSetorValueDataModel _infoSetorValueDataModel;
+    // if (infoSetorValueDataId == null) {
+    //   _infoSetorValueDataModel = InfoSetorValueDataModel(null);
+    // } else {
+    //   InfoSetorValueDataModel temp = state.infoSetorState.infoSetorValueDataList
+    //       .firstWhere((element) => element.id == infoSetorValueDataId);
+    //   _infoSetorValueDataModel =
+    //       InfoSetorValueDataModel(temp.id).fromMap(temp.toMap());
+    // }
+    print(_infoSetorValueDataModel.value);
     return state.copyWith(
       infoSetorState: state.infoSetorState.copyWith(
         infoSetorValueDataCurrent: _infoSetorValueDataModel,
@@ -333,11 +346,15 @@ class SetDocInfoSetorSourceCurrentAsyncInfoSetorAction
 class SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction
     extends ReduxAction<AppState> {
   final String value;
+  final int year;
+  final int month;
   final String description;
   final bool arquived;
 
   SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction({
     this.value,
+    this.year,
+    this.month,
     this.description,
     this.arquived,
   });
@@ -354,6 +371,8 @@ class SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction
       _infoSetorValueDataModel.userRef = state.loggedState.userModelLogged;
     }
     _infoSetorValueDataModel.value = value;
+    _infoSetorValueDataModel.year = year;
+    _infoSetorValueDataModel.month = month;
     _infoSetorValueDataModel.description = description;
     _infoSetorValueDataModel.updated = FieldValue.serverTimestamp();
     await firestore
@@ -369,8 +388,12 @@ class SetDocInfoSetorValueDataCurrentAsyncInfoSetorAction
   @override
   Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
   @override
-  void after() => dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
-      state.infoCategoryState.infoCategoryCurrent.setorRef.id));
+  void after() {
+    dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
+        state.infoCategoryState.infoCategoryCurrent.setorRef.id));
+    dispatch(SetInfoSetorValueCurrentSyncInfoSetorAction(
+        state.infoSetorState.infoSetorValueCurrent.id));
+  }
 }
 
 class UpdateDocInfoSetorCurrentAsyncInfoSetorAction

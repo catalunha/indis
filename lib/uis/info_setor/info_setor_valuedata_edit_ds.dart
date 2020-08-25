@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class InfoSetorValueDataEditDS extends StatefulWidget {
   final String value;
+  final int year;
+  final int month;
   final String description;
   final bool isCreateOrUpdate;
-  final Function(String, String, bool) onCreate;
-  final Function(String, String, bool) onUpdate;
+  final Function(String, int, int, String, bool) onCreate;
+  final Function(String, int, int, String, bool) onUpdate;
 
   const InfoSetorValueDataEditDS({
     Key key,
@@ -14,6 +16,8 @@ class InfoSetorValueDataEditDS extends StatefulWidget {
     this.isCreateOrUpdate,
     this.onCreate,
     this.onUpdate,
+    this.year,
+    this.month,
   }) : super(key: key);
   @override
   _InfoSetorValueDataEditDSState createState() =>
@@ -23,10 +27,10 @@ class InfoSetorValueDataEditDS extends StatefulWidget {
 class _InfoSetorValueDataEditDSState extends State<InfoSetorValueDataEditDS> {
   final formKey = GlobalKey<FormState>();
 
-  int _year = 2020;
-  int _monthIndex = 0;
-  List<String> _month = [
-    'Ano inteiro',
+  int _year;
+  int _month;
+  List<String> _monthString = [
+    'ano inteiro',
     'Janeiro',
     'Fevereiro',
     'Março',
@@ -47,8 +51,8 @@ class _InfoSetorValueDataEditDSState extends State<InfoSetorValueDataEditDS> {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       widget.isCreateOrUpdate
-          ? widget.onCreate(_value, _description, _arquived)
-          : widget.onUpdate(_value, _description, _arquived);
+          ? widget.onCreate(_value, _year, _month, _description, _arquived)
+          : widget.onUpdate(_value, _year, _month, _description, _arquived);
     } else {
       setState(() {});
     }
@@ -57,6 +61,8 @@ class _InfoSetorValueDataEditDSState extends State<InfoSetorValueDataEditDS> {
   @override
   void initState() {
     super.initState();
+    _year = widget.year ?? 2020;
+    _month = widget.month ?? 0;
   }
 
   @override
@@ -100,25 +106,23 @@ class _InfoSetorValueDataEditDSState extends State<InfoSetorValueDataEditDS> {
           ),
           Row(
             children: [
-              _monthIndex == 0
+              _month == 0
                   ? Text('Este valor se refere ao ')
                   : Text('Este valor se refere ao mês de '),
               IconButton(
                 icon: Icon(Icons.arrow_upward),
                 onPressed: () {
                   setState(() {
-                    _monthIndex =
-                        _monthIndex < _month.length - 1 ? _monthIndex + 1 : 0;
+                    _month = _month < _monthString.length - 1 ? _month + 1 : 0;
                   });
                 },
               ),
-              Text(_month[_monthIndex]),
+              Text(_monthString[_month]),
               IconButton(
                 icon: Icon(Icons.arrow_downward),
                 onPressed: () {
                   setState(() {
-                    _monthIndex =
-                        _monthIndex > 0 ? _monthIndex - 1 : _month.length - 1;
+                    _month = _month > 0 ? _month - 1 : _monthString.length - 1;
                   });
                 },
               ),
