@@ -1,9 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:indis/conectors/info_category/info_category_data_edit.dart';
+import 'package:indis/conectors/info_category/info_category_item_edit.dart';
 import 'package:indis/conectors/info_category/info_category_edit.dart';
 import 'package:indis/conectors/info_category/info_category_list.dart';
-import 'package:indis/conectors/info_category/info_category_data_tree.dart';
+import 'package:indis/conectors/info_category/info_category_item_tree.dart';
 import 'package:indis/conectors/info_code/info_code_edit.dart';
 import 'package:indis/conectors/info_code/info_code_list.dart';
 import 'package:indis/conectors/info_ind_owner/info_ind_owner_edit.dart';
@@ -25,8 +25,8 @@ class Routes {
   static final infoIndOwnerEdit = '/infoIndOwnerEdit';
   static final infoCategoryList = '/infoCategoryList';
   static final infoCategoryEdit = '/infoCategoryEdit';
-  static final infoCategoryDataTree = '/infoCategoryDataTree';
-  static final infoCategoryDataEdit = '/infoCategoryDataEdit';
+  static final infoCategoryItemTree = '/infoCategoryItemTree';
+  static final infoCategoryItemEdit = '/infoCategoryItemEdit';
   static final infoCodeList = '/infoCodeList';
   static final infoCodeEdit = '/infoCodeEdit';
   static final infoSetorList = '/infoSetorList';
@@ -42,8 +42,8 @@ class Routes {
     infoIndOwnerEdit: (BuildContext context) => InfoIndOwnerEdit(),
     infoCategoryList: (BuildContext context) => InfoCategoryList(),
     infoCategoryEdit: (BuildContext context) => InfoCategoryEdit(),
-    infoCategoryDataTree: (BuildContext context) => InfoCategoryDataTree(),
-    infoCategoryDataEdit: (BuildContext context) => InfoCategoryDataEdit(),
+    infoCategoryItemTree: (BuildContext context) => InfoCategoryItemTree(),
+    infoCategoryItemEdit: (BuildContext context) => InfoCategoryItemEdit(),
     infoCodeList: (BuildContext context) => InfoCodeList(),
     infoCodeEdit: (BuildContext context) => InfoCodeEdit(),
     infoSetorList: (BuildContext context) => InfoSetorList(),

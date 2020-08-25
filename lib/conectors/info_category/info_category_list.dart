@@ -1,6 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:indis/actions/info_category_action.dart';
+import 'package:indis/actions/info_setor_action.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/routes.dart';
 import 'package:indis/states/app_state.dart';
@@ -27,7 +28,11 @@ class ViewModel extends BaseModel<AppState> {
         },
         onTreeInfoCategoryCurrent: (String id) {
           dispatch(SetInfoCategoryCurrentSyncInfoCategoryAction(id));
-          dispatch(NavigateAction.pushNamed(Routes.infoCategoryDataTree));
+          dispatch(NavigateAction.pushNamed(Routes.infoCategoryItemTree));
+          if (state.infoCategoryState.infoCategoryCurrent.setorRef != null) {
+            dispatch(GetDocInfoSetorCurrentAsyncInfoSetorAction(
+                state.infoCategoryState.infoCategoryCurrent.setorRef.id));
+          }
         },
       );
 }

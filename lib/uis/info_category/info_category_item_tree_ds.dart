@@ -3,27 +3,32 @@ import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:indis/conectors/info_code/info_code_select_to_infocategoryitem.dart';
 import 'package:indis/models/info_category_model.dart';
 import 'package:indis/models/info_code_model.dart';
+import 'package:indis/models/info_setor_model.dart';
 
-class InfoCategoryDataTreeDS extends StatefulWidget {
+class InfoCategoryItemTreeDS extends StatefulWidget {
   final Map<String, InfoCategoryItem> itemMap;
-  final Function(String, bool) onEditInfoCategoryDataCurrent;
-  final Function(String, bool) onSetInfoCategoryDataCurrent;
+  final InfoSetorModel infoSetorModel;
+  final InfoCategoryModel infoCategoryModel;
+  final Function(String, bool) onEditInfoCategoryItemCurrent;
+  final Function(String, bool) onSetInfoCategoryItemCurrent;
   final Function(InfoCodeModel)
-      onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction;
+      onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction;
 
-  const InfoCategoryDataTreeDS({
+  const InfoCategoryItemTreeDS({
     Key key,
     this.itemMap,
-    this.onEditInfoCategoryDataCurrent,
-    this.onSetInfoCategoryDataCurrent,
-    this.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction,
+    this.onEditInfoCategoryItemCurrent,
+    this.onSetInfoCategoryItemCurrent,
+    this.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction,
+    this.infoSetorModel,
+    this.infoCategoryModel,
   }) : super(key: key);
 
   @override
-  _InfoCategoryDataTreeDSState createState() => _InfoCategoryDataTreeDSState();
+  _InfoCategoryItemTreeDSState createState() => _InfoCategoryItemTreeDSState();
 }
 
-class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
+class _InfoCategoryItemTreeDSState extends State<InfoCategoryItemTreeDS> {
   final TreeController _controller = TreeController(allNodesExpanded: true);
 
   @override
@@ -32,6 +37,14 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
       appBar: AppBar(
         title: Text(
             'Árvore de categorias das informações (${widget.itemMap?.length})'),
+        actions: [
+          widget.infoCategoryModel.setorRef != null
+              ? IconButton(
+                  icon: Icon(Icons.book),
+                  onPressed: () {},
+                )
+              : Container()
+        ],
       ),
       body: Container(
         width: double.infinity,
@@ -43,16 +56,16 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
         child: Icon(Icons.add),
         tooltip: 'Acrescentar categoria',
         onPressed: () {
-          widget.onEditInfoCategoryDataCurrent(null, true);
+          widget.onEditInfoCategoryItemCurrent(null, true);
         },
       ),
     );
   }
 
-  Widget categoryDataContent(InfoCategoryItem categoryData) {
+  Widget categoryItemContent(InfoCategoryItem categoryItem) {
     return Row(
       children: [
-        Text(categoryData.name),
+        Text('${categoryItem.name}'),
         SizedBox(
           height: 5,
         ),
@@ -63,7 +76,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
             size: 15,
           ),
           onPressed: () {
-            widget.onEditInfoCategoryDataCurrent(categoryData.id, false);
+            widget.onEditInfoCategoryItemCurrent(categoryItem.id, false);
           },
         ),
         IconButton(
@@ -73,7 +86,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
             size: 15,
           ),
           onPressed: () {
-            widget.onEditInfoCategoryDataCurrent(categoryData.id, true);
+            widget.onEditInfoCategoryItemCurrent(categoryItem.id, true);
           },
         ),
         IconButton(
@@ -83,7 +96,7 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
             size: 15,
           ),
           onPressed: () {
-            widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
+            widget.onSetInfoCategoryItemCurrent(categoryItem.id, false);
             showDialog(
               context: context,
               builder: (context) => InfoCodeSelectToInfoCategoryItem(),
@@ -95,18 +108,14 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
   }
 
   Widget infoCodeContent(
-      InfoCodeModel infoCodeModel, InfoCategoryItem categoryData) {
+      InfoCodeModel infoCodeModel, InfoCategoryItem categoryItem) {
+    bool containInfoCode = false;
+    if (widget.infoCategoryModel.setorRef != null) {
+      containInfoCode =
+          widget.infoSetorModel.valueMap.containsKey(infoCodeModel.id);
+    }
     return Row(
       children: [
-        Text(infoCodeModel.name),
-        IconButton(
-          tooltip: 'Editar informação',
-          icon: Icon(
-            Icons.assignment,
-            size: 15,
-          ),
-          onPressed: () {},
-        ),
         InkWell(
           child: Tooltip(
             message: 'Remover esta informação',
@@ -116,11 +125,23 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
             ),
           ),
           onDoubleTap: () {
-            widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
-            widget.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
+            widget.onSetInfoCategoryItemCurrent(categoryItem.id, false);
+            widget.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction(
                 infoCodeModel);
           },
-        )
+        ),
+        Text('${infoCodeModel.code}-${infoCodeModel.name}'),
+        containInfoCode
+            ? IconButton(
+                tooltip: 'Editar informação',
+                icon: Icon(
+                  Icons.assignment,
+                  size: 15,
+                ),
+                onPressed: () {},
+              )
+            : Container(),
+
         // IconButton(
         //   tooltip: 'remover informação',
         //   icon: Icon(
@@ -129,9 +150,9 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
         //   ),
 
         //   onPressed: () {
-        //     widget.onSetInfoCategoryDataCurrent(categoryData.id, false);
+        //     widget.onSetInfoCategoryItemCurrent(categoryItem.id, false);
 
-        //     widget.onSetInfoCodeInInfoCategoryDataSyncInfoCategoryAction(
+        //     widget.onSetInfoCodeInInfoCategoryItemSyncInfoCategoryAction(
         //         infoCodeModel);
         //   },
         // ),
@@ -139,37 +160,37 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
     );
   }
 
-  TreeNode _treeNode(InfoCategoryItem categoryData) {
-    Iterable<InfoCategoryItem> categoryDataParent = widget.itemMap.values
-        .where((element) => element.idParente == categoryData.id);
-    if (categoryDataParent.isNotEmpty) {
+  TreeNode _treeNode(InfoCategoryItem categoryItem) {
+    Iterable<InfoCategoryItem> categoryItemParent = widget.itemMap.values
+        .where((element) => element.idParente == categoryItem.id);
+    if (categoryItemParent.isNotEmpty) {
       TreeNode treeNode =
-          TreeNode(content: categoryDataContent(categoryData), children: []);
+          TreeNode(content: categoryItemContent(categoryItem), children: []);
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
-        _itensTree.add(TreeNode(content: infoCodeContent(value, categoryData)));
+      categoryItem.infoCodeRefMap.forEach((key, value) {
+        _itensTree.add(TreeNode(content: infoCodeContent(value, categoryItem)));
       });
-      for (var categoryDataParentItem in categoryDataParent) {
-        treeNode.children.add(_treeNode(categoryDataParentItem));
+      for (var categoryItemParentItem in categoryItemParent) {
+        treeNode.children.add(_treeNode(categoryItemParentItem));
       }
       treeNode.children.addAll(_itensTree);
       return treeNode;
     } else {
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
-        _itensTree.add(TreeNode(content: infoCodeContent(value, categoryData)));
+      categoryItem.infoCodeRefMap.forEach((key, value) {
+        _itensTree.add(TreeNode(content: infoCodeContent(value, categoryItem)));
       });
       return TreeNode(
-          content: categoryDataContent(categoryData), children: _itensTree);
+          content: categoryItemContent(categoryItem), children: _itensTree);
     }
   }
 
   Widget buildTree() {
     List<TreeNode> _nodes = [];
-    Iterable<InfoCategoryItem> categoryDataidParentNull =
+    Iterable<InfoCategoryItem> categoryItemidParentNull =
         widget.itemMap.values.where((element) => element.idParente == null);
-    for (var categoryDataKV in categoryDataidParentNull) {
-      _nodes.add(_treeNode(categoryDataKV));
+    for (var categoryItemKV in categoryItemidParentNull) {
+      _nodes.add(_treeNode(categoryItemKV));
     }
     return TreeView(
       treeController: _controller,
@@ -179,43 +200,43 @@ class _InfoCategoryDataTreeDSState extends State<InfoCategoryDataTreeDS> {
 
 /*
 codigo correto do treeView
- TreeNode _treeNode(CategoryData categoryData) {
-    Iterable<CategoryData> categoryDataParent = widget.itemMap.values
-        .where((element) => element.idParente == categoryData.id);
-    print('${categoryData.name} Parent:${categoryDataParent.length}');
-    if (categoryDataParent.isNotEmpty) {
+ TreeNode _treeNode(CategoryData categoryItem) {
+    Iterable<CategoryData> categoryItemParent = widget.itemMap.values
+        .where((element) => element.idParente == categoryItem.id);
+    print('${categoryItem.name} Parent:${categoryItemParent.length}');
+    if (categoryItemParent.isNotEmpty) {
       TreeNode treeNode = TreeNode(
-          key: ValueKey(categoryData.id),
-          content: Text(categoryData.name),
+          key: ValueKey(categoryItem.id),
+          content: Text(categoryItem.name),
           children: []);
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
+      categoryItem.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
       });
-      for (var categoryDataParentItem in categoryDataParent) {
-        treeNode.children.add(_treeNode(categoryDataParentItem));
+      for (var categoryItemParentItem in categoryItemParent) {
+        treeNode.children.add(_treeNode(categoryItemParentItem));
       }
       treeNode.children.addAll(_itensTree);
       return treeNode;
     } else {
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
+      categoryItem.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
       });
       return TreeNode(
-          key: ValueKey(categoryData.id),
-          content: Text(categoryData.name),
+          key: ValueKey(categoryItem.id),
+          content: Text(categoryItem.name),
           children: _itensTree);
     }
   }
 
   Widget buildTree() {
     List<TreeNode> _nodes = [];
-    Iterable<CategoryData> categoryDataidParentNull = widget
+    Iterable<CategoryData> categoryItemidParentNull = widget
         .itemMap.values
         .where((element) => element.idParente == null);
-    for (var categoryDataKV in categoryDataidParentNull) {
-      _nodes.add(_treeNode(categoryDataKV));
+    for (var categoryItemKV in categoryItemidParentNull) {
+      _nodes.add(_treeNode(categoryItemKV));
     }
     return TreeView(
       treeController: _controller,
@@ -226,67 +247,67 @@ codigo correto do treeView
 
 /*
   List<TreeNode> recursiveNodes(
-      List<TreeNode> _nodes, CategoryData categoryData) {
+      List<TreeNode> _nodes, CategoryData categoryItem) {
     print('recursiveNodes:');
     print('_nodes:>>>> ${_nodes.length}');
-    print('categoryData:>>>> ${categoryData.name}');
+    print('categoryItem:>>>> ${categoryItem.name}');
 
-    Iterable<CategoryData> _categoryDataParent;
-    if (categoryData != null) {
-      _categoryDataParent = widget.itemMap.values
-          .where((element) => element.idParente == categoryData.id);
+    Iterable<CategoryData> _categoryItemParent;
+    if (categoryItem != null) {
+      _categoryItemParent = widget.itemMap.values
+          .where((element) => element.idParente == categoryItem.id);
     }
-    print('_categoryDataParent:>>>> ${_categoryDataParent.length}');
-    if (_categoryDataParent != null && _categoryDataParent.length > 0) {
-      for (var element in _categoryDataParent) {
+    print('_categoryItemParent:>>>> ${_categoryItemParent.length}');
+    if (_categoryItemParent != null && _categoryItemParent.length > 0) {
+      for (var element in _categoryItemParent) {
         print('!=null ${element.name}');
         List<TreeNode> _itensTree = [];
-        categoryData.infoCodeRefMap.forEach((key, value) {
+        categoryItem.infoCodeRefMap.forEach((key, value) {
           _itensTree.add(TreeNode(content: Text(value.name)));
         });
-        _nodes.add(TreeNode(content: Text(categoryData.name), children: [
+        _nodes.add(TreeNode(content: Text(categoryItem.name), children: [
           ...recursiveNodes(_nodes, element),
           ..._itensTree,
         ]));
         return _nodes;
       }
     } else {
-      print('==null ${categoryData.name}');
+      print('==null ${categoryItem.name}');
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
+      categoryItem.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
       });
       _nodes.add(
-          TreeNode(content: Text(categoryData.name), children: _itensTree));
+          TreeNode(content: Text(categoryItem.name), children: _itensTree));
       return _nodes;
     }
 */
   //+++ metodo 1
 /*
-    CategoryData _categoryDataParent = widget.itemMap.values.firstWhere(
-        (element) => element.idParente == categoryData.id,
+    CategoryData _categoryItemParent = widget.itemMap.values.firstWhere(
+        (element) => element.idParente == categoryItem.id,
         orElse: () => null);
-    if (_categoryDataParent != null) {
-      print('!=null ${_categoryDataParent.name}');
+    if (_categoryItemParent != null) {
+      print('!=null ${_categoryItemParent.name}');
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
+      categoryItem.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
       });
       return [
-        TreeNode(content: Text(categoryData.name), children: [
+        TreeNode(content: Text(categoryItem.name), children: [
           ...recursiveNodes(
-              _nodes, widget.itemMap[_categoryDataParent.id]),
+              _nodes, widget.itemMap[_categoryItemParent.id]),
           ..._itensTree,
         ])
       ];
     } else {
-      print('==null ${categoryData.name}');
+      print('==null ${categoryItem.name}');
       List<TreeNode> _itensTree = [];
-      categoryData.infoCodeRefMap.forEach((key, value) {
+      categoryItem.infoCodeRefMap.forEach((key, value) {
         _itensTree.add(TreeNode(content: Text(value.name)));
       });
       _nodes.add(
-          TreeNode(content: Text(categoryData.name), children: _itensTree));
+          TreeNode(content: Text(categoryItem.name), children: _itensTree));
       return _nodes;
     }
 */
@@ -302,7 +323,7 @@ codigo correto do treeView
     // }
     // widget.itemMap.forEach((key, value) {
     //   List<TreeNode> _itensTree = [];
-    //   CategoryData categoryData = widget.itemMap.values
+    //   CategoryData categoryItem = widget.itemMap.values
     //       .firstWhere((element) => element.idParente == key);
     //   //   value.infoCodeRefMap.forEach((key, value) {
     //   //     _itensTree.add(TreeNode(content: Text(value.name)));

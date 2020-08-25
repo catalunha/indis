@@ -32,7 +32,7 @@ class ViewModel extends BaseModel<AppState> {
                 [],
         onSetInfoCodeInInfoSetorValueMapSyncGroupAction:
             (InfoCodeModel infoCodeModel, bool addOrRemove) {
-          dispatch(SetInfoCodeInInfoSetorValueMapSyncInfoCodeAction(
+          dispatch(SetInfoCodeInInfoSetorValueMapSyncInfoSetorAction(
             infoCodeModel: infoCodeModel,
             addOrRemove: addOrRemove,
           ));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InfoCategoryDataEditDS extends StatefulWidget {
+class InfoCategoryItemEditDS extends StatefulWidget {
   final String name;
   final String description;
   final bool isCreateOrUpdate;
@@ -9,7 +9,7 @@ class InfoCategoryDataEditDS extends StatefulWidget {
   // final Function(InfoCodeModel, bool) onSetInfoCodeInInfoCategory;
   // final Map<String, InfoCodeModel> infoCodeRefMap;
 
-  const InfoCategoryDataEditDS({
+  const InfoCategoryItemEditDS({
     Key key,
     this.name,
     this.description,
@@ -20,10 +20,10 @@ class InfoCategoryDataEditDS extends StatefulWidget {
     // this.infoCodeRefMap,
   }) : super(key: key);
   @override
-  _InfoCategoryDataEditDSState createState() => _InfoCategoryDataEditDSState();
+  _InfoCategoryItemEditDSState createState() => _InfoCategoryItemEditDSState();
 }
 
-class _InfoCategoryDataEditDSState extends State<InfoCategoryDataEditDS> {
+class _InfoCategoryItemEditDSState extends State<InfoCategoryItemEditDS> {
   final formKey = GlobalKey<FormState>();
   String _name;
   String _description;

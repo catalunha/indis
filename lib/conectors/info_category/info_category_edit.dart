@@ -81,7 +81,7 @@ class InfoCategoryEdit extends StatelessWidget {
       //debug: this,
       model: ViewModel(),
       onInit: (store) =>
-          store.dispatch(GetDocsInfoDataListAsyncInfoSetorAction()),
+          store.dispatch(GetDocsInfoSetorListAsyncInfoSetorAction()),
       builder: (context, viewModel) => InfoCategoryEditDS(
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
         name: viewModel.name,

@@ -6,10 +6,10 @@ import 'package:indis/models/user_model.dart';
 import 'package:indis/states/app_state.dart';
 
 // +++ Actions Sync
-class SetInfoDataCurrentSyncInfoSetorAction extends ReduxAction<AppState> {
+class SetInfoSetorCurrentSyncInfoSetorAction extends ReduxAction<AppState> {
   final String id;
 
-  SetInfoDataCurrentSyncInfoSetorAction(this.id);
+  SetInfoSetorCurrentSyncInfoSetorAction(this.id);
 
   @override
   AppState reduce() {
@@ -65,11 +65,11 @@ class SetUserInInfoSetorEditorsSyncInfoSetorAction
   }
 }
 
-class SetInfoCodeInInfoSetorValueMapSyncInfoCodeAction
+class SetInfoCodeInInfoSetorValueMapSyncInfoSetorAction
     extends ReduxAction<AppState> {
   final InfoCodeModel infoCodeModel;
   final bool addOrRemove;
-  SetInfoCodeInInfoSetorValueMapSyncInfoCodeAction({
+  SetInfoCodeInInfoSetorValueMapSyncInfoSetorAction({
     this.infoCodeModel,
     this.addOrRemove,
   });
@@ -110,10 +110,10 @@ class SetInfoCodeInInfoSetorValueMapSyncInfoCodeAction
 // +++ +++++++++++++++++++++++++++++++++++++++++++++++++
 // +++ Actions Async
 // +++ +++++++++++++++++++++++++++++++++++++++++++++++++
-class GetDocsInfoDataListAsyncInfoSetorAction extends ReduxAction<AppState> {
+class GetDocsInfoSetorListAsyncInfoSetorAction extends ReduxAction<AppState> {
   @override
   Future<AppState> reduce() async {
-    print('GetDocsInfoDataListAsyncInfoSetorAction...');
+    print('GetDocsInfoSetorListAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
 
     final collRef = firestore.collection(InfoSetorModel.collection);
@@ -131,7 +131,30 @@ class GetDocsInfoDataListAsyncInfoSetorAction extends ReduxAction<AppState> {
   }
 }
 
-class CreateDocInfoDataCurrentAsyncInfoSetorAction
+class GetDocInfoSetorCurrentAsyncInfoSetorAction extends ReduxAction<AppState> {
+  final String infoSetorId;
+
+  GetDocInfoSetorCurrentAsyncInfoSetorAction(this.infoSetorId);
+  @override
+  Future<AppState> reduce() async {
+    print('GetDocInfoSetorCurrentAsyncInfoSetorAction...');
+    Firestore firestore = Firestore.instance;
+
+    final collRef =
+        firestore.collection(InfoSetorModel.collection).document(infoSetorId);
+    final docSnap = await collRef.get();
+
+    final InfoSetorModel _infoSetorModel =
+        InfoSetorModel(docSnap.documentID).fromMap(docSnap.data);
+    return state.copyWith(
+      infoSetorState: state.infoSetorState.copyWith(
+        infoSetorCurrent: _infoSetorModel,
+      ),
+    );
+  }
+}
+
+class CreateDocInfoSetorCurrentAsyncInfoSetorAction
     extends ReduxAction<AppState> {
   final String uf;
   final String city;
@@ -140,7 +163,7 @@ class CreateDocInfoDataCurrentAsyncInfoSetorAction
   final String description;
   final bool public;
 
-  CreateDocInfoDataCurrentAsyncInfoSetorAction({
+  CreateDocInfoSetorCurrentAsyncInfoSetorAction({
     this.uf,
     this.city,
     this.area,
@@ -150,7 +173,7 @@ class CreateDocInfoDataCurrentAsyncInfoSetorAction
   });
   @override
   Future<AppState> reduce() async {
-    print('CreateDocInfoDataCurrentAsyncInfoSetorAction...');
+    print('CreateDocInfoSetorCurrentAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
     InfoSetorModel infoDataModel =
         InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
@@ -185,10 +208,10 @@ class CreateDocInfoDataCurrentAsyncInfoSetorAction
   @override
   Object wrapError(error) => UserException("ATENÇÃO:", cause: error);
   @override
-  void after() => dispatch(GetDocsInfoDataListAsyncInfoSetorAction());
+  void after() => dispatch(GetDocsInfoSetorListAsyncInfoSetorAction());
 }
 
-class UpdateDocInfoDataCurrentAsyncInfoSetorAction
+class UpdateDocInfoSetorCurrentAsyncInfoSetorAction
     extends ReduxAction<AppState> {
   final String uf;
   final String city;
@@ -197,7 +220,7 @@ class UpdateDocInfoDataCurrentAsyncInfoSetorAction
   final String description;
   final bool public;
 
-  UpdateDocInfoDataCurrentAsyncInfoSetorAction({
+  UpdateDocInfoSetorCurrentAsyncInfoSetorAction({
     this.uf,
     this.city,
     this.area,
@@ -207,7 +230,7 @@ class UpdateDocInfoDataCurrentAsyncInfoSetorAction
   });
   @override
   Future<AppState> reduce() async {
-    print('SetDocInfoDataCurrentAsyncInfoSetorAction...');
+    print('SetDocInfoSetorCurrentAsyncInfoSetorAction...');
     Firestore firestore = Firestore.instance;
     InfoSetorModel infoDataModel =
         InfoSetorModel(state.infoSetorState.infoSetorCurrent.id)
@@ -232,5 +255,5 @@ class UpdateDocInfoDataCurrentAsyncInfoSetorAction
   }
 
   @override
-  void after() => dispatch(GetDocsInfoDataListAsyncInfoSetorAction());
+  void after() => dispatch(GetDocsInfoSetorListAsyncInfoSetorAction());
 }

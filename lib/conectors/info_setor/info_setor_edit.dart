@@ -56,7 +56,7 @@ class ViewModel extends BaseModel<AppState> {
         valueMap: state.infoSetorState.infoSetorCurrent.valueMap,
         onCreate: (String uf, String city, String area, String code,
             String description, bool public) {
-          dispatch(CreateDocInfoDataCurrentAsyncInfoSetorAction(
+          dispatch(CreateDocInfoSetorCurrentAsyncInfoSetorAction(
             uf: uf,
             city: city,
             area: area,
@@ -68,7 +68,7 @@ class ViewModel extends BaseModel<AppState> {
         },
         onUpdate: (String uf, String city, String area, String code,
             String description, bool public) {
-          dispatch(UpdateDocInfoDataCurrentAsyncInfoSetorAction(
+          dispatch(UpdateDocInfoSetorCurrentAsyncInfoSetorAction(
             uf: uf,
             city: city,
             area: area,

@@ -20,7 +20,7 @@ class ViewModel extends BaseModel<AppState> {
   ViewModel fromStore() => ViewModel.build(
         infoSetorList: state.infoSetorState.infoSetorList,
         onEditInfoSetorCurrent: (String id) {
-          dispatch(SetInfoDataCurrentSyncInfoSetorAction(id));
+          dispatch(SetInfoSetorCurrentSyncInfoSetorAction(id));
           dispatch(NavigateAction.pushNamed(Routes.infoSetorEdit));
         },
       );
@@ -33,7 +33,7 @@ class InfoSetorList extends StatelessWidget {
       //debug: this,
       model: ViewModel(),
       onInit: (store) =>
-          store.dispatch(GetDocsInfoDataListAsyncInfoSetorAction()),
+          store.dispatch(GetDocsInfoSetorListAsyncInfoSetorAction()),
       builder: (context, viewModel) => InfoSetorListDS(
         infoSetorList: viewModel.infoSetorList,
         onEditInfoSetorCurrent: viewModel.onEditInfoSetorCurrent,

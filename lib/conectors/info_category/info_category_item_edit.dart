@@ -2,7 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:indis/actions/info_category_action.dart';
 import 'package:indis/states/app_state.dart';
-import 'package:indis/uis/info_category/info_category_data_edit_ds.dart';
+import 'package:indis/uis/info_category/info_category_item_edit_ds.dart';
 
 class ViewModel extends BaseModel<AppState> {
   String name;
@@ -50,13 +50,13 @@ class ViewModel extends BaseModel<AppState> {
       );
 }
 
-class InfoCategoryDataEdit extends StatelessWidget {
+class InfoCategoryItemEdit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
       //debug: this,
       model: ViewModel(),
-      builder: (context, viewModel) => InfoCategoryDataEditDS(
+      builder: (context, viewModel) => InfoCategoryItemEditDS(
         isCreateOrUpdate: viewModel.isCreateOrUpdate,
         name: viewModel.name,
         description: viewModel.description,
