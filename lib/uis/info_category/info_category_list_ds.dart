@@ -28,7 +28,7 @@ class InfoCategoryListDS extends StatelessWidget {
             child: ListTile(
               selected: infoCategory?.public ?? false,
               title: Text('${infoCategory.name}'),
-              // subtitle: Text('$infoCategory'),
+              subtitle: Text('${infoCategory.toString()}'),
               trailing: IconButton(
                 icon: Icon(Icons.folder),
                 onPressed: () {

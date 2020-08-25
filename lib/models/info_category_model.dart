@@ -74,6 +74,24 @@ class InfoCategoryModel extends FirestoreModel {
     data.addAll({'id': this.id});
     return data;
   }
+
+  @override
+  String toString() {
+    String temp = 'InfoCategoryModel:';
+    temp = temp + '\nuserRef.name: ${userRef.name}';
+    temp = temp + '\nname: $name';
+    temp = temp + '\ndescription: $description';
+    temp = temp + '\npublic: $public';
+    temp = temp + '\nitemMap: ${itemMap?.length}';
+    temp = temp + '\nsetorRef.code: ${setorRef?.code}';
+
+    // List<UserModel> editorsList = editorsMap?.values?.toList() ?? [];
+    // editorsList.sort((a, b) => a.name.compareTo(b.name));
+    // for (var userModel in editorsList) {
+    //   temp = temp + '\n ${userModel.name} (id:${userModel.id.substring(0, 5)})';
+    // }
+    return temp;
+  }
 }
 
 class InfoCategoryItem {

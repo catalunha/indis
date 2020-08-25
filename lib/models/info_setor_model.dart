@@ -169,7 +169,7 @@ class ValueInfo {
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.infoCodeRef != null) {
-      data['infoCodeRef'] = this.infoCodeRef.toMap();
+      data['infoCodeRef'] = this.infoCodeRef.toMapRef();
     }
     if (valueDataMap != null) {
       Map<String, dynamic> dataFromField = Map<String, dynamic>();
